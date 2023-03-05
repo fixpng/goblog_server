@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"github.com/sirupsen/logrus"
 	"gvb_server/core"
 	"gvb_server/global"
+	"gvb_server/routers"
 )
 
 func main() {
@@ -12,10 +11,12 @@ func main() {
 	core.InitConf()
 	// 初始化日志
 	global.Log = core.InitLogger()
-	logrus.Warnf("xxxa")
-	logrus.Errorf("xxxa")
-	logrus.Infof("xxxa")
 	// 连接数据库
 	global.DB = core.InitGorm()
-	fmt.Println(global.DB)
+
+	router := routers.InitRouter()
+
+	addr := global.Config.System.Addr()
+	global.Log.Infof("gvb_server运行在：%s", addr)
+	router.Run(addr)
 }

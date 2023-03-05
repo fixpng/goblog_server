@@ -1,5 +1,5 @@
 mysql:
-  host: 127.0.0.1
+  host: #127.0.0.1
   port: 3306
   db: gvb_db
   user: root
@@ -9,9 +9,9 @@ logger:
   level: info
   prefix: '[gvb]'
   director: log
-  show-line: true       #是否显示打印行号
-  log-in-console: true  #是否显示打印路径
+  show-line: true       # 是否显示打印行号
+  log-in-console: true  # 是否显示打印路径
 system:
   host: "0.0.0.0"
   port: 8080
-  env: dev
+  env: debug # debug/release/test
