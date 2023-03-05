@@ -1,7 +1,7 @@
 mysql:
   host: 127.0.0.1
   port: 3306
-  db: gbv_db
+  db: gvb_db
   user: root
   password: 1qaz@WSX3edc
   log_level: dev
