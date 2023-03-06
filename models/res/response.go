@@ -36,6 +36,10 @@ func OkWithMessage(msg string, c *gin.Context) {
 	Result(Success, map[string]any{}, msg, c)
 }
 
+func OkWith(c *gin.Context) {
+	Result(Success, map[string]any{}, "成功", c)
+}
+
 func Fail(data any, msg string, c *gin.Context) {
 	Result(Err, data, msg, c)
 }
@@ -48,5 +52,5 @@ func FailWithCode(code ErrorCode, c *gin.Context) {
 		Result(int(code), map[string]any{}, msg, c)
 		return
 	}
-	Result(Err, map[string]any{}, "位置错误", c)
+	Result(Err, map[string]any{}, "未知错误", c)
 }

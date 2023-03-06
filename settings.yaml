@@ -1,17 +1,63 @@
 mysql:
   host: 127.0.0.1
   port: 3306
+  config: ""
   db: gvb_db
   user: root
   password: 1qaz@WSX3edc
-  log_level: dev
+  log_Level: ""
 logger:
   level: info
   prefix: '[gvb]'
   director: log
-  show-line: true       # 是否显示打印行号
-  log-in-console: true  # 是否显示打印路径
+  show-line: true
+  log-in-console: true
 system:
-  host: "0.0.0.0"
+  host: 0.0.0.0
   port: 8080
-  env: debug # debug/release/test
+  env: debug
+email:
+  host: smtp.qq.com
+  port: 465
+  user:
+  password:
+  default-from-email: 枫枫知道
+  use-ssl: true
+  user-tls: false
+es:
+  host: http://8.134.208.44
+  port: 9200
+  username: ""
+  password: ""
+jwt:
+  secret: iuy346y4WERn35834DFsgFFd845jRdg
+  expires: 48
+  issuer: zy
+qq:
+  app-id:
+  key:
+  redirect:
+qiniu:
+  access-key:
+  secret-key:
+  bucket: fengfengzhidao
+  cdn: https://python.fengfengzhidao.com/
+  zone: z2
+  size: 5
+site-info:
+  created_at: "2022-12-06"
+  bei_an: 湘ICP备2021010654号-3
+  title: FixPng个人博客
+  qq_image: http://www.fengfengzhidao.com/static/my/img/footer/qq.png
+  version: 6.0.2
+  email: 2663456523@qq.com
+  wechat_image: http://www.fengfengzhidao.com/static/my/img/footer/wechat.png
+  name: FixPng
+  job: 后端开发
+  addr: 广东广州
+  slogan: FixPng
+  slogan_en: FIXPNG.Nilz
+  web: http://www.fixpng.com/
+  bilibili_url: https://space.bilibili.com/2955728
+  gitee_url: https://gitee.com/fixpng
+  github_url: https://github.com/fixpng
