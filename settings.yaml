@@ -19,12 +19,12 @@ system:
 site-info:
   created_at: "2022-12-06"
   bei_an: 湘ICP备2021010654号-3
-  title: 枫枫知道个人博客
+  title: FixPng个人博客
   qq_image: http://www.fengfengzhidao.com/static/my/img/footer/qq.png
-  version: 6.0.1
+  version: 6.0.2
   email: 2663456523@qq.com
   wechat_image: http://www.fengfengzhidao.com/static/my/img/footer/wechat.png
-  name: 枫枫知道
+  name: FixPng
   job: 后端开发
   addr: 湖南长沙
   slogan: 枫枫知道
@@ -33,7 +33,6 @@ site-info:
   bilibili_url: https://space.bilibili.com/359151217
   gitee_url: https://gitee.com/fengfengzhidao
   github_url: https://github.com/fengfengzhidao/
-
 qq:
   app_id: ""
   key: ""
