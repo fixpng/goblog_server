@@ -16,48 +16,44 @@ system:
   host: 0.0.0.0
   port: 8080
   env: debug
-email:
-  host: smtp.qq.com
-  port: 465
-  user:
-  password:
-  default-from-email: 枫枫知道
-  use-ssl: true
-  user-tls: false
-es:
-  host: http://8.134.208.44
-  port: 9200
-  username: ""
-  password: ""
-jwt:
-  secret: iuy346y4WERn35834DFsgFFd845jRdg
-  expires: 48
-  issuer: zy
+site-info:
+  created_at: "2022-12-06"
+  bei_an: 湘ICP备2021010654号-3
+  title: 枫枫知道个人博客
+  qq_image: http://www.fengfengzhidao.com/static/my/img/footer/qq.png
+  version: 6.0.1
+  email: 2663456523@qq.com
+  wechat_image: http://www.fengfengzhidao.com/static/my/img/footer/wechat.png
+  name: 枫枫知道
+  job: 后端开发
+  addr: 湖南长沙
+  slogan: 枫枫知道
+  slogan_en: FENGFENGZHIDAO
+  web: http://www.fengfengzhidao.com/
+  bilibili_url: https://space.bilibili.com/359151217
+  gitee_url: https://gitee.com/fengfengzhidao
+  github_url: https://github.com/fengfengzhidao/
+
 qq:
-  app-id:
-  key:
-  redirect:
+  app_id: ""
+  key: ""
+  redirect: ""
 qiniu:
-  access-key:
-  secret-key:
+  access_key: ""
+  secret_key: ""
   bucket: fengfengzhidao
   cdn: https://python.fengfengzhidao.com/
   zone: z2
   size: 5
-site-info:
-  created_at: "2022-12-06"
-  bei_an: 湘ICP备2021010654号-3
-  title: FixPng个人博客
-  qq_image: http://www.fengfengzhidao.com/static/my/img/footer/qq.png
-  version: 6.0.2
-  email: 2663456523@qq.com
-  wechat_image: http://www.fengfengzhidao.com/static/my/img/footer/wechat.png
-  name: FixPng
-  job: 后端开发
-  addr: 广东广州
-  slogan: FixPng
-  slogan_en: FIXPNG.Nilz
-  web: http://www.fixpng.com/
-  bilibili_url: https://space.bilibili.com/2955728
-  gitee_url: https://gitee.com/fixpng
-  github_url: https://github.com/fixpng
+email:
+  host: smtp.qq.com
+  port: 465
+  user: 897491068@qq.com
+  password: "2222"
+  default-from-email: FixPng
+  use_ssl: false
+  user_tls: false
+jwy:
+  secret: ""
+  expires: 0
+  issuer: ""
