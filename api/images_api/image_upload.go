@@ -5,9 +5,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
 	"gvb_server/models/res"
+	"gvb_server/utils"
 	"io/fs"
 	"os"
 	"path"
+	"strings"
+)
+
+var (
+	// WhiteImageList 图片上传白名单
+	WhiteImageList = []string{"jpg", "png", "jpeg", "ico", "tiff", "gif", "svg", "webp"}
 )
 
 type FileUploadResponse struct {
@@ -43,12 +50,26 @@ func (receiver ImagesApi) ImageUploadView(c *gin.Context) {
 	var resList []FileUploadResponse
 
 	for _, file := range fileList {
+		fileName := file.Filename
+
+		// 判断上传文件后缀是否在白名单
+		nameList := strings.Split(fileName, ".")
+		suffix := strings.ToLower(nameList[len(nameList)-1])
+		if utils.InList(suffix, WhiteImageList) {
+			resList = append(resList, FileUploadResponse{
+				FileName:  fileName,
+				IsSuccess: false,
+				Msg:       "非法文件",
+			})
+			continue
+		}
+
 		filePath := path.Join(basePath, file.Filename)
 		// 判断大小
 		size := float64(file.Size) / float64(1024*1024)
 		if size >= float64(global.Config.Upload.Size) {
 			resList = append(resList, FileUploadResponse{
-				FileName:  file.Filename,
+				FileName:  fileName,
 				IsSuccess: false,
 				Msg:       fmt.Sprintf("图片大小超过设定大小，当前大小为：%.2fMB，设定大小为：%dMB", size, global.Config.Upload.Size),
 			})
@@ -57,7 +78,7 @@ func (receiver ImagesApi) ImageUploadView(c *gin.Context) {
 		err := c.SaveUploadedFile(file, filePath)
 		if err != nil {
 			resList = append(resList, FileUploadResponse{
-				FileName:  file.Filename,
+				FileName:  fileName,
 				IsSuccess: false,
 				Msg:       fmt.Sprintf("图片上传失败：%s", err.Error()),
 			})
@@ -65,7 +86,7 @@ func (receiver ImagesApi) ImageUploadView(c *gin.Context) {
 			continue
 		}
 		resList = append(resList, FileUploadResponse{
-			FileName:  file.Filename,
+			FileName:  fileName,
 			IsSuccess: true,
 			Msg:       "上传成功",
 		})
