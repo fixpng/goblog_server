@@ -39,6 +39,7 @@ qq:
   key: ""
   redirect: ""
 qiniu:
+  enable: false
   access_key: ""
   secret_key: ""
   bucket: fengfengzhidao
@@ -57,3 +58,7 @@ jwy:
   secret: ""
   expires: 0
   issuer: ""
+upload:
+  size: 2
+  path: uploads/file/xxx/fff/ggg/jjj
+
