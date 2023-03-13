@@ -67,7 +67,7 @@ func InitLogger() *logrus.Logger {
 	}
 
 	mLog.SetLevel(level) //设置最低的Level
-	InitDefaultLogger()
+	//InitDefaultLogger() //启用全局log
 	return mLog
 }
 
