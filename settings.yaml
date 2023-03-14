@@ -44,6 +44,7 @@ qiniu:
   bucket: fixpng
   cdn: https://rrio8v49c.hn-bkt.clouddn.com/
   zone: z2
+  prefix: "gvb"
   size: 5
 email:
   host: smtp.qq.com
