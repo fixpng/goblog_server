@@ -38,11 +38,11 @@ qq:
   key: ""
   redirect: ""
 qiniu:
-  enable: false
-  access_key: UMM-xx-FdRIf-xx
-  secret_key: xx
-  bucket: fengfengzhidao
-  cdn: https://python.fengfengzhidao.com/
+  enable: true
+  access_key: JqOGVVUHuW5jbBtsu-x9nU6PKIcSzK3FUYXTpY0P
+  secret_key: -rp-t5Kp4Pdublzp-Q8IqWqLcMJnZjwTHFSUdJZ3
+  bucket: fixpng
+  cdn: https://rrio8v49c.hn-bkt.clouddn.com/
   zone: z2
   size: 5
 email:
