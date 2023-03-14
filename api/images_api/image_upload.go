@@ -12,6 +12,7 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 )
 
 var (
@@ -113,6 +114,10 @@ func (receiver ImagesApi) ImageUploadView(c *gin.Context) {
 		})
 		// 图片入库
 		global.DB.Create(&models.BannerModel{
+			MODEL: models.MODEL{
+				CreateAt: time.Now(),
+				UpdateAt: time.Now(),
+			},
 			Path: filePath,
 			Hash: imageHash,
 			Name: fileName,

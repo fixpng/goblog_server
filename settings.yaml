@@ -39,8 +39,8 @@ qq:
   redirect: ""
 qiniu:
   enable: false
-  access_key: ""
-  secret_key: ""
+  access_key: UMM-xx-FdRIf-xx
+  secret_key: xx
   bucket: fengfengzhidao
   cdn: https://python.fengfengzhidao.com/
   zone: z2
