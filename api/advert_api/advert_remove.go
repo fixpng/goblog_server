@@ -8,6 +8,14 @@ import (
 	"gvb_server/models/res"
 )
 
+// AdvertRemoveView 批量删除广告
+// @Tags 广告管理
+// @Summary 批量删除广告
+// @Description 批量删除广告
+// @Param data body models.RemoveRequest    true  "广告id列表"
+// @Router /api/adverts [delete]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (AdvertApi) AdvertRemoveView(c *gin.Context) {
 	var cr models.RemoveRequest
 	err := c.ShouldBindJSON(&cr)

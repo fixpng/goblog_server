@@ -9,6 +9,14 @@ import (
 	"gvb_server/models/res"
 )
 
+// AdvertUpdateView 更新广告
+// @Tags 广告管理
+// @Summary 更新广告
+// @Description 更新广告
+// @Param data body AdvertRequest    true  "广告的一些参数"
+// @Router /api/adverts/:id [put]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (AdvertApi) AdvertUpdateView(c *gin.Context) {
 
 	id := c.Param("id")
