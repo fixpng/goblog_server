@@ -7,4 +7,5 @@ func (router RouterGroup) AdvertRouter() {
 	router.POST("adverts", app.AdvertCreateView)
 	router.GET("adverts", app.AdvertListView)
 	router.PUT("adverts/:id", app.AdvertUpdateView)
+	router.DELETE("adverts", app.AdvertRemoveView)
 }
