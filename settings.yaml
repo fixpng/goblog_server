@@ -39,8 +39,8 @@ qq:
   redirect: ""
 qiniu:
   enable: true
-  access_key: JqOGVVUHuW5jbBtsu-x9nU6PKIcSzK3FUYXTpY0P
-  secret_key: -rp-t5Kp4Pdublzp-Q8IqWqLcMJnZjwTHFSUdJZ3
+  access_key: aaa
+  secret_key: bbb
   bucket: fixpng
   cdn: https://rrio8v49c.hn-bkt.clouddn.com/
   zone: z2
