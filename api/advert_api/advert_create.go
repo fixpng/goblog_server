@@ -5,7 +5,6 @@ import (
 	"gvb_server/global"
 	"gvb_server/models"
 	"gvb_server/models/res"
-	"time"
 )
 
 type AdvertRequest struct {
@@ -39,10 +38,7 @@ func (AdvertApi) AdvertCreateView(c *gin.Context) {
 	}
 
 	err = global.DB.Create(&models.AdvertModel{
-		MODEL: models.MODEL{
-			CreateAt: time.Now(),
-			UpdateAt: time.Now(),
-		},
+		MODEL:  models.ModelCreate,
 		Title:  cr.Title,
 		Href:   cr.Href,
 		Images: cr.Images,

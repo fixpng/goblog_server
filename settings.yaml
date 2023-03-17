@@ -20,27 +20,27 @@ site-info:
   created_at: "2022-12-06"
   bei_an: 湘ICP备2021010654号-3
   title: FixPng个人博客
-  qq_image: http://www.fengfengzhidao.com/static/my/img/footer/qq.png
+  qq_image: http://www.fixpng.com/static/my/img/footer/qq.png
   version: 6.0.2
   email: 2663456523@qq.com
-  wechat_image: http://www.fengfengzhidao.com/static/my/img/footer/wechat.png
+  wechat_image: http://www.fixpng.com/static/my/img/footer/wechat.png
   name: FixPng
-  job: 后端开发
-  addr: 湖南长沙
-  slogan: 枫枫知道
-  slogan_en: FENGFENGZHIDAO
-  web: http://www.fengfengzhidao.com/
+  job: 运维开发
+  addr: 广东广州
+  slogan: 倪半仙
+  slogan_en: FIXPNG
+  web: http://www.fixpng.com/
   bilibili_url: https://space.bilibili.com/359151217
-  gitee_url: https://gitee.com/fengfengzhidao
-  github_url: https://github.com/fengfengzhidao/
+  gitee_url: https://gitee.com/fixpng
+  github_url: https://github.com/fixpng/
 qq:
   app_id: ""
   key: ""
   redirect: ""
 qiniu:
   enable: true
-  access_key: aaa
-  secret_key: bbb
+  access_key: JqOGVVUHuW5jbBtsu-x9nU6PKIcSzK3FUYXTpY0P
+  secret_key: -rp-t5Kp4Pdublzp-Q8IqWqLcMJnZjwTHFSUdJZ3
   bucket: fixpng
   cdn: https://rrio8v49c.hn-bkt.clouddn.com/
   zone: z2
