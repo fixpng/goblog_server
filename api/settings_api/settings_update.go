@@ -50,7 +50,7 @@ func (s SettingApi) SettingsUpdateView(c *gin.Context) {
 			return
 		}
 		global.Config.QiNiu = info
-	case "jwt":
+	case "jwts":
 		var info config.Jwy
 		err = c.ShouldBindJSON(&info)
 		if err != nil {

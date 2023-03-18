@@ -78,6 +78,6 @@ func CreateUser(permission string) {
 		return
 	}
 
-	global.Log.Infof("用户 %d 创建成功！", userName)
+	global.Log.Infof("用户 %s 创建成功！", userName)
 
 }
