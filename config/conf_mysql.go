@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -18,6 +17,6 @@ type Mysql struct {
 // Dsn 数据源
 func (m Mysql) Dsn() string {
 	dsn := m.User + ":" + m.Password + "@tcp(" + m.Host + ":" + strconv.Itoa(m.Port) + ")/" + m.DB + "?" + m.Config
-	fmt.Println(dsn)
+	//fmt.Println(dsn)
 	return dsn
 }
