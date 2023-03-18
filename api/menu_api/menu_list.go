@@ -28,7 +28,7 @@ func (MenuApi) MenuListView(c *gin.Context) {
 	var menus []MenuResponse
 	for _, model := range menuList {
 		// model就是一个菜单
-		var banners []Banner
+		var banners = make([]Banner, 0) // 解决切片null值问题（如果只声明不赋值且是引用类型，前端显示的null）
 		for _, banner := range menuBanners {
 			if model.ID != banner.MenuID {
 				continue
