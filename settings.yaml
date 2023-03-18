@@ -15,14 +15,14 @@ logger:
 system:
   host: 0.0.0.0
   port: 8080
-  env: debug
+  env: release #debug release test
 site-info:
   created_at: "2022-12-06"
   bei_an: 湘ICP备2021010654号-3
   title: FixPng个人博客
   qq_image: http://www.fixpng.com/static/my/img/footer/qq.png
   version: 6.0.2
-  email: 2663456523@qq.com
+  email: 897491068@qq.com
   wechat_image: http://www.fixpng.com/static/my/img/footer/wechat.png
   name: FixPng
   job: 运维开发
