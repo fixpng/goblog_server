@@ -8,14 +8,18 @@ import (
 )
 
 func main() {
-	core.SetYaml()
+	core.InitConf()
 	global.Log = core.InitLogger()
 
+	fmt.Println(global.Config.Jwy.Secret)
 	token, err := jwts.GenToken(jwts.JwtPayLoad{
-		Username: "xixi",
+		//Username: "xixi",
 		NickName: "xxx",
 		Role:     1,
 		UserID:   1,
 	})
 	fmt.Println(token, err)
+
+	claims, err := jwts.ParseToken(token)
+	fmt.Println(claims, err)
 }

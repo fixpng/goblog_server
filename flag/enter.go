@@ -26,7 +26,7 @@ func IsWebStop(option Option) bool {
 	if option.DB {
 		return true
 	}
-	return true
+	return false
 }
 
 // SwitchOption 根据命令执行不同的函数
@@ -40,7 +40,7 @@ func SwitchOption(option Option) {
 		CreateUser(option.User)
 		return
 	}
-
-	sys_flag.Usage()
+	//fmt.Printf("%#v\n", option.User)
+	//sys_flag.Usage()
 
 }
