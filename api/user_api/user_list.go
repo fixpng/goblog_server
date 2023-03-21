@@ -1,7 +1,6 @@
 package user_api
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"gvb_server/models"
 	"gvb_server/models/ctype"
@@ -28,7 +27,7 @@ func (UserApi) UserListView(c *gin.Context) {
 	})
 
 	for _, user := range list {
-		fmt.Println(claims.Role)
+		//fmt.Println(claims.Role)
 		if ctype.Role(claims.Role) != ctype.PermissionAdmin {
 			// 非管理员脱敏
 			user.UserName = ""
