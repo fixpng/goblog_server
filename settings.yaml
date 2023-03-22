@@ -61,4 +61,9 @@ jwy:
 upload:
   size: 2
   path: uploads/file/
+redis:
+  ip: 127.0.0.1
+  port: 6379
+  password:
+  pool_size: 100
 
