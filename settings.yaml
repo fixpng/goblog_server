@@ -50,8 +50,8 @@ email:
   host: smtp.qq.com
   port: 465
   user: 897491068@qq.com
-  password: "2222"
-  default-from-email: FixPng
+  password: uvdmvsuvtakrbfed
+  default-from-email: FixPng.com
   use_ssl: false
   user_tls: false
 jwy:
