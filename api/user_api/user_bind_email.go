@@ -1,6 +1,8 @@
 package user_api
 
 import (
+	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gvb_server/models/res"
 	"gvb_server/plugins/email"
@@ -22,14 +24,17 @@ func (UserApi) UserBindEmailView(c *gin.Context) {
 		res.FailWithError(err, &cr, c)
 		return
 	}
+	session := sessions.Default(c)
 	if cr.Code == nil {
 		// 第一次，后台发验证码
 		// 生成4位验证码，将生成的验证码存入session
 		code := random.Code(4)
 		// 写入session
+		session.Set("valid_code", code)
 		email.NewCode().Send(cr.Email, "你的验证码是 "+code)
 	}
-
+	code := session.Get("valid_code")
+	fmt.Println(code, cr.Code)
 	// 第二次，用户输入邮箱，验证码，密码
 	// 完成绑定
 
