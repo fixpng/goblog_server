@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	gs "github.com/swaggo/gin-swagger"
+	"gvb_server/api/user_api"
 	"gvb_server/global"
 )
 
@@ -15,6 +16,7 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(global.Config.System.Env)
 	router := gin.Default()
 	router.GET("/swagger/*any", gs.WrapHandler(swaggerFiles.Handler))
+	router.GET("login", user_api.UserApi{}.QQLoginView)
 
 	apiRouterGroup := router.Group("api")
 

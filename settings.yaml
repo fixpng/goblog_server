@@ -36,7 +36,7 @@ site-info:
 qq:
   app_id: ""
   key: ""
-  redirect: ""
+  redirect: http://127.0.0.1/login?flag=qq
 qiniu:
   enable: true
   access_key: JqOGVVUHuW5jbBtsu-x9nU6PKIcSzK3FUYXTpY0P
@@ -56,7 +56,7 @@ email:
   user_tls: false
 jwy:
   secret: xxxxx #密钥
-  expires: 1   # token过期时间
+  expires: 1   # token过期时间，小时
   issuer: "1234"
 upload:
   size: 2
