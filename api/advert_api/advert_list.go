@@ -31,7 +31,6 @@ func (AdvertApi) AdvertListView(c *gin.Context) {
 	}
 	list, count, _ := common.ComList(models.AdvertModel{IsShow: isShow}, common.Option{
 		PageInfo: cr,
-		Debug:    true,
 	})
 	res.OkWithList(list, count, c)
 }
