@@ -3,9 +3,8 @@ package flag
 import (
 	"fmt"
 	"gvb_server/global"
-	"gvb_server/models"
 	"gvb_server/models/ctype"
-	"gvb_server/utils/pwd"
+	"gvb_server/service/user_ser"
 )
 
 func CreateUser(permission string) {
@@ -30,54 +29,23 @@ func CreateUser(permission string) {
 	fmt.Printf("请再次输入密码：")
 	fmt.Scan(&rePassword)
 
-	// 判断用户名是否存在
-	var userModel models.UserModel
-	err := global.DB.Take(&userModel, "user_name = ?", userName).Error
-	if err == nil {
-		//存在
-		global.Log.Error("用户名已存在，请重新输入")
-		CreateUser(permission)
-		return
-	}
 	// 校验两次密码
 	if password != rePassword {
 		global.Log.Error("两次密码不一致，请重新输入")
 		CreateUser(permission)
 		return
 	}
-	// 对密码进行hash
-	hashPwd := pwd.HashPwd(password)
-
 	// 普通用户or管理员
 	role := ctype.PermissionUser
 	if permission == "admin" {
 		role = ctype.PermissionAdmin
 	}
 
-	// 头像问题
-	// 1.默认头像
-	// 2.随机选择头像
-	avatar := "/uploads/avatar/default.jpg"
-
-	// 入库
-	err = global.DB.Create(&models.UserModel{
-		MODEL:      models.ModelCreate,
-		NickName:   nickName,
-		UserName:   userName,
-		Password:   hashPwd,
-		Email:      email,
-		Role:       role,
-		Avatar:     avatar,
-		IP:         "127.0.0.1",
-		Addr:       "内网地址",
-		SignStatus: ctype.SignEmail,
-	}).Error
+	err := user_ser.UserService{}.CreateUser(userName, nickName, password, role, email, "127.0.0.1")
 	if err != nil {
-		global.Log.Errorf("%d\n用户创建异常，请重新输入", err)
-		CreateUser(permission)
+		global.Log.Error(err)
 		return
 	}
 
 	global.Log.Infof("用户 %s 创建成功！", userName)
-
 }
