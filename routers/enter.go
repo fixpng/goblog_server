@@ -25,5 +25,6 @@ func InitRouter() *gin.Engine {
 	routerGroupApp.MenuRouter()
 	routerGroupApp.UserRouter()
 	routerGroupApp.TagRouter()
+	routerGroupApp.MessageRouter()
 	return router
 }
