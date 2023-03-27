@@ -11,7 +11,6 @@ import (
 	"mime/multipart"
 	"path"
 	"strings"
-	"time"
 )
 
 var (
@@ -86,10 +85,6 @@ func (ImageService) ImageUploadService(file *multipart.FileHeader) (res FileUplo
 
 	// 图片入库
 	global.DB.Create(&models.BannerModel{
-		MODEL: models.MODEL{
-			CreateAt: time.Now(),
-			UpdateAt: time.Now(),
-		},
 		Path:      filePath,
 		Hash:      imageHash,
 		Name:      fileName,

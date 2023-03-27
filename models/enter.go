@@ -3,9 +3,9 @@ package models
 import "time"
 
 type MODEL struct {
-	ID       uint      `gorm:"primarykey" json:"id"  structs:"-"`
-	CreateAt time.Time `json:"create_at"  structs:"-"`
-	UpdateAt time.Time `json:"-"  structs:"-"`
+	ID        uint      `gorm:"primarykey" json:"id"  structs:"-"`
+	CreatedAt time.Time `json:"created_at"  structs:"-"`
+	UpdatedAt time.Time `json:"-"  structs:"-"`
 }
 
 type RemoveRequest struct {
@@ -20,6 +20,6 @@ type PageInfo struct {
 }
 
 var (
-	ModelCreate = MODEL{CreateAt: time.Now(), UpdateAt: time.Now()}
-	ModelUpdate = MODEL{UpdateAt: time.Now()}
+	ModelCreate = MODEL{CreatedAt: time.Now(), UpdatedAt: time.Now()}
+	ModelUpdate = MODEL{UpdatedAt: time.Now()}
 )
