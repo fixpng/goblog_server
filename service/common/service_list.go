@@ -19,7 +19,7 @@ func ComList[T any](model T, option Option) (list []T, count int64, err error) {
 		DB = global.DB.Session(&gorm.Session{Logger: global.MysqlLog})
 	}
 	if option.Sort == "" {
-		option.Sort = "create_at desc" // 默认按照创建时间从大到小
+		option.Sort = "created_at desc" // 默认按照创建时间从大到小
 	}
 
 	query := DB.Where(model)
