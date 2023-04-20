@@ -10,6 +10,11 @@ import (
 	"gvb_server/utils/jwts"
 )
 
+type UserResponse struct {
+	models.UserModel
+	RoleID int `json:"role_id"`
+}
+
 func (UserApi) UserListView(c *gin.Context) {
 	// 如何判断是管理员
 	_claims, _ := c.Get("claims")
@@ -21,7 +26,7 @@ func (UserApi) UserListView(c *gin.Context) {
 		return
 	}
 
-	var users []models.UserModel
+	var users []UserResponse
 	list, count, _ := common.ComList(models.UserModel{}, common.Option{
 		PageInfo: page,
 	})
@@ -34,7 +39,10 @@ func (UserApi) UserListView(c *gin.Context) {
 			user.Tel = desens.DesensitizationTel(user.Tel)
 			user.Email = desens.DesensitizationEmail(user.Email)
 		}
-		users = append(users, user)
+		users = append(users, UserResponse{
+			UserModel: user,
+			RoleID:    int(user.Role),
+		})
 	}
 
 	res.OkWithList(users, count, c)

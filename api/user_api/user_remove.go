@@ -26,13 +26,13 @@ func (UserApi) UserRemove(c *gin.Context) {
 
 	// 事务
 	err = global.DB.Transaction(func(tx *gorm.DB) error {
-		// TODO:删除用户，消息表，评论表，用户收藏的文章，用户发布的文章
-
-		err = global.DB.Model(&UserList).Association("Banners").Clear()
-		if err != nil {
-			global.Log.Error(err)
-			return err
-		}
+		// TODO: 删除用户，消息表，评论表，用户收藏的文章，用户发布的文章
+		/*
+			err = global.DB.Model(&UserList).Association("Banners").Clear()
+			if err != nil {
+				global.Log.Error(err)
+				return err
+			}*/
 		err = global.DB.Delete(&UserList).Error
 		if err != nil {
 			global.Log.Error(err)
