@@ -9,6 +9,7 @@ import (
 type Option struct {
 	models.PageInfo
 	Debug bool
+	Likes []string // 待优化
 }
 
 func ComList[T any](model T, option Option) (list []T, count int64, err error) {
@@ -22,6 +23,8 @@ func ComList[T any](model T, option Option) (list []T, count int64, err error) {
 		option.Sort = "created_at desc" // 默认按照创建时间从大到小
 	}
 
+	likes := option.Likes[0]
+	global.Log.Infof(likes) // 待优化
 	query := DB.Where(model)
 	count = query.Find(&list).RowsAffected
 	offset := (option.Page - 1) * option.Limit
