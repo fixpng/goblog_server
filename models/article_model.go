@@ -167,3 +167,16 @@ func (a ArticleModel) RemoveIndex() error {
 	logrus.Info("索引删除成功")
 	return nil
 }
+
+// Create 添加的方法
+func (a ArticleModel) Create() (err error) {
+	indexResponse, err := global.ESClient.Index().
+		Index(a.Index()).
+		BodyJson(a).Do(context.Background())
+	if err != nil {
+		logrus.Error(err.Error())
+		return err
+	}
+	a.ID = indexResponse.Id
+	return nil
+}

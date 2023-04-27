@@ -38,7 +38,7 @@ qq:
   key: ""
   redirect: http://127.0.0.1/login?flag=qq
 qiniu:
-  enable: true
+  enable: false
   access_key: JqOGVVUHuW5jbBtsu-x9nU6PKIcSzK3FUYXTpY0P
   secret_key: -rp-t5Kp4Pdublzp-Q8IqWqLcMJnZjwTHFSUdJZ3
   bucket: fixpng
