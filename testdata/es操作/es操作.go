@@ -8,6 +8,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"gvb_server/core"
 	"gvb_server/global"
+	"time"
 )
 
 var client *elastic.Client
@@ -105,54 +106,6 @@ func FindList(key string, page, limit int) (demoList []DemoModel, count int) {
 
 }
 
-func FindSourceList(key string, page, limit int) {
-	boolSearch := elastic.NewBoolQuery()
-	from := page
-	if key != "" {
-		boolSearch.Must(
-			elastic.NewPrefixQuery("title", key),
-		)
-	}
-	// 默认值
-	if limit == 0 {
-		limit = 10
-	}
-	if from == 0 {
-		from = 1
-	}
-
-	res, err := client.
-		Search(DemoModel{}.Index()).
-		Query(boolSearch).
-		Source(`{"_source":["title"]}`).
-		From((from - 1) * limit).
-		Size(limit).
-		Do(context.Background())
-	if err != nil {
-		logrus.Error(err.Error())
-		return
-	}
-
-	count := int(res.Hits.TotalHits.Value) //搜索到的结果总条数
-	demoList := []DemoModel{}
-	for _, hit := range res.Hits.Hits {
-		var demo DemoModel
-		data, err := hit.Source.MarshalJSON()
-		if err != nil {
-			logrus.Error(err.Error())
-			continue
-		}
-		err = json.Unmarshal(data, &demo)
-		if err != nil {
-			logrus.Error(err)
-			continue
-		}
-		demo.ID = hit.Id
-		demoList = append(demoList, demo)
-	}
-	fmt.Println(demoList, count)
-}
-
 // Update 更新
 func Update(id string, data *DemoModel) error {
 	_, err := client.
@@ -182,11 +135,10 @@ func Remove(idList []string) (count int, err error) {
 
 func main() {
 	//DemoModel{}.CreateIndex()
-	//Create(&DemoModel{Title: "go语言开发", UserID: 2, CreatedAt: time.Now().Format("2006-01-02 15:04:05")})
-	//list, count := FindList("", 1, 10)
-	//fmt.Println(list, count)
-	//FindSourceList("python", 1, 10) // 搜索似乎失效了
-	//Update("vYh6n4cB8Rut0g6eP6Ox", &DemoModel{Title: "python 0 基础"})
+	Create(&DemoModel{Title: "go语言开发", UserID: 1, CreatedAt: time.Now().Format("2006-01-02 15:04:05")})
+	list, count := FindList("", 1, 10)
+	fmt.Println(list, count)
+	//Update("vYh6n4cB8Rut0g6eP6Ox", &DemoModel{Title: "测试数据1"})
 	//count, err := Remove([]string{"vYh6n4cB8Rut0g6eP6Ox"})
 	//fmt.Println(count, err)
 }
