@@ -1,12 +1,17 @@
 package article_api
 
 import (
+	md "github.com/JohannesKaufmann/html-to-markdown"
+	"github.com/PuerkitoBio/goquery"
 	"github.com/gin-gonic/gin"
+	"github.com/russross/blackfriday"
 	"gvb_server/global"
 	"gvb_server/models"
 	"gvb_server/models/ctype"
 	"gvb_server/models/res"
 	"gvb_server/utils/jwts"
+	"math/rand"
+	"strings"
 	"time"
 )
 
@@ -33,14 +38,43 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 	userID := claims.UserID
 	userNickName := claims.NickName
 	// 校验content 防xss攻击
+
+	// 处理content
+	unsafe := blackfriday.MarkdownCommon([]byte(cr.Content))
+	// 是否又script标签
+	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(string(unsafe)))
+	//fmt.Println(doc.Text())
+	nodes := doc.Find("script").Nodes
+	if len(nodes) > 0 {
+		// 告警
+		global.Log.Warnf("XSS攻击已被过滤！用户id及用户名：%d/%s，内容：%s", userID, userNickName, unsafe)
+		// 有script标签
+		doc.Find("script").Remove()
+		converter := md.NewConverter("", true, nil)
+		html, _ := doc.Html()
+		markdown, _ := converter.ConvertString(html)
+		cr.Content = markdown
+	}
 	if cr.Abstract == "" {
 		// 汉字的截取不一样
-		abs := []rune(cr.Content)
+		abs := []rune(doc.Text())
+		// 将Content转为html，并且过滤xss，以及获取中文内容
 		if len(abs) > 100 {
 			cr.Abstract = string(abs[:100])
 		} else {
-			cr.Abstract = string(abs[:])
+			cr.Abstract = string(abs)
 		}
+	}
+	// 不传banner_id,后台随机选取一张
+	if cr.BannerID == 0 {
+		var bannerIDList []uint
+		global.DB.Model(models.BannerModel{}).Select("id").Scan(&bannerIDList)
+		if len(bannerIDList) == 0 {
+			res.FailWithMessage("没有banner数据", c)
+			return
+		}
+		rand.Seed(time.Now().UnixNano())
+		cr.BannerID = bannerIDList[rand.Intn(len(bannerIDList))]
 	}
 
 	// 查banner_id下的banner_url
