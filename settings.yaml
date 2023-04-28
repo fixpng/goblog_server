@@ -39,8 +39,8 @@ qq:
   redirect: http://127.0.0.1/login?flag=qq
 qiniu:
   enable: false
-  access_key: JqOGVVUHuW5jbBtsu-x9nU6PKIcSzK3FUYXTpY0P
-  secret_key: -rp-t5Kp4Pdublzp-Q8IqWqLcMJnZjwTHFSUdJZ3
+  access_key: dfdfdfd
+  secret_key: fdfdf
   bucket: fixpng
   cdn: https://rrio8v49c.hn-bkt.clouddn.com/
   zone: z2
@@ -50,7 +50,7 @@ email:
   host: smtp.qq.com
   port: 465
   user: 897491068@qq.com
-  password: uvdmvsuvtakrbfed
+  password: abababa
   default-from-email: FixPng.com
   use_ssl: false
   user_tls: false
