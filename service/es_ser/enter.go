@@ -60,3 +60,21 @@ func CommList(key string, page, limit int) (list []models.ArticleModel, count in
 	return demoList, count, err
 
 }
+
+func CommeDetail(id string) (model models.ArticleModel, err error) {
+	res, err := global.ESClient.
+		Get().
+		Index(models.ArticleModel{}.Index()).
+		Id(id).
+		Do(context.Background())
+	if err != nil {
+		logrus.Error(err.Error())
+		return
+	}
+	err = json.Unmarshal(res.Source, &model)
+	if err != nil {
+		return
+	}
+	model.ID = res.Id
+	return
+}
