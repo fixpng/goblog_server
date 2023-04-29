@@ -10,7 +10,7 @@ import (
 )
 
 func CommList(key string, page, limit int) (list []models.ArticleModel, count int, err error) {
-	// FindList 列表查询
+	// 列表查询
 	boolSearch := elastic.NewBoolQuery()
 	from := page
 	if key != "" {

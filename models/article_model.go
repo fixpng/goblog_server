@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
 	"gvb_server/global"
 	"gvb_server/models/ctype"
@@ -14,6 +15,7 @@ type ArticleModel struct {
 	UpdatedAt string `json:"updated_at" `
 
 	Title    string `json:"title"`              // 文章标题
+	Keyword  string `json:"keyword,omit(list)"` // 关键字
 	Abstract string `json:"abstract"`           // 文章简介
 	Content  string `json:"content,omit(list)"` // 文章内容
 
@@ -52,6 +54,9 @@ func (ArticleModel) Mapping() string {
     "properties": {
       "title": { 
         "type": "text"
+      },
+      "keyword": { 
+        "type": "keyword"
       },
       "abstract": { 
         "type": "text"
@@ -179,4 +184,22 @@ func (a ArticleModel) Create() (err error) {
 	}
 	a.ID = indexResponse.Id
 	return nil
+}
+
+// ISExistData 是否存在改文章
+func (a ArticleModel) ISExistData() bool {
+	res, err := global.ESClient.
+		Search(a.Index()).
+		Query(elastic.NewTermQuery("keyword", a.Title)).
+		Size(1).
+		Do(context.Background())
+	if err != nil {
+		logrus.Error(err.Error())
+		return false
+	}
+	if res.Hits.TotalHits.Value > 0 {
+		return true
+	}
+
+	return false
 }
