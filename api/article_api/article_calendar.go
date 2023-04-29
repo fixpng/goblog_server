@@ -24,6 +24,8 @@ type BucketsType struct {
 	} `json:"buckets"`
 }
 
+var DataCount = map[string]int{}
+
 func (ArticleApi) ArticleCalendarView(c *gin.Context) {
 
 	// 按时间聚合
@@ -55,19 +57,22 @@ func (ArticleApi) ArticleCalendarView(c *gin.Context) {
 	_ = json.Unmarshal(result.Aggregations["calendar"], &data)
 
 	var resList = make([]CalendarDateResponse, 0)
-
 	for _, bucket := range data.Buckets {
 		Time, _ := time.Parse(format, bucket.KeyAsString)
+		DataCount[Time.Format("2006-01-02")] = bucket.DocCount
+
+	}
+
+	days := int(now.Sub(aYearAgo).Hours() / 24)
+	for i := 0; i < days; i++ {
+		day := aYearAgo.AddDate(0, 0, i).Format("2006-01-02")
+		count, _ := DataCount[day]
 		resList = append(resList, CalendarDateResponse{
-			Date:  Time.Format("2006-01-02"),
-			Count: bucket.DocCount,
+			Date:  day,
+			Count: count,
 		})
 	}
 
-	//days := int(now.Sub(aYearAgo).Hours() / 24)
-	//for i := 0; i < days; i++ {
-	//	fmt.Println(aYearAgo.AddDate(0, 0, i))
-	//}
 	res.OkWithData(resList, c)
 
 }
