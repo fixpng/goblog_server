@@ -10,5 +10,7 @@ func (router RouterGroup) ArticleRouter() {
 	router.POST("articles", middleware.JwtAuth(), app.ArticleCreateView)
 	router.GET("articles", app.ArticleListView)
 	router.GET("articles/detail", app.ArticleDetailByTitleView)
+	router.GET("articles/calendar", app.ArticleCalendarView)
+	// id查询放最后一个
 	router.GET("articles/:id", app.ArticleDetailView)
 }
