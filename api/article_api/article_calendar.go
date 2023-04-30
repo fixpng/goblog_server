@@ -29,7 +29,7 @@ var DataCount = map[string]int{}
 func (ArticleApi) ArticleCalendarView(c *gin.Context) {
 
 	// 按时间聚合
-	agg := elastic.NewDateHistogramAggregation().Field("created_at").CalendarInterval("hour")
+	agg := elastic.NewDateHistogramAggregation().Field("created_at").CalendarInterval("day")
 
 	// 时间段搜索
 	// 从今天开始，到去年的今天

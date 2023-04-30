@@ -21,6 +21,16 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		res.FailWithMessage("查询失败", c)
 		return
 	}
+	data := filter.Omit("list", list)
+
+	// 判断是否为空 json-filter空值问题
+	_list, _ := data.(filter.Filter)
+	if string(_list.MustMarshalJSON()) == "{}" {
+		list = make([]models.ArticleModel, 0)
+		res.OkWithList(list, int64(count), c)
+		return
+	}
+
 	// filter.Omit() 第三方库过滤content字段 "github.com/liu-cn/json-filter/filter"
-	res.OkWithList(filter.Omit("list", list), int64(count), c)
+	res.OkWithList(data, int64(count), c)
 }
