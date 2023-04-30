@@ -14,6 +14,7 @@ type TagsResponse struct {
 	Tag           string   `json:"tag"`
 	Count         int      `json:"count"`
 	ArticleIDList []string `json:"article_id_list"`
+	CreatedAt     string   `json:"created_at"`
 }
 
 type TagsType struct {
@@ -74,19 +75,31 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 	}
 
 	var tagType TagsType
-	var tagList = make([]TagsResponse, 0)
+	var tagList = make([]*TagsResponse, 0)
 	_ = json.Unmarshal(result.Aggregations["tags"], &tagType)
+	var tagStringList []string
 	for _, bucket := range tagType.Buckets {
 
 		var articleList []string
 		for _, s := range bucket.Articles.Buckets {
 			articleList = append(articleList, s.Key)
 		}
-		tagList = append(tagList, TagsResponse{
+		tagList = append(tagList, &TagsResponse{
 			Tag:           bucket.Key,
 			Count:         bucket.DocCount,
 			ArticleIDList: articleList,
 		})
+		tagStringList = append(tagStringList, bucket.Key)
+	}
+
+	var tagModelList []models.TagModel
+	global.DB.Find(&tagModelList, "title in ?", tagStringList)
+	var tagDate = map[string]string{}
+	for _, model := range tagModelList {
+		tagDate[model.Title] = model.CreatedAt.Format("2006-01-02 15:04:05")
+	}
+	for _, response := range tagList {
+		response.CreatedAt = tagDate[response.Tag]
 	}
 
 	res.OkWithList(tagList, count, c)
