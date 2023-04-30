@@ -35,11 +35,33 @@ type TagsType struct {
 
 // ArticleTagListView 标签列表
 func (ArticleApi) ArticleTagListView(c *gin.Context) {
-	agg := elastic.NewTermsAggregation().Field("tags")
-	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))
-	query := elastic.NewBoolQuery()
+
+	// 分页
+	var cr models.PageInfo
+	_ = c.ShouldBindQuery(&cr)
+	if cr.Limit == 0 {
+		cr.Limit = 10
+	}
+	offset := (cr.Page - 1) * cr.Limit
+	if offset < 0 {
+		offset = 0
+	}
 
 	result, err := global.ESClient.
+		Search(models.ArticleModel{}.Index()).
+		Aggregation("tags", elastic.NewCardinalityAggregation().Field("tags")).
+		Size(0).
+		Do(context.Background())
+	cTag, _ := result.Aggregations.Cardinality("tags")
+	count := int64(*cTag.Value)
+
+	agg := elastic.NewTermsAggregation().Field("tags")
+
+	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))
+	agg.SubAggregation("page", elastic.NewBucketSortAggregation().From(offset).Size(cr.Limit))
+	query := elastic.NewBoolQuery()
+
+	result, err = global.ESClient.
 		Search(models.ArticleModel{}.Index()).
 		Query(query).
 		Aggregation("tags", agg).
@@ -67,5 +89,5 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 		})
 	}
 
-	res.OkWithData(tagList, c)
+	res.OkWithList(tagList, count, c)
 }

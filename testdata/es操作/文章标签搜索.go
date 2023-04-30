@@ -43,8 +43,7 @@ func main() {
 	*/
 	// 按时间聚合
 	agg := elastic.NewTermsAggregation().Field("tags")
-	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("_id"))
-	//agg.SubAggregation("article_key", elastic.NewTermsAggregation().Field("keyword"))
+	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))
 
 	query := elastic.NewBoolQuery()
 
