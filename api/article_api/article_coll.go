@@ -44,7 +44,7 @@ func (ArticleApi) ArticleCollCreateView(c *gin.Context) {
 		global.DB.Delete(&coll)
 	}
 
-	//更新收藏数
+	// 更新文章收藏数
 	err = es_ser.ArticleUpdate(cr.ID, map[string]any{
 		"collects_count": model.CollectsCount + num,
 	})
