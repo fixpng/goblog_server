@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
 	"gvb_server/global"
@@ -136,7 +137,10 @@ func (a ArticleModel) IndexExists() bool {
 func (a ArticleModel) CreateIndex() error {
 	if a.IndexExists() {
 		// 有索引
-		a.RemoveIndex()
+		err := a.RemoveIndex()
+		if err != nil {
+			return err
+		}
 	}
 	// 无索引
 	// 创建索引
@@ -205,4 +209,18 @@ func (a ArticleModel) ISExistData() bool {
 	}
 
 	return false
+}
+
+// GetDataByID 判断文章是否存在
+func (a *ArticleModel) GetDataByID(id string) error {
+	res, err := global.ESClient.
+		Get().
+		Index(a.Index()).
+		Id(id).
+		Do(context.Background())
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(res.Source, a)
+	return err
 }

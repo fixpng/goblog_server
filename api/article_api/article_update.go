@@ -2,7 +2,6 @@ package article_api
 
 import (
 	"context"
-	"fmt"
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
@@ -55,6 +54,11 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		BannerUrl: bannerUrl,
 		Tags:      cr.Tags,
 	}
+	err = article.GetDataByID(cr.ID)
+	if err != nil {
+		res.FailWithMessage("文章不存在", c)
+		return
+	}
 
 	maps := structs.Map(&article)
 	var DataMap = map[string]any{}
@@ -84,7 +88,7 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		}
 		DataMap[key] = v
 	}
-	fmt.Println(DataMap)
+	//fmt.Println(DataMap)
 
 	_, err = global.ESClient.
 		Update().
