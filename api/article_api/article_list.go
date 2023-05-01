@@ -9,8 +9,13 @@ import (
 	"gvb_server/service/es_ser"
 )
 
+type ArticleSearchRequest struct {
+	models.PageInfo
+	Tag string `json:"tag" form:"tag"`
+}
+
 func (ArticleApi) ArticleListView(c *gin.Context) {
-	var cr models.PageInfo
+	var cr ArticleSearchRequest
 	if err := c.ShouldBindQuery(&cr); err != nil {
 		res.FailWithCode(res.ArgumentError, c)
 		return
