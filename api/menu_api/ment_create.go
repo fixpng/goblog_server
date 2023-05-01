@@ -41,7 +41,6 @@ func (MenuApi) MenuCreateView(c *gin.Context) {
 
 	// 创建banner数据入库
 	menuModel := models.MenuModel{
-		MODEL:        models.ModelCreate,
 		Title:        cr.Title,
 		Path:         cr.Path,
 		Slogan:       cr.Slogan,

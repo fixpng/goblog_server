@@ -27,7 +27,6 @@ func (UserService) CreateUser(userName, nickName, password string, role ctype.Ro
 
 	// 入库
 	err = global.DB.Create(&models.UserModel{
-		MODEL:      models.ModelCreate,
 		NickName:   nickName,
 		UserName:   userName,
 		Password:   hashPwd,

@@ -18,8 +18,3 @@ type PageInfo struct {
 	Limit int    `form:"limit"`
 	Sort  string `form:"sort"`
 }
-
-var (
-	ModelCreate = MODEL{CreatedAt: time.Now(), UpdatedAt: time.Now()}
-	ModelUpdate = MODEL{UpdatedAt: time.Now()}
-)

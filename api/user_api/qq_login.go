@@ -36,7 +36,6 @@ func (UserApi) QQLoginView(c *gin.Context) {
 		// 不存在，就注册
 		hashPwd := pwd.HashPwd(random.RandString(16))
 		user = models.UserModel{
-			MODEL:      models.ModelCreate,
 			NickName:   qqInfo.Nickname,
 			UserName:   openID,  // qq登录，邮箱+密码
 			Password:   hashPwd, // 随机生成16位密码

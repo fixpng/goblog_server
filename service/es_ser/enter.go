@@ -8,35 +8,70 @@ import (
 	"github.com/sirupsen/logrus"
 	"gvb_server/global"
 	"gvb_server/models"
+	"strings"
 )
 
 type Option struct {
+	models.PageInfo
+	Fields []string
+	Tag    string
 }
 
-func CommList(key string, page, limit int) (list []models.ArticleModel, count int, err error) {
+func (o *Option) GetForm() int {
+	if o.Page == 0 {
+		o.Page = 1
+	}
+	if o.Limit == 0 {
+		o.Limit = 10
+	}
+	return (o.Page - 1) * o.Limit
+}
+
+func CommList(option Option) (list []models.ArticleModel, count int, err error) {
 	// 列表查询
 	boolSearch := elastic.NewBoolQuery()
-	from := page
-	if key != "" {
+
+	if option.Key != "" {
 		boolSearch.Must(
-			//elastic.NewPrefixQuery("title", key),
-			elastic.NewMultiMatchQuery(key, "title", "abstract", "content"),
+			elastic.NewMultiMatchQuery(option.Key, option.Fields...),
 		)
 	}
-	// 默认值
-	if limit == 0 {
-		limit = 10
+	// 根据标签搜
+	if option.Tag != "" {
+		boolSearch.Must(
+			elastic.NewMultiMatchQuery(option.Tag, "tags"),
+		)
 	}
-	if from == 0 {
-		from = 1
+
+	// 定义排序
+	type SortField struct {
+		Field     string
+		Ascending bool
+	}
+	sortField := SortField{
+		Field:     "created_at",
+		Ascending: false, // true从小到大 false从大到小
+	}
+	if option.Sort != "" {
+		_list := strings.Split(option.Sort, "")
+		if len(_list) == 2 && (_list[1] == "desc" || _list[1] == "asc") {
+			sortField.Field = _list[0]
+			if _list[1] == "desc" {
+				sortField.Ascending = false
+			}
+			if _list[1] == "asc" {
+				sortField.Ascending = true
+			}
+		}
 	}
 
 	res, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
 		Query(boolSearch).
 		Highlight(elastic.NewHighlight().Field("title")).
-		From((from - 1) * limit).
-		Size(limit).
+		From(option.GetForm()).
+		Sort(sortField.Field, sortField.Ascending).
+		Size(option.Limit).
 		Do(context.Background())
 	if err != nil {
 		logrus.Error(err.Error())

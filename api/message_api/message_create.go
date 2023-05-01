@@ -34,7 +34,6 @@ func (MessageApi) MessageCreateView(c *gin.Context) {
 	}
 
 	err = global.DB.Create(&models.MessageModel{
-		MODEL:            models.ModelCreate,
 		SendUserID:       cr.SendUserID,
 		SendUserNickName: sendUser.NickName,
 		SendUserAvatar:   sendUser.Avatar,
