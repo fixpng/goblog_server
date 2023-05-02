@@ -8,13 +8,14 @@ import (
 
 type FullTextModel struct {
 	ID    string `json:"id" structs:"id"`       // es的id
+	Key   string `json:"key"`                   // 文章关联的id
 	Title string `json:"title" structs:"title"` // 文章标题
 	Slug  string `json:"slug" structs:"slug"`   // 标题跳转的地址
 	Body  string `json:"body" structs:"body"`   // 文章内容
 }
 
 func (FullTextModel) Index() string {
-	return "full_test_index"
+	return "full_text_index"
 }
 
 func (FullTextModel) Mapping() string {
@@ -27,6 +28,9 @@ func (FullTextModel) Mapping() string {
   }, 
   "mappings": {
     "properties": {
+      "key": { 
+        "type": "keyword"
+      },
       "title": { 
         "type": "text"
       },
