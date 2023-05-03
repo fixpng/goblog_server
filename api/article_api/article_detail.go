@@ -16,7 +16,7 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 		return
 	}
 	// 用户浏览量
-	redis_ser.Look(cr.ID)
+	redis_ser.NewArticleLook().Set(cr.ID)
 
 	model, err := es_ser.CommeDetail(cr.ID)
 	if err != nil {

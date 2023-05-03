@@ -26,8 +26,8 @@ func main() {
 		global.Log.Error(err)
 		return
 	}
-	diggInfo := redis_ser.GetDiggInfo()
-	lookInfo := redis_ser.GetLookInfo()
+	diggInfo := redis_ser.NewDigg().GetInfo()
+	lookInfo := redis_ser.NewArticleLook().GetInfo()
 	for _, hit := range result.Hits.Hits {
 		var article models.ArticleModel
 		err = json.Unmarshal(hit.Source, &article)
@@ -54,6 +54,6 @@ func main() {
 		}
 		logrus.Infof("%s,点赞数同步成功，点赞数 %d 浏览数 %d\n", article.Title, newDigg, newLook)
 	}
-	redis_ser.DiggClear()
-	redis_ser.LookClear()
+	redis_ser.NewDigg().Clear()
+	redis_ser.NewArticleLook().Clear()
 }

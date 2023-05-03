@@ -15,6 +15,6 @@ func (DiggApi) DiggArticleView(c *gin.Context) {
 		return
 	}
 	// id长度校验及查es文章是否存在（待补充）
-	redis_ser.Digg(cr.ID)
+	redis_ser.NewDigg().Set(cr.ID)
 	res.OkWithMessage("文章点赞成功", c)
 }

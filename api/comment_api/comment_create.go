@@ -64,7 +64,7 @@ func (CommentApi) CommentCreateView(c *gin.Context) {
 	// 拿到文章数，新的文章评论数存缓存离
 	//newCommentCount := article.CommentCount + 1
 	// 文章评论数+1
-	redis_ser.Comment(cr.ArticleID)
+	redis_ser.NewCommentCount().Set(cr.ArticleID)
 	res.OkWithMessage("评论已发送", c)
 	return
 
