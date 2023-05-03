@@ -8,7 +8,6 @@ import (
 
 func main() {
 	core.InitConf()
-	core.InitConf()
 	global.ESClient = core.EsConnect()
 	es_ser.DeleteFullTextByArticleID("nOaL0ocB_M76BrAWCR03")
 }
