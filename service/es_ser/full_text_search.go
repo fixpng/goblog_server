@@ -62,8 +62,8 @@ func GetSearchIndexDataByContent(id, title, content string) (searchDataList []Se
 		}
 		if strings.HasPrefix(s, "#") && !isCode {
 			headList = append(headList, getHeader(s))
-			//if strings.TrimSpace(body) != "" {
-			bodyList = append(bodyList, getBody(body))
+			//if strings.TrimSpace(s) != "" {
+			bodyList = append(bodyList, getBody(s))
 			//}
 			body = ""
 			continue
@@ -96,7 +96,7 @@ func getBody(body string) string {
 	unsafe := blackfriday.MarkdownCommon([]byte(body))
 	// 是否又script标签
 	doc, _ := goquery.NewDocumentFromReader(strings.NewReader(string(unsafe)))
-	//fmt.Println(doc.Text())
+	//fmt.Println(doc.Text(), "aaa")
 	return doc.Text()
 }
 

@@ -54,11 +54,6 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		BannerUrl: bannerUrl,
 		Tags:      cr.Tags,
 	}
-	err = article.GetDataByID(cr.ID)
-	if err != nil {
-		res.FailWithMessage("文章不存在", c)
-		return
-	}
 
 	maps := structs.Map(&article)
 	var DataMap = map[string]any{}
@@ -88,12 +83,26 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		}
 		DataMap[key] = v
 	}
+
+	err = article.GetDataByID(cr.ID)
+	if err != nil {
+		res.FailWithMessage("文章不存在", c)
+		return
+	}
+
 	//fmt.Println(DataMap)
-	err = es_ser.ArticleUpdate(cr.ID, maps)
+	err = es_ser.ArticleUpdate(cr.ID, DataMap)
 	if err != nil {
 		global.Log.Error(err)
 		res.FailWithMessage("文章更新失败", c)
 		return
+	}
+
+	// 更新成功，同步数据到全文搜索
+	newArticle, err := es_ser.CommeDetail(cr.ID)
+	if article.Content != newArticle.Content || article.Title != newArticle.Title {
+		es_ser.DeleteFullTextByArticleID(cr.ID)
+		es_ser.AsyncArticleByFullText(cr.ID, article.Title, newArticle.Content)
 	}
 
 	res.OkWithMessage("更新成功", c)
