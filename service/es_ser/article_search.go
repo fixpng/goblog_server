@@ -69,12 +69,7 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 	lookInfo := redis_ser.GetLookInfo()
 	for _, hit := range res.Hits.Hits {
 		var model models.ArticleModel
-		data, err := hit.Source.MarshalJSON()
-		if err != nil {
-			logrus.Error(err.Error())
-			continue
-		}
-		err = json.Unmarshal(data, &model)
+		err = json.Unmarshal(hit.Source, &model)
 		if err != nil {
 			logrus.Error(err)
 			continue

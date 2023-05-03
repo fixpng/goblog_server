@@ -17,6 +17,7 @@ func (router RouterGroup) ArticleRouter() {
 	router.POST("articles/collects", middleware.JwtAuth(), app.ArticleCollCreateView)
 	router.GET("articles/collects", middleware.JwtAuth(), app.ArticleCollListView)
 	router.DELETE("articles/collects", middleware.JwtAuth(), app.ArticleCollBatchRemoveView)
+	router.GET("articles/text", app.FullTextContextView) // 全文搜索
 	// id查询放最后一个
 	router.GET("articles/:id", app.ArticleDetailView)
 }
