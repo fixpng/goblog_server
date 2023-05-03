@@ -67,6 +67,7 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 
 	diggInfo := redis_ser.NewDigg().GetInfo()
 	lookInfo := redis_ser.NewArticleLook().GetInfo()
+	commentInfo := redis_ser.NewCommentCount().GetInfo()
 	for _, hit := range res.Hits.Hits {
 		var model models.ArticleModel
 		err = json.Unmarshal(hit.Source, &model)
@@ -81,9 +82,12 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 		model.ID = hit.Id
 		digg := diggInfo[hit.Id]
 		look := lookInfo[hit.Id]
+		comment := commentInfo[hit.Id]
 
 		model.DiggCount = model.DiggCount + digg
 		model.LookCount = model.LookCount + look
+		model.CommentCount = model.CommentCount + comment
+
 		demoList = append(demoList, model)
 	}
 	return demoList, count, err

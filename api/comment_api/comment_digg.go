@@ -21,6 +21,7 @@ func (CommentApi) CommentDigg(c *gin.Context) {
 		return
 	}
 
+	// 评论是否存在
 	var commentModel models.CommentModel
 	err = global.DB.Take(&commentModel, cr.ID).Error
 	if err != nil {
