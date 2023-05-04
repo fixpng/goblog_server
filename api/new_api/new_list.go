@@ -6,6 +6,7 @@ import (
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"gvb_server/models/res"
+	"gvb_server/service/redis_ser"
 	"gvb_server/utils/requests"
 	"io"
 	"time"
@@ -21,17 +22,10 @@ type header struct {
 	UserAgent    string `form:"User-Agent" structs:"User-Agent"`
 }
 
-type NewData struct {
-	Index    string `json:"index"`
-	Title    string `json:"title"`
-	HotValue string `json:"hotValue"`
-	Link     string `json:"link"`
-}
-
 type NewsResponse struct {
-	Code int       `json:"code"`
-	Data []NewData `json:"data"`
-	Msg  string    `json:"msg"`
+	Code int                 `json:"code"`
+	Data []redis_ser.NewData `json:"data"`
+	Msg  string              `json:"msg"`
 }
 
 const newAPI = "https://api.codelife.cc/api/top/list"
@@ -49,6 +43,13 @@ func (NewsApi) NewsListView(c *gin.Context) {
 
 	if cr.Size == 0 {
 		cr.Size = 1
+	}
+	key := fmt.Sprintf("%s-%d", cr.ID, cr.Size)
+	// 已经有缓存，直接返回
+	newsData, _ := redis_ser.GetNews(key)
+	if len(newsData) != 0 {
+		res.OkWithData(newsData, c)
+		return
 	}
 
 	httpResponse, err := requests.Post(newAPI, cr, structs.Map(headers), timeout)
@@ -68,7 +69,7 @@ func (NewsApi) NewsListView(c *gin.Context) {
 		res.FailWithMessage(response.Msg, c)
 		return
 	}
-	fmt.Println(response.Data)
 	res.OkWithData(response.Data, c)
+	redis_ser.SetNews(key, response.Data)
 	return
 }
