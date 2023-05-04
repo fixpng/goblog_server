@@ -1,4 +1,4 @@
 package new_api
 
-type NewApi struct {
+type NewsApi struct {
 }

@@ -8,6 +8,7 @@ import (
 	"gvb_server/api/images_api"
 	"gvb_server/api/menu_api"
 	"gvb_server/api/message_api"
+	"gvb_server/api/new_api"
 	"gvb_server/api/settings_api"
 	"gvb_server/api/tag_api"
 	"gvb_server/api/user_api"
@@ -24,6 +25,7 @@ type ApiGroup struct {
 	ArticleApi article_api.ArticleApi
 	DiggApi    digg_api.DiggApi
 	CommentApi comment_api.CommentApi
+	NewsApi    new_api.NewsApi
 }
 
 var ApiGroupApp = new(ApiGroup)
