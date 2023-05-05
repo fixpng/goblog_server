@@ -13,8 +13,8 @@ import (
 
 func main() {
 	// 随机名称
-	name := randomname.GenerateName()
-	fmt.Println(name)
+	//name := randomname.GenerateName()
+	//fmt.Println(name)
 
 	// 随机头像
 	// 生成一个100*100大小的以字母'A'为图像的头像
@@ -22,12 +22,12 @@ func main() {
 	//file, err := os.Create("./uploads/test/A.png")
 	//fmt.Println(err)
 	//png.Encode(file, img)
-	names := []rune(name)
-	DrawImage(string(names[0]), "./uploads/test/")
-
+	//names := []rune(name)
+	//DrawImage(string(names[0]), "./uploads/test/")
+	GenerateNameAvatar()
 }
 
-func GenerateNameAvatar(name string) {
+func GenerateNameAvatar() {
 	dir := "uploads/chat_avatar"
 	for _, s := range randomname.AdjectiveSlice {
 		DrawImage(string([]rune(s)[0]), dir)

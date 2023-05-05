@@ -3,6 +3,7 @@ package chat_api
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/DanPlayer/randomname"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/sirupsen/logrus"
@@ -12,7 +13,13 @@ import (
 	"time"
 )
 
-var ConnGroupMap = map[string]*websocket.Conn{}
+type ChatUser struct {
+	Conn     *websocket.Conn
+	NickName string `json:"nick_name"`
+	Avatar   string `json:"avatar"`
+}
+
+var ConnGroupMap = map[string]ChatUser{}
 
 type MsgType int
 
@@ -26,16 +33,17 @@ const (
 
 // GroupRequest 群聊入参
 type GroupRequest struct {
-	NickName string  `json:"nick_name"` // 前端自己生成
-	Avatar   string  `json:"avatar"`    // 头像
-	Content  string  `json:"content"`   // 聊天的内容
-	MsgType  MsgType `json:"msg_type"`  // 聊天类型
+	Content string  `json:"content"`  // 聊天的内容
+	MsgType MsgType `json:"msg_type"` // 聊天类型
 }
 
 // GroupResponse 群聊出参
 type GroupResponse struct {
-	GroupRequest
-	Date time.Time `json:"date"` // 消息发送时间
+	NickName string    `json:"nick_name"` // 前端自己生成
+	Avatar   string    `json:"avatar"`    // 头像
+	MsgType  MsgType   `json:"msg_type"`  // 聊天类型
+	Content  string    `json:"content"`   // 聊天的内容
+	Date     time.Time `json:"date"`      // 消息发送时间
 }
 
 func (ChatApi) ChatGroupView(c *gin.Context) {
@@ -52,7 +60,17 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		return
 	}
 	addr := conn.RemoteAddr().String()
-	ConnGroupMap[addr] = conn
+	nickName := randomname.GenerateName()
+	nickNameFirst := string([]rune(nickName)[0])
+	avatar := fmt.Sprintf("./uploads/chat_avatar/%s.png", nickNameFirst)
+	chatUser := ChatUser{
+		Conn:     conn,
+		NickName: nickName,
+		Avatar:   avatar,
+	}
+	ConnGroupMap[addr] = chatUser
+	// 需要去生成昵称，根据昵称首字关联头像地址
+	// 昵称关联 addr
 	logrus.Infof("%s 链接成功", addr)
 	for {
 		// 消息类型，消息，错误
@@ -60,10 +78,8 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		if err != nil {
 			// 用户断开聊天
 			SendGroupMsg(GroupResponse{
-				GroupRequest: GroupRequest{
-					Content: fmt.Sprintf("%s 离开聊天室", addr),
-				},
-				Date: time.Now(),
+				Content: fmt.Sprintf("%s 离开聊天室", chatUser.NickName),
+				Date:    time.Now(),
 			})
 			break
 		}
@@ -74,10 +90,6 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 			// 参数绑定失败
 			continue
 		}
-		// 内容不能为空
-		if strings.TrimSpace(request.Avatar) == "" || strings.TrimSpace(request.NickName) == "" {
-			continue
-		}
 
 		// 判断类型，分发逻辑
 		switch request.MsgType {
@@ -86,14 +98,16 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 				continue
 			}
 			SendGroupMsg(GroupResponse{
-				GroupRequest: request,
-				Date:         time.Now(),
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				Content:  request.Content,
+				MsgType:  TextMsg,
+				Date:     time.Now(),
 			})
 		case InRoomMsg:
-			request.Content = fmt.Sprintf("%s 进入聊天室", request.NickName)
 			SendGroupMsg(GroupResponse{
-				GroupRequest: request,
-				Date:         time.Now(),
+				Content: fmt.Sprintf("%s 进入聊天室", chatUser.NickName),
+				Date:    time.Now(),
 			})
 		}
 	}
@@ -104,7 +118,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 // SendGroupMsg 消息发送
 func SendGroupMsg(response GroupResponse) {
 	byteData, _ := json.Marshal(response)
-	for _, conn := range ConnGroupMap {
-		conn.WriteMessage(websocket.TextMessage, byteData)
+	for _, chatUser := range ConnGroupMap {
+		chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
 	}
 }
