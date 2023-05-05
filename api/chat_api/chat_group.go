@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/sirupsen/logrus"
+	"gvb_server/models/ctype"
 	"gvb_server/models/res"
 	"net/http"
 	"strings"
@@ -21,29 +22,27 @@ type ChatUser struct {
 
 var ConnGroupMap = map[string]ChatUser{}
 
-type MsgType int
-
 const (
-	TextMsg    MsgType = 1
-	ImageMsg   MsgType = 2
-	SystemMsg  MsgType = 3
-	InRoomMsg  MsgType = 4
-	OutRoomMsg MsgType = 5
+	TextMsg    ctype.MsgType = 1
+	ImageMsg   ctype.MsgType = 2
+	SystemMsg  ctype.MsgType = 3
+	InRoomMsg  ctype.MsgType = 4
+	OutRoomMsg ctype.MsgType = 5
 )
 
 // GroupRequest 群聊入参
 type GroupRequest struct {
-	Content string  `json:"content"`  // 聊天的内容
-	MsgType MsgType `json:"msg_type"` // 聊天类型
+	Content string        `json:"content"`  // 聊天的内容
+	MsgType ctype.MsgType `json:"msg_type"` // 聊天类型
 }
 
 // GroupResponse 群聊出参
 type GroupResponse struct {
-	NickName string    `json:"nick_name"` // 前端自己生成
-	Avatar   string    `json:"avatar"`    // 头像
-	MsgType  MsgType   `json:"msg_type"`  // 聊天类型
-	Content  string    `json:"content"`   // 聊天的内容
-	Date     time.Time `json:"date"`      // 消息发送时间
+	NickName string        `json:"nick_name"` // 前端自己生成
+	Avatar   string        `json:"avatar"`    // 头像
+	MsgType  ctype.MsgType `json:"msg_type"`  // 聊天类型
+	Content  string        `json:"content"`   // 聊天的内容
+	Date     time.Time     `json:"date"`      // 消息发送时间
 }
 
 func (ChatApi) ChatGroupView(c *gin.Context) {
@@ -88,6 +87,10 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		err = json.Unmarshal(p, &request)
 		if err != nil {
 			// 参数绑定失败
+			SendMsg(addr, GroupResponse{
+				MsgType: SystemMsg,
+				Content: "参数绑定失败",
+			})
 			continue
 		}
 
@@ -95,6 +98,10 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		switch request.MsgType {
 		case TextMsg:
 			if strings.TrimSpace(request.Content) == "" {
+				SendMsg(addr, GroupResponse{
+					MsgType: SystemMsg,
+					Content: "消息不能为空",
+				})
 				continue
 			}
 			SendGroupMsg(GroupResponse{
@@ -109,16 +116,28 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 				Content: fmt.Sprintf("%s 进入聊天室", chatUser.NickName),
 				Date:    time.Now(),
 			})
+		default:
+			SendMsg(addr, GroupResponse{
+				MsgType: SystemMsg,
+				Content: "消息类型错误",
+			})
 		}
 	}
 	defer conn.Close()
 	delete(ConnGroupMap, addr)
 }
 
-// SendGroupMsg 消息发送
+// SendGroupMsg 消息群发
 func SendGroupMsg(response GroupResponse) {
 	byteData, _ := json.Marshal(response)
 	for _, chatUser := range ConnGroupMap {
 		chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
 	}
+}
+
+// SendMsg 消息单发
+func SendMsg(addr string, response GroupResponse) {
+	byteData, _ := json.Marshal(response)
+	chatUser := ConnGroupMap[addr]
+	chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
 }
