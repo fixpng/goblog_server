@@ -1,42 +1,78 @@
 package log_stash
 
-import "fmt"
-
-type Log struct {
-	Level Level
-}
-
-var (
-	std = new(Log)
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"gvb_server/global"
+	"gvb_server/utils/jwts"
 )
 
-func (l Log) Debugf(format string, args ...interface{}) {
-	l.send(DebugLevel, format, args...)
-}
-func (l Log) Infof(format string, args ...interface{}) {
-	l.send(InfoLevel, format, args...)
-}
-func (l Log) Warnf(format string, args ...interface{}) {
-	l.send(WarnLevel, format, args...)
-}
-func (l Log) Errorf(format string, args ...interface{}) {
-	l.send(ErrorLevel, format, args...)
+type Log struct {
+	IP     string `json:"ip"`
+	Addr   string `json:"addr"`
+	UserID uint   `json:"user_id"`
 }
 
-func (Log) send(level Level, format string, args ...interface{}) {
-	content := fmt.Sprintf(format, args...)
-	fmt.Println(content, level)
+func New(ip string, token string) *Log {
+	// 解析Token
+	claims, err := jwts.ParseToken(token)
+	var userID uint
+	if err == nil {
+		userID = claims.UserID
+	}
+
+	// 拿到用户id
+	return &Log{
+		IP:     ip,
+		Addr:   "内网",
+		UserID: userID,
+	}
 }
 
-func Debugf(format string, args ...interface{}) {
-	std.Debugf(format, args...)
+func NewLogByGin(c *gin.Context) *Log {
+	ip := c.ClientIP()
+	token := c.Request.Header.Get("token")
+	return New(ip, token)
 }
-func Infof(format string, args ...interface{}) {
-	std.Infof(format, args...)
+
+func (l Log) Debug(content string) {
+	l.send(DebugLevel, content)
 }
-func Warnf(format string, args ...interface{}) {
-	std.Warnf(format, args...)
+func (l Log) Info(content string) {
+	l.send(InfoLevel, content)
 }
-func Errorf(format string, args ...interface{}) {
-	std.Errorf(format, args...)
+func (l Log) Warn(content string) {
+	l.send(WarnLevel, content)
 }
+func (l Log) Error(content string) {
+	l.send(ErrorLevel, content)
+}
+
+func (l Log) send(level Level, content string) {
+	err := global.DB.Create(&LogStashModel{
+		IP:      l.IP,
+		Addr:    l.Addr,
+		Level:   level,
+		Content: content,
+		UserID:  l.UserID,
+	}).Error
+	if err != nil {
+		logrus.Error(err)
+	}
+	fmt.Println(l.IP, l.UserID, l.Addr, content, level)
+}
+
+//
+//func Debug(ip string, content string) {
+//	std.Debug(ip, content)
+//}
+//func Info(ip string, content string) {
+//	std.Info(ip, content)
+//}
+//func Warn(ip string, content string) {
+//	std.Warn(ip, content)
+//}
+//func Error(ip string, content string) {
+//	std.Error(ip, content)
+//}
