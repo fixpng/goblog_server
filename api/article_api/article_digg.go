@@ -1,4 +1,4 @@
-package digg_api
+package article_api
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,7 +7,7 @@ import (
 	"gvb_server/service/redis_ser"
 )
 
-func (DiggApi) DiggArticleView(c *gin.Context) {
+func (ArticleApi) ArticleDiggView(c *gin.Context) {
 	var cr models.ESIDRequest
 	err := c.ShouldBindJSON(&cr)
 	if err != nil {

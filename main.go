@@ -6,6 +6,7 @@ import (
 	"gvb_server/flag"
 	"gvb_server/global"
 	"gvb_server/routers"
+	"gvb_server/utils"
 )
 
 // @title gvb_server API文档
@@ -39,7 +40,7 @@ func main() {
 	router := routers.InitRouter()
 
 	addr := global.Config.System.Addr()
-	global.Log.Infof("gvb_server运行在：%s", addr)
+	utils.PrintSystem()
 	err := router.Run(addr)
 	if err != nil {
 		global.Log.Fatalf(err.Error())
