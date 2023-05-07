@@ -6,7 +6,8 @@ import (
 	"github.com/DanPlayer/randomname"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/sirupsen/logrus"
+	"gvb_server/global"
+	"gvb_server/models"
 	"gvb_server/models/ctype"
 	"gvb_server/models/res"
 	"net/http"
@@ -62,6 +63,7 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 	nickName := randomname.GenerateName()
 	nickNameFirst := string([]rune(nickName)[0])
 	avatar := fmt.Sprintf("./uploads/chat_avatar/%s.png", nickNameFirst)
+	conn.RemoteAddr().Network()
 	chatUser := ChatUser{
 		Conn:     conn,
 		NickName: nickName,
@@ -70,15 +72,17 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 	ConnGroupMap[addr] = chatUser
 	// 需要去生成昵称，根据昵称首字关联头像地址
 	// 昵称关联 addr
-	logrus.Infof("%s 链接成功", addr)
+	global.Log.Infof("%s %s 链接成功", addr, chatUser.NickName)
 	for {
 		// 消息类型，消息，错误
 		_, p, err := conn.ReadMessage()
 		if err != nil {
 			// 用户断开聊天
-			SendGroupMsg(GroupResponse{
-				Content: fmt.Sprintf("%s 离开聊天室", chatUser.NickName),
-				Date:    time.Now(),
+			SendGroupMsg(conn, GroupResponse{
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				Content:  fmt.Sprintf("%s 离开聊天室", chatUser.NickName),
+				Date:     time.Now(),
 			})
 			break
 		}
@@ -88,8 +92,10 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		if err != nil {
 			// 参数绑定失败
 			SendMsg(addr, GroupResponse{
-				MsgType: SystemMsg,
-				Content: "参数绑定失败",
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				MsgType:  SystemMsg,
+				Content:  "参数绑定失败",
 			})
 			continue
 		}
@@ -99,12 +105,14 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 		case TextMsg:
 			if strings.TrimSpace(request.Content) == "" {
 				SendMsg(addr, GroupResponse{
-					MsgType: SystemMsg,
-					Content: "消息不能为空",
+					NickName: chatUser.NickName,
+					Avatar:   chatUser.Avatar,
+					MsgType:  SystemMsg,
+					Content:  "消息不能为空",
 				})
 				continue
 			}
-			SendGroupMsg(GroupResponse{
+			SendGroupMsg(conn, GroupResponse{
 				NickName: chatUser.NickName,
 				Avatar:   chatUser.Avatar,
 				Content:  request.Content,
@@ -112,14 +120,18 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 				Date:     time.Now(),
 			})
 		case InRoomMsg:
-			SendGroupMsg(GroupResponse{
-				Content: fmt.Sprintf("%s 进入聊天室", chatUser.NickName),
-				Date:    time.Now(),
+			SendGroupMsg(conn, GroupResponse{
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				Content:  fmt.Sprintf("%s 进入聊天室", chatUser.NickName),
+				Date:     time.Now(),
 			})
 		default:
 			SendMsg(addr, GroupResponse{
-				MsgType: SystemMsg,
-				Content: "消息类型错误",
+				NickName: chatUser.NickName,
+				Avatar:   chatUser.Avatar,
+				MsgType:  SystemMsg,
+				Content:  "消息类型错误",
 			})
 		}
 	}
@@ -128,16 +140,46 @@ func (ChatApi) ChatGroupView(c *gin.Context) {
 }
 
 // SendGroupMsg 消息群发
-func SendGroupMsg(response GroupResponse) {
+func SendGroupMsg(conn *websocket.Conn, response GroupResponse) {
 	byteData, _ := json.Marshal(response)
+	_addr := conn.RemoteAddr().String()
+	ip, addr := getIPAndAddr(_addr)
+	global.DB.Create(&models.ChatModel{
+		NickName: response.NickName,
+		Avatar:   response.Avatar,
+		Content:  response.Content,
+		IP:       ip,
+		Addr:     addr,
+		ISGroup:  true,
+		MsgType:  response.MsgType,
+	})
+	fmt.Println(ip, addr)
+
 	for _, chatUser := range ConnGroupMap {
 		chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
 	}
 }
 
 // SendMsg 消息单发
-func SendMsg(addr string, response GroupResponse) {
+func SendMsg(_addr string, response GroupResponse) {
 	byteData, _ := json.Marshal(response)
-	chatUser := ConnGroupMap[addr]
+	chatUser := ConnGroupMap[_addr]
+	ip, addr := getIPAndAddr(_addr)
+	global.DB.Create(&models.ChatModel{
+		NickName: response.NickName,
+		Avatar:   response.Avatar,
+		Content:  response.Content,
+		IP:       ip,
+		Addr:     addr,
+		ISGroup:  false,
+		MsgType:  response.MsgType,
+	})
+
 	chatUser.Conn.WriteMessage(websocket.TextMessage, byteData)
+}
+
+func getIPAndAddr(_addr string) (ip string, addr string) {
+	addrList := strings.Split(_addr, ";")
+	userAddr := "内网"
+	return addrList[0], userAddr
 }

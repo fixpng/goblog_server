@@ -9,5 +9,6 @@ type ChatModel struct {
 	Content  string        `gorm:"size:256" json:"content"`  // 聊天的内容
 	IP       string        `gorm:"size:32" json:"ip"`        // ip
 	Addr     string        `gorm:"size:64" json:"addr"`      // 地址
+	ISGroup  bool          `json:"is_group"`                 //是否是群组消息
 	MsgType  ctype.MsgType `gorm:"size:4" json:"msg_type"`   // 聊天类型
 }
