@@ -8,6 +8,7 @@ import (
 	"gvb_server/models/ctype"
 	"gvb_server/models/res"
 	"gvb_server/plugins/qq"
+	"gvb_server/utils"
 	"gvb_server/utils/jwts"
 	"gvb_server/utils/pwd"
 	"gvb_server/utils/random"
@@ -32,6 +33,7 @@ func (UserApi) QQLoginView(c *gin.Context) {
 	// 根据openID判断用户是否存在
 	var user models.UserModel
 	err = global.DB.Take(&user, "token = ?", openID).Error
+	ip, addr := utils.GetAddrByGin(c)
 	if err != nil {
 		// 不存在，就注册
 		hashPwd := pwd.HashPwd(random.RandString(16))
@@ -40,9 +42,9 @@ func (UserApi) QQLoginView(c *gin.Context) {
 			UserName:   openID,  // qq登录，邮箱+密码
 			Password:   hashPwd, // 随机生成16位密码
 			Avatar:     qqInfo.Avatar,
-			Addr:       "内网", // 根据ip算地址
+			Addr:       addr, // 根据ip算地址
 			Token:      openID,
-			IP:         c.ClientIP(),
+			IP:         ip,
 			Role:       ctype.PermissionUser,
 			SignStatus: ctype.SignQQ,
 		}
@@ -66,14 +68,13 @@ func (UserApi) QQLoginView(c *gin.Context) {
 		res.FailWithMessage("token生成失败", c)
 		return
 	}
-
 	global.DB.Create(&models.LoginDataModel{
 		UserID:    user.ID,
-		IP:        c.ClientIP(),
+		IP:        ip,
 		NickName:  user.NickName,
 		Token:     token,
 		Device:    "",
-		Addr:      "内网",
+		Addr:      addr,
 		LoginType: ctype.SignQQ,
 	})
 	res.OkWithData(token, c)
