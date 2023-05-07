@@ -31,7 +31,7 @@ type ApiGroup struct {
 	NewsApi    new_api.NewsApi
 	ChatApi    chat_api.ChatApi
 	LogApi     log_api.LogApi
-	DateApi    data_api.DateApi
+	DataApi    data_api.DataApi
 }
 
 var ApiGroupApp = new(ApiGroup)

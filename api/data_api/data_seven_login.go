@@ -19,7 +19,7 @@ type DateCountResponse struct {
 	SignData  []int    `json:"sign_data"`
 }
 
-func (DateApi) SevenLogin(c *gin.Context) {
+func (DataApi) DataSevenLogin(c *gin.Context) {
 	var loginDateCount, signDateCount []DateCount
 
 	/*	select date_format(created_at, '%Y-%m-%d') as date, count(id) as count
