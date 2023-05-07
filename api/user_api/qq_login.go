@@ -66,5 +66,15 @@ func (UserApi) QQLoginView(c *gin.Context) {
 		res.FailWithMessage("token生成失败", c)
 		return
 	}
+
+	global.DB.Create(&models.LoginDataModel{
+		UserID:    user.ID,
+		IP:        c.ClientIP(),
+		NickName:  user.NickName,
+		Token:     token,
+		Device:    "",
+		Addr:      "内网",
+		LoginType: ctype.SignQQ,
+	})
 	res.OkWithData(token, c)
 }

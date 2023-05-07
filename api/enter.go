@@ -5,6 +5,7 @@ import (
 	"gvb_server/api/article_api"
 	"gvb_server/api/chat_api"
 	"gvb_server/api/comment_api"
+	"gvb_server/api/data_api"
 	"gvb_server/api/digg_api"
 	"gvb_server/api/images_api"
 	"gvb_server/api/log_api"
@@ -30,6 +31,7 @@ type ApiGroup struct {
 	NewsApi    new_api.NewsApi
 	ChatApi    chat_api.ChatApi
 	LogApi     log_api.LogApi
+	DateApi    data_api.DateApi
 }
 
 var ApiGroupApp = new(ApiGroup)

@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
 	"gvb_server/models"
+	"gvb_server/models/ctype"
 	"gvb_server/models/res"
 	"gvb_server/plugins/log_stash"
 	"gvb_server/utils/jwts"
@@ -57,6 +58,15 @@ func (UserApi) EmailLoginView(c *gin.Context) {
 	}
 	log = log_stash.New(c.ClientIP(), token)
 	log.Info("登录成功")
+	global.DB.Create(&models.LoginDataModel{
+		UserID:    userModel.ID,
+		IP:        c.ClientIP(),
+		NickName:  userModel.NickName,
+		Token:     token,
+		Device:    "",
+		Addr:      "内网",
+		LoginType: ctype.SignEmail,
+	})
 	res.OkWithData(token, c)
 
 }
