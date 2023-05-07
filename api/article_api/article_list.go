@@ -31,9 +31,9 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		res.FailWithMessage("查询失败", c)
 		return
 	}
-	data := filter.Omit("list", list)
 
 	// 判断是否为空 json-filter空值问题
+	data := filter.Omit("list", list)
 	_list, _ := data.(filter.Filter)
 	if string(_list.MustMarshalJSON()) == "{}" {
 		list = make([]models.ArticleModel, 0)
