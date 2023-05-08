@@ -17,6 +17,14 @@ type CollResponse struct {
 	CreatedAt string `json:"created_at"`
 }
 
+// ArticleCollListView 文章收藏列表
+// @Tags 文章管理
+// @Summary 文章收藏列表
+// @Description 文章收藏列表
+// @Param data body models.PageInfo    false  "查询参数"
+// @Router /api/articles/collects [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[CollResponse]}
 func (ArticleApi) ArticleCollListView(c *gin.Context) {
 	var cr models.PageInfo
 	err := c.ShouldBindQuery(&cr)

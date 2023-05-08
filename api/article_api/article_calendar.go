@@ -26,6 +26,14 @@ type BucketsType struct {
 
 var DataCount = map[string]int{}
 
+// ArticleCalendarView 文章时间聚合搜索
+// @Tags 文章管理
+// @Summary 文章时间聚合搜索
+// @Description 文章时间聚合搜索
+// @Param data query models.PageInfo    false  "查询参数"
+// @Router /api/articles/calendar [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[CalendarDateResponse]}
 func (ArticleApi) ArticleCalendarView(c *gin.Context) {
 
 	// 按时间聚合
