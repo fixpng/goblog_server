@@ -2,9 +2,7 @@ package jwts
 
 import (
 	"errors"
-	"fmt"
 	"github.com/dgrijalva/jwt-go/v4"
-	"github.com/sirupsen/logrus"
 	"gvb_server/global"
 )
 
@@ -15,7 +13,7 @@ func ParseToken(tokenStr string) (*CustomClaims, error) {
 		return MySecret, nil
 	})
 	if err != nil {
-		logrus.Error(fmt.Sprintf("token parse err: %s", err.Error()))
+		//logrus.Error(fmt.Sprintf("token parse err: %s", err.Error()))
 		return nil, err
 	}
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {

@@ -67,6 +67,8 @@ func (ImageService) ImageUploadService(file *multipart.FileHeader) (res FileUplo
 	res.Msg = "图片上传成功"
 	res.IsSuccess = true
 
+	filePath = "/" + filePath
+
 	// 判断七牛云存储是否启用
 	if global.Config.QiNiu.Enable {
 		filePath, err = qiniu.UploadImage(byteData, fileName, global.Config.QiNiu.Prefix)
@@ -79,8 +81,6 @@ func (ImageService) ImageUploadService(file *multipart.FileHeader) (res FileUplo
 		res.IsSuccess = true
 		res.Msg = "上传七牛成功"
 		fileType = ctype.QiNiu
-	} else {
-
 	}
 
 	// 图片入库
