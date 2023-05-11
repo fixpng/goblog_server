@@ -19,6 +19,107 @@ definitions:
     - images
     - title
     type: object
+  article_api.ArticleRequest:
+    properties:
+      abstract:
+        description: 文章简介
+        type: string
+      banner_id:
+        description: 文章封面ID
+        type: integer
+      category:
+        description: 文章分类
+        type: string
+      content:
+        description: 文章内容
+        type: string
+      link:
+        description: 原文链接
+        type: string
+      source:
+        description: 文章来源
+        type: string
+      tags:
+        description: 文章标签
+        items:
+          type: string
+        type: array
+      title:
+        description: 文章标题
+        type: string
+    required:
+    - content
+    - title
+    type: object
+  article_api.CalendarDateResponse:
+    properties:
+      count:
+        type: integer
+      date:
+        type: string
+    type: object
+  article_api.CollResponse:
+    properties:
+      abstract:
+        description: 文章简介
+        type: string
+      banner_id:
+        description: 文章封面ID
+        type: integer
+      banner_url:
+        description: 文章封面
+        type: string
+      category:
+        description: 文章分类
+        type: string
+      collects_count:
+        description: 收藏量
+        type: integer
+      comment_count:
+        description: 评论量
+        type: integer
+      content:
+        description: 文章内容
+        type: string
+      created_at:
+        type: string
+      digg_count:
+        description: 点赞量
+        type: integer
+      id:
+        type: string
+      keyword:
+        description: 关键字
+        type: string
+      link:
+        description: 原文链接
+        type: string
+      look_count:
+        description: 浏览量
+        type: integer
+      source:
+        description: 文章来源
+        type: string
+      tags:
+        description: 文章标签
+        items:
+          type: string
+        type: array
+      title:
+        description: 文章标题
+        type: string
+      updated_at:
+        type: string
+      user_avatar:
+        description: 用户头像
+        type: string
+      user_id:
+        description: 用户id
+        type: integer
+      user_nick_name:
+        description: 用户昵称
+        type: string
+    type: object
   ctype.ImageType:
     enum:
     - 1
@@ -43,7 +144,7 @@ definitions:
     type: object
   models.AdvertModel:
     properties:
-      create_at:
+      created_at:
         type: string
       href:
         description: 跳转链接
@@ -60,9 +161,71 @@ definitions:
         description: 显示的标题
         type: string
     type: object
+  models.ArticleModel:
+    properties:
+      abstract:
+        description: 文章简介
+        type: string
+      banner_id:
+        description: 文章封面ID
+        type: integer
+      banner_url:
+        description: 文章封面
+        type: string
+      category:
+        description: 文章分类
+        type: string
+      collects_count:
+        description: 收藏量
+        type: integer
+      comment_count:
+        description: 评论量
+        type: integer
+      content:
+        description: 文章内容
+        type: string
+      created_at:
+        type: string
+      digg_count:
+        description: 点赞量
+        type: integer
+      id:
+        type: string
+      keyword:
+        description: 关键字
+        type: string
+      link:
+        description: 原文链接
+        type: string
+      look_count:
+        description: 浏览量
+        type: integer
+      source:
+        description: 文章来源
+        type: string
+      tags:
+        description: 文章标签
+        items:
+          type: string
+        type: array
+      title:
+        description: 文章标题
+        type: string
+      updated_at:
+        type: string
+      user_avatar:
+        description: 用户头像
+        type: string
+      user_id:
+        description: 用户id
+        type: integer
+      user_nick_name:
+        description: 用户昵称
+        type: string
+    type: object
   models.BannerModel:
     properties:
-      create_at:
+      created_at:
         type: string
       hash:
         description: 图片的hash值，用于判断重复图片
@@ -80,12 +243,61 @@ definitions:
         description: 图片路径
         type: string
     type: object
+  models.ESIDListRequest:
+    properties:
+      id_list:
+        items:
+          type: string
+        type: array
+    required:
+    - id_list
+    type: object
+  models.ESIDRequest:
+    properties:
+      id:
+        type: string
+    type: object
+  models.PageInfo:
+    properties:
+      key:
+        type: string
+      limit:
+        type: integer
+      page:
+        type: integer
+      sort:
+        type: string
+    type: object
   models.RemoveRequest:
     properties:
       id_list:
         items:
           type: integer
         type: array
+    type: object
+  models.TagModel:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      title:
+        description: 标签的名称
+        type: string
+    type: object
+  res.ListResponse-article_api_CalendarDateResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/article_api.CalendarDateResponse'
+    type: object
+  res.ListResponse-article_api_CollResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/article_api.CollResponse'
     type: object
   res.ListResponse-models_AdvertModel:
     properties:
@@ -94,12 +306,26 @@ definitions:
       list:
         $ref: '#/definitions/models.AdvertModel'
     type: object
+  res.ListResponse-models_ArticleModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.ArticleModel'
+    type: object
   res.ListResponse-models_BannerModel:
     properties:
       count:
         type: integer
       list:
         $ref: '#/definitions/models.BannerModel'
+    type: object
+  res.ListResponse-models_TagModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.TagModel'
     type: object
   res.Response:
     properties:
@@ -109,6 +335,14 @@ definitions:
       msg:
         type: string
     type: object
+  tag_api.TagRequest:
+    properties:
+      title:
+        description: 显示的标题
+        type: string
+    required:
+    - title
+    type: object
 host: 127.0.0.01:8080
 info:
   contact: {}
@@ -116,6 +350,130 @@ info:
   title: gvb_server API文档
   version: "1.0"
 paths:
+  /api/Menus:
+    delete:
+      description: 批量删除菜单
+      parameters:
+      - description: 菜单id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除菜单
+      tags:
+      - 菜单管理
+  /api/Tags:
+    delete:
+      description: 批量删除标签
+      parameters:
+      - description: 标签id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除标签
+      tags:
+      - 标签管理
+    get:
+      description: 标签列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_TagModel'
+              type: object
+      summary: 标签列表
+      tags:
+      - 标签管理
+    post:
+      description: 创建标签
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/tag_api.TagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 创建标签
+      tags:
+      - 标签管理
+  /api/Tags/:id:
+    put:
+      description: 更新标签
+      parameters:
+      - description: 标签的一些参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/tag_api.TagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 更新标签
+      tags:
+      - 标签管理
   /api/adverts:
     delete:
       description: 批量删除广告
@@ -215,6 +573,153 @@ paths:
       summary: 更新广告
       tags:
       - 广告管理
+  /api/articles:
+    post:
+      description: 创建文章
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/article_api.ArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 创建文章
+      tags:
+      - 文章管理
+  /api/articles/:id:
+    get:
+      description: 文章详情
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/models.ESIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_ArticleModel'
+              type: object
+      summary: 文章详情
+      tags:
+      - 文章管理
+  /api/articles/calendar:
+    get:
+      description: 文章时间聚合搜索
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-article_api_CalendarDateResponse'
+              type: object
+      summary: 文章时间聚合搜索
+      tags:
+      - 文章管理
+  /api/articles/collects:
+    delete:
+      description: 批量删除文章收藏
+      parameters:
+      - description: 文章收藏id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.ESIDListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除文章收藏
+      tags:
+      - 文章管理
+    get:
+      description: 文章收藏列表
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        schema:
+          $ref: '#/definitions/models.PageInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-article_api_CollResponse'
+              type: object
+      summary: 文章收藏列表
+      tags:
+      - 文章管理
+    post:
+      description: 收藏/取消收藏文章
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.ESIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 收藏/取消收藏文章
+      tags:
+      - 文章管理
   /api/image_names:
     get:
       description: 图片名称列表

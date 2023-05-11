@@ -13,6 +13,14 @@ import (
 	"gvb_server/utils/jwts"
 )
 
+// ArticleCollBatchRemoveView 批量删除文章收藏
+// @Tags 文章管理
+// @Summary 批量删除文章收藏
+// @Description 批量删除文章收藏
+// @Param data body models.ESIDListRequest    true  "文章收藏id列表"
+// @Router /api/articles/collects [delete]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (ArticleApi) ArticleCollBatchRemoveView(c *gin.Context) {
 	var cr models.ESIDListRequest
 	err := c.ShouldBindJSON(&cr)
