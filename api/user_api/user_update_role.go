@@ -18,6 +18,7 @@ type UserRole struct {
 func (UserApi) UserUpdateRoleView(c *gin.Context) {
 	var cr UserRole
 	if err := c.ShouldBindJSON(&cr); err != nil {
+		global.Log.Error(err)
 		res.FailWithError(err, &cr, c)
 		return
 	}

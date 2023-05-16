@@ -6,9 +6,9 @@ type Role int
 
 const (
 	PermissionAdmin       Role = 1 // 管理员
-	PermissionUser        Role = 2 // 普通登陆人
+	PermissionUser        Role = 2 // 用户
 	PermissionVisitor     Role = 3 // 游客
-	PermissionDisableUser Role = 4 // 被禁用的用户
+	PermissionDisableUser Role = 4 // 黑名单
 )
 
 func (role Role) MarshalJSON() ([]byte, error) {
@@ -20,11 +20,11 @@ func (role Role) String() string {
 	case PermissionAdmin:
 		return "管理员"
 	case PermissionUser:
-		return "普通登陆人"
+		return "用户"
 	case PermissionVisitor:
 		return "游客"
 	case PermissionDisableUser:
-		return "被禁用的用户"
+		return "黑名单"
 	default:
 		return "其他"
 	}
