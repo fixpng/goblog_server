@@ -14,7 +14,14 @@ type UserRole struct {
 	UserID   uint       `json:"user_id" binding:"required" msg:"用户id错误"`
 }
 
-// UserUpdateRoleView 用户权限变更
+// UserUpdateRoleView  用户权限变更
+// @Tags 用户管理
+// @Summary 用户权限变更
+// @Description 用户权限变更
+// @Param data body UserRole    true  "表示多个参数"
+// @Router /api/tags/user_role [put]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (UserApi) UserUpdateRoleView(c *gin.Context) {
 	var cr UserRole
 	if err := c.ShouldBindJSON(&cr); err != nil {

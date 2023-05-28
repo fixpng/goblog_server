@@ -13,6 +13,14 @@ type LogRequest struct {
 	Level log_stash.Level `form:"level"`
 }
 
+// LogListView 日志列表
+// @Tags 日志管理
+// @Summary 日志列表
+// @Description 日志列表
+// @Param data query LogRequest    false  "查询参数"
+// @Router /api/logs [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[log_stash.LogStashModel]}
 func (LogApi) LogListView(c *gin.Context) {
 	var cr LogRequest
 	err := c.ShouldBindQuery(&cr)

@@ -14,6 +14,14 @@ type ArticleSearchRequest struct {
 	Tag string `json:"tag" form:"tag"`
 }
 
+// ArticleListView 文章列表
+// @Tags 文章管理
+// @Summary 文章列表
+// @Description 文章列表
+// @Param data query ArticleSearchRequest    false  "查询参数"
+// @Router /api/articles [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.ArticleModel]}
 func (ArticleApi) ArticleListView(c *gin.Context) {
 	var cr ArticleSearchRequest
 	if err := c.ShouldBindQuery(&cr); err != nil {

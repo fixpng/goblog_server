@@ -13,7 +13,7 @@ import (
 // @Summary 批量删除标签
 // @Description 批量删除标签
 // @Param data body models.RemoveRequest    true  "标签id列表"
-// @Router /api/Tags [delete]
+// @Router /api/tags [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (TagApi) TagRemoveView(c *gin.Context) {

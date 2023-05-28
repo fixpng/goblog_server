@@ -14,6 +14,14 @@ import (
 	"gvb_server/utils/random"
 )
 
+// QQLoginView QQ登录
+// @Tags 用户管理
+// @Summary QQ登录
+// @Description QQ登录
+// @Param limit query string false "表示单个参数"
+// @Router /api/qq_login [post]
+// @Produce json
+// @Success 200 {object} res.Response{}
 func (UserApi) QQLoginView(c *gin.Context) {
 	code := c.Query("code")
 	if code == "" {

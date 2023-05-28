@@ -24,7 +24,7 @@ type CollResponse struct {
 // @Param data body models.PageInfo    false  "查询参数"
 // @Router /api/articles/collects [get]
 // @Produce json
-// @Success 200 {object} res.Response{data=res.ListResponse[CollResponse]}
+// @Success 200 {object} res.Response{data=[]CollResponse}
 func (ArticleApi) ArticleCollListView(c *gin.Context) {
 	var cr models.PageInfo
 	err := c.ShouldBindQuery(&cr)

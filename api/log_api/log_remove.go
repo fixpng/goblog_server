@@ -9,6 +9,14 @@ import (
 	"gvb_server/plugins/log_stash"
 )
 
+// LogRemoveListView 批量删除日志
+// @Tags 日志管理
+// @Summary 批量删除日志
+// @Description 批量删除日志
+// @Param data body models.RemoveRequest    true  "日志id列表"
+// @Router /api/logs [delete]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (LogApi) LogRemoveListView(c *gin.Context) {
 	var cr models.RemoveRequest
 	err := c.ShouldBindJSON(&cr)

@@ -50,6 +50,14 @@ type GroupResponse struct {
 	Date        time.Time     `json:"date"`         // 消息发送时间
 }
 
+// ChatGroupView 群聊列表
+// @Tags 群聊管理
+// @Summary 群聊列表
+// @Description 群聊列表
+// @Param data query GroupRequest    false  "查询参数"
+// @Router /api/chat_groups [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[GroupResponse]}
 func (ChatApi) ChatGroupView(c *gin.Context) {
 	var upGrader = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {

@@ -16,6 +16,14 @@ type UserCreateRequest struct {
 	Role     ctype.Role `json:"role" binding:"required" msg:"请选择权限"`       // 权限  1 管理员  2 普通用户  3 游客
 }
 
+// UserCreateView 创建用户
+// @Tags 用户管理
+// @Summary 创建用户
+// @Description 创建用户
+// @Param data body UserCreateRequest    true  "表示多个参数"
+// @Router /api/users [post]
+// @Produce json
+// @Success 200 {object} res.Response{}
 func (UserApi) UserCreateView(c *gin.Context) {
 	var cr UserCreateRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {

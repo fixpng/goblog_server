@@ -19,6 +19,13 @@ type DataSumResponse struct {
 	NowSignCount   int `json:"now_sign_count"`
 }
 
+// DataSumView 数据合计
+// @Tags 统计管理
+// @Summary 数据合计
+// @Description 数据合计
+// @Router /api/data_sum [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=DataSumResponse}
 func (DataApi) DataSumView(c *gin.Context) {
 
 	var userCount, articleCount, messageCount, chatGroupCount int

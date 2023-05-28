@@ -10,7 +10,14 @@ type SettingsUri struct {
 	Name string `uri:"name"`
 }
 
-// SettingsInfoView 显示某一项的配置信息
+// SettingsInfoView 显示配置信息
+// @Tags 配置管理
+// @Summary 显示配置信息
+// @Description 显示配置信息
+// @Param data query SettingsUri    false  "查询参数"
+// @Router /api/settings/site [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (s SettingApi) SettingsInfoView(c *gin.Context) {
 	var cr SettingsUri
 	err := c.ShouldBindUri(&cr)

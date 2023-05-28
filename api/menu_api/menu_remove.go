@@ -14,7 +14,7 @@ import (
 // @Summary 批量删除菜单
 // @Description 批量删除菜单
 // @Param data body models.RemoveRequest    true  "菜单id列表"
-// @Router /api/Menus [delete]
+// @Router /api/menus [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (MenuApi) MenuRemoveView(c *gin.Context) {

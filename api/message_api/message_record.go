@@ -12,6 +12,13 @@ type MessageRecordRequest struct {
 	UserID uint `json:"user_id" binding:"required" msg:"请输入查询的用户id"`
 }
 
+// MessageRecordView 聊天记录
+// @Tags 消息管理
+// @Summary 聊天记录
+// @Description 聊天记录
+// @Router /api/messages_record [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.MessageModel]}
 func (MessageApi) MessageRecordView(c *gin.Context) {
 	var cr MessageRecordRequest
 	err := c.ShouldBindJSON(&cr)

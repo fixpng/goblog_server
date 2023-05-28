@@ -7,6 +7,13 @@ import (
 	"gvb_server/models/res"
 )
 
+// MenuDetailView 菜单详情
+// @Tags 菜单管理
+// @Summary 菜单详情
+// @Description 菜单详情
+// @Router /api/menus/:id [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=MenuResponse}
 func (MenuApi) MenuDetailView(c *gin.Context) {
 	// 先查菜单
 	id := c.Param("id")

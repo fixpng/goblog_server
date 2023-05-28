@@ -11,6 +11,14 @@ import (
 	"gvb_server/models/res"
 )
 
+// FullTextContextView 全文搜索
+// @Tags 文章管理
+// @Summary 全文搜索
+// @Description 全文搜索
+// @Param data query models.PageInfo    false  "查询参数"
+// @Router /api/articles/text [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.FullTextModel]}
 func (ArticleApi) FullTextContextView(c *gin.Context) {
 	var cr models.PageInfo
 	_ = c.ShouldBindQuery(&cr)

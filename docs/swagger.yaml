@@ -51,6 +51,37 @@ definitions:
     - content
     - title
     type: object
+  article_api.ArticleUpdateRequest:
+    properties:
+      abstract:
+        description: 文章简介
+        type: string
+      banner_id:
+        description: 文章封面ID
+        type: integer
+      category:
+        description: 文章分类
+        type: string
+      content:
+        description: 文章内容
+        type: string
+      id:
+        type: string
+      link:
+        description: 原文链接
+        type: string
+      source:
+        description: 文章来源
+        type: string
+      tags:
+        description: 文章标签
+        items:
+          type: string
+        type: array
+      title:
+        description: 文章标题
+        type: string
+    type: object
   article_api.CalendarDateResponse:
     properties:
       count:
@@ -120,6 +151,65 @@ definitions:
         description: 用户昵称
         type: string
     type: object
+  article_api.IDListRequest:
+    properties:
+      id_list:
+        items:
+          type: string
+        type: array
+    type: object
+  article_api.TagsResponse:
+    properties:
+      article_id_list:
+        items:
+          type: string
+        type: array
+      count:
+        type: integer
+      created_at:
+        type: string
+      tag:
+        type: string
+    type: object
+  chat_api.GroupResponse:
+    properties:
+      avatar:
+        description: 头像
+        type: string
+      content:
+        description: 聊天的内容
+        type: string
+      date:
+        description: 消息发送时间
+        type: string
+      msg_type:
+        description: 聊天类型
+        type: integer
+      nick_name:
+        description: 前端自己生成
+        type: string
+      online_count:
+        description: 在线人数
+        type: integer
+    type: object
+  comment_api.CommentIDRequest:
+    properties:
+      id:
+        type: integer
+    type: object
+  comment_api.CommentRequest:
+    properties:
+      article_id:
+        type: string
+      content:
+        type: string
+      parent_comment_id:
+        description: 父评论id
+        type: integer
+    required:
+    - article_id
+    - content
+    type: object
   ctype.ImageType:
     enum:
     - 1
@@ -131,6 +221,79 @@ definitions:
     x-enum-varnames:
     - Local
     - QiNiu
+  ctype.Role:
+    enum:
+    - 1
+    - 2
+    - 3
+    - 4
+    type: integer
+    x-enum-comments:
+      PermissionAdmin: 管理员
+      PermissionDisableUser: 黑名单
+      PermissionUser: 用户
+      PermissionVisitor: 游客
+    x-enum-varnames:
+    - PermissionAdmin
+    - PermissionUser
+    - PermissionVisitor
+    - PermissionDisableUser
+  ctype.SignStatus:
+    enum:
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-comments:
+      SignEmail: 邮箱
+      SignGitee: Gitee
+      SignQQ: QQ
+    x-enum-varnames:
+    - SignQQ
+    - SignGitee
+    - SignEmail
+  data_api.DataSumResponse:
+    properties:
+      article_count:
+        type: integer
+      chat_group_count:
+        type: integer
+      message_count:
+        type: integer
+      now_login_count:
+        type: integer
+      now_sign_count:
+        type: integer
+      user_count:
+        type: integer
+    type: object
+  data_api.DateCountResponse:
+    properties:
+      date_list:
+        items:
+          type: string
+        type: array
+      login_data:
+        items:
+          type: integer
+        type: array
+      sign_data:
+        items:
+          type: integer
+        type: array
+    type: object
+  image_ser.FileUploadResponse:
+    properties:
+      file_name:
+        description: 文件名
+        type: string
+      is_success:
+        description: 是否上传成功
+        type: boolean
+      msg:
+        description: 消息
+        type: string
+    type: object
   images_api.ImageResponse:
     properties:
       id:
@@ -141,6 +304,182 @@ definitions:
       path:
         description: 图片路径
         type: string
+    type: object
+  images_api.ImageUpdateRequest:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    required:
+    - id
+    - name
+    type: object
+  log_stash.Level:
+    enum:
+    - 1
+    - 2
+    - 3
+    - 4
+    type: integer
+    x-enum-varnames:
+    - DebugLevel
+    - InfoLevel
+    - WarnLevel
+    - ErrorLevel
+  log_stash.LogStashModel:
+    properties:
+      addr:
+        type: string
+      content:
+        description: 日志消息内容
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      ip:
+        type: string
+      level:
+        allOf:
+        - $ref: '#/definitions/log_stash.Level'
+        description: 日志等级
+      user_id:
+        description: 登录用户的用户id，需要自己在查询的时候做关联查询
+        type: integer
+    type: object
+  menu_api.Banner:
+    properties:
+      id:
+        type: integer
+      path:
+        type: string
+    type: object
+  menu_api.ImageSort:
+    properties:
+      image_id:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  menu_api.MenuNameResponse:
+    properties:
+      id:
+        type: integer
+      path:
+        type: string
+      title:
+        type: string
+    type: object
+  menu_api.MenuRequest:
+    properties:
+      abstract:
+        items:
+          type: string
+        type: array
+      abstract_time:
+        description: 切换的时间，单位秒
+        type: integer
+      banner_time:
+        description: 切换的时间，单位秒
+        type: integer
+      image_sort_list:
+        description: 具体图片的顺序
+        items:
+          $ref: '#/definitions/menu_api.ImageSort'
+        type: array
+      path:
+        type: string
+      slogan:
+        type: string
+      sort:
+        description: 菜单的序号
+        type: integer
+      title:
+        type: string
+    required:
+    - path
+    - sort
+    - title
+    type: object
+  menu_api.MenuResponse:
+    properties:
+      abstract:
+        description: 简介
+        items:
+          type: string
+        type: array
+      abstract_time:
+        description: 简介的切换时间
+        type: integer
+      banner_time:
+        description: 菜单图片的切换时间 为 0 表示不切换
+        type: integer
+      banners:
+        items:
+          $ref: '#/definitions/menu_api.Banner'
+        type: array
+      created_at:
+        type: string
+      id:
+        type: integer
+      path:
+        description: 路径
+        type: string
+      slogan:
+        description: slogan
+        type: string
+      sort:
+        description: 菜单的顺序
+        type: integer
+      title:
+        description: 标题
+        type: string
+    type: object
+  message_api.Message:
+    properties:
+      content:
+        description: 消息内容
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      message_count:
+        type: integer
+      rev_user_avatar:
+        type: string
+      rev_user_id:
+        description: 接收人id
+        type: integer
+      rev_user_nick_name:
+        type: string
+      send_user_avatar:
+        type: string
+      send_user_id:
+        description: 发送人id
+        type: integer
+      send_user_nick_name:
+        type: string
+    type: object
+  message_api.MessageGroup:
+    additionalProperties:
+      $ref: '#/definitions/message_api.Message'
+    type: object
+  message_api.MessageRequest:
+    properties:
+      content:
+        description: 消息内容
+        type: string
+      rev_user_id:
+        description: 接收人id
+        type: integer
+      send_user_id:
+        description: 发送人id
+        type: integer
+    required:
+    - content
+    - rev_user_id
+    - send_user_id
     type: object
   models.AdvertModel:
     properties:
@@ -243,6 +582,72 @@ definitions:
         description: 图片路径
         type: string
     type: object
+  models.ChatModel:
+    properties:
+      addr:
+        description: 地址
+        type: string
+      avatar:
+        description: 头像
+        type: string
+      content:
+        description: 聊天的内容
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      ip:
+        description: ip
+        type: string
+      is_group:
+        description: 是否是群组消息
+        type: boolean
+      msg_type:
+        description: 聊天类型
+        type: integer
+      nick_name:
+        description: 前端自己生成
+        type: string
+    type: object
+  models.CommentModel:
+    properties:
+      article_id:
+        description: 文章id
+        type: string
+      comment_count:
+        description: 子评论数
+        type: integer
+      comment_model:
+        allOf:
+        - $ref: '#/definitions/models.CommentModel'
+        description: 父级评论
+      content:
+        description: 评论内容
+        type: string
+      created_at:
+        type: string
+      digg_count:
+        description: 点赞数
+        type: integer
+      id:
+        type: integer
+      parent_comment_id:
+        description: 父评论id
+        type: integer
+      sub_comments:
+        description: 子评论列表
+        items:
+          $ref: '#/definitions/models.CommentModel'
+        type: array
+      user:
+        allOf:
+        - $ref: '#/definitions/models.UserModel'
+        description: 关联的用户
+      user_id:
+        description: 评论的用户
+        type: integer
+    type: object
   models.ESIDListRequest:
     properties:
       id_list:
@@ -255,6 +660,51 @@ definitions:
   models.ESIDRequest:
     properties:
       id:
+        type: string
+    type: object
+  models.FullTextModel:
+    properties:
+      body:
+        description: 文章内容
+        type: string
+      id:
+        description: es的id
+        type: string
+      key:
+        description: 文章关联的id
+        type: string
+      slug:
+        description: 标题跳转的地址
+        type: string
+      title:
+        description: 文章标题
+        type: string
+    type: object
+  models.MessageModel:
+    properties:
+      content:
+        description: 消息内容
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      is_read:
+        description: 接收方是否查看
+        type: boolean
+      rev_user_avatar:
+        type: string
+      rev_user_id:
+        description: 接收人id
+        type: integer
+      rev_user_nick_name:
+        type: string
+      send_user_avatar:
+        type: string
+      send_user_id:
+        description: 发送人id
+        type: integer
+      send_user_nick_name:
         type: string
     type: object
   models.PageInfo:
@@ -285,6 +735,74 @@ definitions:
         description: 标签的名称
         type: string
     type: object
+  models.UserModel:
+    properties:
+      addr:
+        description: 地址
+        type: string
+      avatar:
+        description: 头像
+        type: string
+      created_at:
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      id:
+        type: integer
+      ip:
+        description: ip地址
+        type: string
+      nick_name:
+        description: 昵称
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        description: 权限  1 管理员  2 普通用户  3 游客
+      sign_status:
+        allOf:
+        - $ref: '#/definitions/ctype.SignStatus'
+        description: 注册来源
+      tel:
+        description: 手机号
+        type: string
+      token:
+        description: 其他平台的唯一id
+        type: string
+      user_name:
+        description: 用户名
+        type: string
+    type: object
+  new_api.NewsResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/redis_ser.NewData'
+        type: array
+      msg:
+        type: string
+    type: object
+  new_api.params:
+    properties:
+      id:
+        type: string
+      size:
+        type: integer
+    type: object
+  redis_ser.NewData:
+    properties:
+      hotValue:
+        type: string
+      index:
+        type: string
+      link:
+        type: string
+      title:
+        type: string
+    type: object
   res.ListResponse-article_api_CalendarDateResponse:
     properties:
       count:
@@ -292,12 +810,33 @@ definitions:
       list:
         $ref: '#/definitions/article_api.CalendarDateResponse'
     type: object
-  res.ListResponse-article_api_CollResponse:
+  res.ListResponse-article_api_TagsResponse:
     properties:
       count:
         type: integer
       list:
-        $ref: '#/definitions/article_api.CollResponse'
+        $ref: '#/definitions/article_api.TagsResponse'
+    type: object
+  res.ListResponse-chat_api_GroupResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/chat_api.GroupResponse'
+    type: object
+  res.ListResponse-log_stash_LogStashModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/log_stash.LogStashModel'
+    type: object
+  res.ListResponse-message_api_MessageGroup:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/message_api.MessageGroup'
     type: object
   res.ListResponse-models_AdvertModel:
     properties:
@@ -320,6 +859,34 @@ definitions:
       list:
         $ref: '#/definitions/models.BannerModel'
     type: object
+  res.ListResponse-models_ChatModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.ChatModel'
+    type: object
+  res.ListResponse-models_CommentModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.CommentModel'
+    type: object
+  res.ListResponse-models_FullTextModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.FullTextModel'
+    type: object
+  res.ListResponse-models_MessageModel:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/models.MessageModel'
+    type: object
   res.ListResponse-models_TagModel:
     properties:
       count:
@@ -335,6 +902,11 @@ definitions:
       msg:
         type: string
     type: object
+  settings_api.SettingsUri:
+    properties:
+      name:
+        type: string
+    type: object
   tag_api.TagRequest:
     properties:
       title:
@@ -343,137 +915,137 @@ definitions:
     required:
     - title
     type: object
-host: 127.0.0.01:8080
+  user_api.BindEmailRequest:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    type: object
+  user_api.EmailLoginRequest:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  user_api.UpdatePasswordRequest:
+    properties:
+      old_pwd:
+        description: 旧密码
+        type: string
+      pwd:
+        description: 新密码
+        type: string
+    required:
+    - old_pwd
+    - pwd
+    type: object
+  user_api.UserCreateRequest:
+    properties:
+      nick_name:
+        description: 昵称
+        type: string
+      password:
+        description: 密码
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        description: 权限  1 管理员  2 普通用户  3 游客
+      user_name:
+        description: 用户名
+        type: string
+    required:
+    - nick_name
+    - password
+    - role
+    - user_name
+    type: object
+  user_api.UserListRequest:
+    properties:
+      key:
+        type: string
+      limit:
+        type: integer
+      page:
+        type: integer
+      role:
+        type: integer
+      sort:
+        type: string
+    type: object
+  user_api.UserResponse:
+    properties:
+      addr:
+        description: 地址
+        type: string
+      avatar:
+        description: 头像
+        type: string
+      created_at:
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      id:
+        type: integer
+      ip:
+        description: ip地址
+        type: string
+      nick_name:
+        description: 昵称
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        description: 权限  1 管理员  2 普通用户  3 游客
+      role_id:
+        type: integer
+      sign_status:
+        allOf:
+        - $ref: '#/definitions/ctype.SignStatus'
+        description: 注册来源
+      tel:
+        description: 手机号
+        type: string
+      token:
+        description: 其他平台的唯一id
+        type: string
+      user_name:
+        description: 用户名
+        type: string
+    type: object
+  user_api.UserRole:
+    properties:
+      nick_name:
+        description: 防止用户昵称非法，管理员有能力修改
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/ctype.Role'
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+      user_id:
+        type: integer
+    required:
+    - role
+    - user_id
+    type: object
+host: 127.0.0.1:8080
 info:
   contact: {}
   description: API文档
   title: gvb_server API文档
   version: "1.0"
 paths:
-  /api/Menus:
-    delete:
-      description: 批量删除菜单
-      parameters:
-      - description: 菜单id列表
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/models.RemoveRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: 批量删除菜单
-      tags:
-      - 菜单管理
-  /api/Tags:
-    delete:
-      description: 批量删除标签
-      parameters:
-      - description: 标签id列表
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/models.RemoveRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: 批量删除标签
-      tags:
-      - 标签管理
-    get:
-      description: 标签列表
-      parameters:
-      - in: query
-        name: key
-        type: string
-      - in: query
-        name: limit
-        type: integer
-      - in: query
-        name: page
-        type: integer
-      - in: query
-        name: sort
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/res.ListResponse-models_TagModel'
-              type: object
-      summary: 标签列表
-      tags:
-      - 标签管理
-    post:
-      description: 创建标签
-      parameters:
-      - description: 表示多个参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/tag_api.TagRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/res.Response'
-      summary: 创建标签
-      tags:
-      - 标签管理
-  /api/Tags/:id:
-    put:
-      description: 更新标签
-      parameters:
-      - description: 标签的一些参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/tag_api.TagRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: 更新标签
-      tags:
-      - 标签管理
   /api/adverts:
     delete:
       description: 批量删除广告
@@ -550,14 +1122,14 @@ paths:
       - 广告管理
   /api/adverts/:id:
     put:
-      description: 更新广告
+      description: 更新图片
       parameters:
-      - description: 广告的一些参数
+      - description: 图片的一些参数
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/advert_api.AdvertRequest'
+          $ref: '#/definitions/images_api.ImageUpdateRequest'
       produces:
       - application/json
       responses:
@@ -570,10 +1142,92 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 更新广告
+      summary: 更新图片
       tags:
-      - 广告管理
+      - 图片管理
+  /api/article/digg:
+    post:
+      description: 文章点赞
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.ESIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 文章点赞
+      tags:
+      - 文章管理
   /api/articles:
+    delete:
+      description: 批量删除文章
+      parameters:
+      - description: 文章id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/article_api.IDListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除文章
+      tags:
+      - 文章管理
+    get:
+      description: 文章列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      - in: query
+        name: tag
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_ArticleModel'
+              type: object
+      summary: 文章列表
+      tags:
+      - 文章管理
     post:
       description: 创建文章
       parameters:
@@ -696,7 +1350,9 @@ paths:
             - $ref: '#/definitions/res.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/res.ListResponse-article_api_CollResponse'
+                  items:
+                    $ref: '#/definitions/article_api.CollResponse'
+                  type: array
               type: object
       summary: 文章收藏列表
       tags:
@@ -720,6 +1376,288 @@ paths:
       summary: 收藏/取消收藏文章
       tags:
       - 文章管理
+  /api/articles/tags:
+    get:
+      description: 文章标签列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-article_api_TagsResponse'
+              type: object
+      summary: 文章标签列表
+      tags:
+      - 文章管理
+  /api/articles/text:
+    get:
+      description: 全文搜索
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_FullTextModel'
+              type: object
+      summary: 全文搜索
+      tags:
+      - 文章管理
+  /api/chat_groups:
+    get:
+      description: 群聊列表
+      parameters:
+      - description: 聊天的内容
+        in: query
+        name: content
+        type: string
+      - description: 聊天类型
+        in: query
+        name: msg_type
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-chat_api_GroupResponse'
+              type: object
+      summary: 群聊列表
+      tags:
+      - 群聊管理
+  /api/chat_groups_records:
+    get:
+      description: 群聊记录
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_ChatModel'
+              type: object
+      summary: 群聊记录
+      tags:
+      - 群聊管理
+  /api/comments:
+    get:
+      description: 评论列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_CommentModel'
+              type: object
+      summary: 评论列表
+      tags:
+      - 评论管理
+    post:
+      description: 发送评论
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/comment_api.CommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 发送评论
+      tags:
+      - 评论管理
+  /api/comments/:id:
+    delete:
+      description: 批量删除评论
+      parameters:
+      - description: 评论id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/comment_api.CommentIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除评论
+      tags:
+      - 评论管理
+    post:
+      description: 评论点赞
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/comment_api.CommentIDRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 评论点赞
+      tags:
+      - 评论管理
+  /api/data_seven_login:
+    get:
+      description: 七日登陆数据
+      parameters:
+      - in: query
+        name: count
+        type: integer
+      - in: query
+        name: date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/data_api.DateCountResponse'
+              type: object
+      summary: 七日登陆数据
+      tags:
+      - 统计管理
+  /api/data_sum:
+    get:
+      description: 数据合计
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/data_api.DataSumResponse'
+              type: object
+      summary: 数据合计
+      tags:
+      - 统计管理
+  /api/email_login:
+    post:
+      description: 邮箱登录
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.EmailLoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 邮箱登录
+      tags:
+      - 用户管理
   /api/image_names:
     get:
       description: 图片名称列表
@@ -741,6 +1679,30 @@ paths:
       tags:
       - 图片管理
   /api/images:
+    delete:
+      description: 批量删除图片
+      parameters:
+      - description: 图片id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除图片
+      tags:
+      - 图片管理
     get:
       description: 图片列表
       parameters:
@@ -771,4 +1733,606 @@ paths:
       summary: 图片列表
       tags:
       - 图片管理
+    post:
+      description: 上传图片
+      parameters:
+      - description: 表示单个参数
+        in: query
+        name: limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/image_ser.FileUploadResponse'
+                  type: array
+              type: object
+      summary: 上传图片
+      tags:
+      - 图片管理
+  /api/logout:
+    post:
+      description: 用户注销
+      parameters:
+      - description: 表示单个参数
+        in: query
+        name: limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 用户注销
+      tags:
+      - 用户管理
+  /api/logs:
+    delete:
+      description: 批量删除日志
+      parameters:
+      - description: 日志id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除日志
+      tags:
+      - 日志管理
+    get:
+      description: 日志列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-log_stash_LogStashModel'
+              type: object
+      summary: 日志列表
+      tags:
+      - 日志管理
+  /api/menu_names:
+    get:
+      description: 菜单名称列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/menu_api.MenuNameResponse'
+                  type: array
+              type: object
+      summary: 菜单名称列表
+      tags:
+      - 菜单管理
+  /api/menus:
+    delete:
+      description: 批量删除菜单
+      parameters:
+      - description: 菜单id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除菜单
+      tags:
+      - 菜单管理
+    get:
+      description: 菜单列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/menu_api.MenuResponse'
+                  type: array
+              type: object
+      summary: 菜单列表
+      tags:
+      - 菜单管理
+    post:
+      description: 添加菜单
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/menu_api.MenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 添加菜单
+      tags:
+      - 菜单管理
+  /api/menus/:id:
+    get:
+      description: 菜单详情
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/menu_api.MenuResponse'
+              type: object
+      summary: 菜单详情
+      tags:
+      - 菜单管理
+    put:
+      description: 更新菜单
+      parameters:
+      - description: 菜单的一些参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/menu_api.MenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 更新菜单
+      tags:
+      - 菜单管理
+  /api/messages:
+    get:
+      description: 消息列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-message_api_MessageGroup'
+              type: object
+      summary: 消息列表
+      tags:
+      - 消息管理
+    post:
+      description: 发送消息
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/message_api.MessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 发送消息
+      tags:
+      - 消息管理
+  /api/messages_all:
+    get:
+      description: 消息列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-message_api_MessageGroup'
+              type: object
+      summary: 消息列表
+      tags:
+      - 消息管理
+  /api/messages_record:
+    get:
+      description: 聊天记录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_MessageModel'
+              type: object
+      summary: 聊天记录
+      tags:
+      - 消息管理
+  /api/news:
+    post:
+      description: 新闻列表
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/new_api.params'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/new_api.NewsResponse'
+              type: object
+      summary: 新闻列表
+      tags:
+      - 新闻管理
+  /api/qq_login:
+    post:
+      description: QQ登录
+      parameters:
+      - description: 表示单个参数
+        in: query
+        name: limit
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: QQ登录
+      tags:
+      - 用户管理
+  /api/settings/site:
+    get:
+      description: 显示配置信息
+      parameters:
+      - in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 显示配置信息
+      tags:
+      - 配置管理
+    put:
+      description: 修改配置信息
+      parameters:
+      - description: 配置的一些参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/settings_api.SettingsUri'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改配置信息
+      tags:
+      - 配置管理
+  /api/tags:
+    delete:
+      description: 批量删除用户
+      parameters:
+      - description: 用户id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除用户
+      tags:
+      - 用户管理
+    get:
+      description: 标签列表
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_TagModel'
+              type: object
+      summary: 标签列表
+      tags:
+      - 标签管理
+    post:
+      description: 创建标签
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/tag_api.TagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 创建标签
+      tags:
+      - 标签管理
+  /api/tags/:id:
+    put:
+      description: 更新标签
+      parameters:
+      - description: 标签的一些参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/tag_api.TagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 更新标签
+      tags:
+      - 标签管理
+  /api/tags/user_password:
+    put:
+      description: 修改用户密码
+      parameters:
+      - description: 新旧密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UpdatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改用户密码
+      tags:
+      - 用户管理
+  /api/tags/user_role:
+    put:
+      description: 用户权限变更
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 用户权限变更
+      tags:
+      - 用户管理
+  /api/user_bind_email:
+    post:
+      description: 用户绑定邮箱
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.BindEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 用户绑定邮箱
+      tags:
+      - 用户管理
+  /api/users:
+    get:
+      description: 用户列表
+      parameters:
+      - description: 查询参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/user_api.UserResponse'
+              type: object
+      summary: 用户列表
+      tags:
+      - 用户管理
+    post:
+      description: 创建用户
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 创建用户
+      tags:
+      - 用户管理
 swagger: "2.0"

@@ -8,6 +8,14 @@ import (
 	"gvb_server/service/common"
 )
 
+// ChatListView 群聊记录
+// @Tags 群聊管理
+// @Summary 群聊记录
+// @Description 群聊记录
+// @Param data query models.PageInfo    false  "查询参数"
+// @Router /api/chat_groups_records [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.ChatModel]}
 func (ChatApi) ChatListView(c *gin.Context) {
 	var cr models.PageInfo
 	err := c.ShouldBindQuery(&cr)

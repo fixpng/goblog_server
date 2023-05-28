@@ -12,7 +12,7 @@ import (
 // @title gvb_server API文档
 // @version 1.0
 // @description API文档
-// @host 127.0.0.01:8080
+// @host 127.0.0.1:8080
 // @BasePath /
 func main() {
 	// 读取配置文件

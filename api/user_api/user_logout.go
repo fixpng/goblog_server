@@ -8,6 +8,14 @@ import (
 	"gvb_server/utils/jwts"
 )
 
+// LogoutView 用户注销
+// @Tags 用户管理
+// @Summary 用户注销
+// @Description 用户注销
+// @Param limit query string false "表示单个参数"
+// @Router /api/logout [post]
+// @Produce json
+// @Success 200 {object} res.Response{data=string}
 func (UserApi) LogoutView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)

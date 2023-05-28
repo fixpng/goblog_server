@@ -16,7 +16,7 @@ type TagRequest struct {
 // @Summary 创建标签
 // @Description 创建标签
 // @Param data body TagRequest    true  "表示多个参数"
-// @Router /api/Tags [post]
+// @Router /api/tags [post]
 // @Produce json
 // @Success 200 {object} res.Response{}
 func (TagApi) TagCreateView(c *gin.Context) {

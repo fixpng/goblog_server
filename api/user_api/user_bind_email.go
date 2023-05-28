@@ -18,6 +18,14 @@ type BindEmailRequest struct {
 	Password string  `json:"password"`
 }
 
+// UserBindEmailView 用户绑定邮箱
+// @Tags 用户管理
+// @Summary 用户绑定邮箱
+// @Description 用户绑定邮箱
+// @Param data body BindEmailRequest    true  "表示多个参数"
+// @Router /api/user_bind_email [post]
+// @Produce json
+// @Success 200 {object} res.Response{}
 func (UserApi) UserBindEmailView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)

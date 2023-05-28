@@ -19,6 +19,14 @@ type UserListRequest struct {
 	Role int `json:"role" form:"role"`
 }
 
+// UserListView 用户列表
+// @Tags 用户管理
+// @Summary 用户列表
+// @Description 用户列表
+// @Param data body UserListRequest    true  "查询参数"
+// @Router /api/users [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=UserResponse}
 func (UserApi) UserListView(c *gin.Context) {
 	// 如何判断是管理员
 	_claims, _ := c.Get("claims")
