@@ -1294,6 +1294,12 @@
                         "type": "string",
                         "name": "sort",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "日志等级",
+                        "name": "level",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2738,7 +2744,6 @@
             "type": "object",
             "required": [
                 "path",
-                "sort",
                 "title"
             ],
             "properties": {

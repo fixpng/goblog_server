@@ -1300,6 +1300,12 @@ const docTemplate = `{
                         "type": "string",
                         "name": "sort",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "日志等级",
+                        "name": "level",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -2744,7 +2750,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "path",
-                "sort",
                 "title"
             ],
             "properties": {

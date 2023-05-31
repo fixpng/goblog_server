@@ -399,7 +399,6 @@ definitions:
         type: string
     required:
     - path
-    - sort
     - title
     type: object
   menu_api.MenuResponse:
@@ -1820,6 +1819,10 @@ paths:
       - in: query
         name: sort
         type: string
+      - description: 日志等级
+        in: query
+        name: level
+        type: integer
       produces:
       - application/json
       responses:
