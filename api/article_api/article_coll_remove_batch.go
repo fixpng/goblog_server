@@ -18,6 +18,7 @@ import (
 // @Summary 批量删除文章收藏
 // @Description 批量删除文章收藏
 // @Param data body models.ESIDListRequest    true  "文章收藏id列表"
+// @Param token header string true "token"
 // @Router /api/articles/collects [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

@@ -24,6 +24,7 @@ type UserListRequest struct {
 // @Summary 用户列表
 // @Description 用户列表
 // @Param data body UserListRequest    true  "查询参数"
+// @Param token header string true "token"
 // @Router /api/users [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=UserResponse}

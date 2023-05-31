@@ -22,6 +22,7 @@ type CommentRequest struct {
 // @Summary 发送评论
 // @Description 发送评论
 // @Param data body CommentRequest    true  "表示多个参数"
+// @Param token header string true "token"
 // @Router /api/comments [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

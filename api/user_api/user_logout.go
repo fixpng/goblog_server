@@ -13,6 +13,7 @@ import (
 // @Summary 用户注销
 // @Description 用户注销
 // @Param limit query string false "表示单个参数"
+// @Param token header string true "token"
 // @Router /api/logout [post]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

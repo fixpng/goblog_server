@@ -21,6 +21,7 @@ type UserCreateRequest struct {
 // @Summary 创建用户
 // @Description 创建用户
 // @Param data body UserCreateRequest    true  "表示多个参数"
+// @Param token header string true "token"
 // @Router /api/users [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

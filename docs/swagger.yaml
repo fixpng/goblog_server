@@ -399,7 +399,6 @@ definitions:
         type: string
     required:
     - path
-    - sort
     - title
     type: object
   menu_api.MenuResponse:
@@ -1317,6 +1316,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.ESIDListRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1340,6 +1344,11 @@ paths:
         name: data
         schema:
           $ref: '#/definitions/models.PageInfo'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1366,6 +1375,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.ESIDRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1536,6 +1550,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/comment_api.CommentRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1765,6 +1784,11 @@ paths:
         in: query
         name: limit
         type: string
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1790,6 +1814,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.RemoveRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1820,6 +1849,10 @@ paths:
       - in: query
         name: sort
         type: string
+      - description: 日志等级
+        in: query
+        name: level
+        type: integer
       produces:
       - application/json
       responses:
@@ -1963,6 +1996,12 @@ paths:
   /api/messages:
     get:
       description: 消息列表
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1987,6 +2026,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/message_api.MessageRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2000,6 +2044,12 @@ paths:
   /api/messages_all:
     get:
       description: 消息列表
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2018,6 +2068,12 @@ paths:
   /api/messages_record:
     get:
       description: 聊天记录
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2132,6 +2188,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.RemoveRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2231,6 +2292,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/user_api.UpdatePasswordRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2256,6 +2322,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/user_api.UserRole'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2281,6 +2352,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/user_api.BindEmailRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2301,6 +2377,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/user_api.UserListRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2325,6 +2406,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/user_api.UserCreateRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:

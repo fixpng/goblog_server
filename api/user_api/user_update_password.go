@@ -19,6 +19,7 @@ type UpdatePasswordRequest struct {
 // @Summary 修改用户密码
 // @Description 修改用户密码
 // @Param data body UpdatePasswordRequest    true  "新旧密码"
+// @Param token header string true "token"
 // @Router /api/tags/user_password [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

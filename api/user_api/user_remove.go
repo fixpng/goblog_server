@@ -14,6 +14,7 @@ import (
 // @Summary 批量删除用户
 // @Description 批量删除用户
 // @Param data body models.RemoveRequest    true  "用户id列表"
+// @Param token header string true "token"
 // @Router /api/tags [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

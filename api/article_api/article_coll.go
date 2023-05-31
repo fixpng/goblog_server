@@ -14,6 +14,7 @@ import (
 // @Summary 收藏/取消收藏文章
 // @Description 收藏/取消收藏文章
 // @Param data body models.ESIDRequest    true  "表示多个参数"
+// @Param token header string true "token"
 // @Router /api/articles/collects [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

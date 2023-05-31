@@ -27,6 +27,7 @@ type MessageGroup map[uint]*Message
 // @Tags 消息管理
 // @Summary 消息列表
 // @Description 消息列表
+// @Param token header string true "token"
 // @Router /api/messages [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[MessageGroup]}

@@ -22,6 +22,7 @@ type CollResponse struct {
 // @Summary 文章收藏列表
 // @Description 文章收藏列表
 // @Param data body models.PageInfo    false  "查询参数"
+// @Param token header string true "token"
 // @Router /api/articles/collects [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=[]CollResponse}

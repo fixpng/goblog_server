@@ -32,7 +32,7 @@ func ComList[T any](model T, option Option) (list []T, count int64, err error) {
 		DB.Or(fmt.Sprintf("%s like ?", column), fmt.Sprintf("%%%s%%", option.Key))
 	}
 
-	count = DB.Find(&list).RowsAffected
+	count = DB.Where(model).Find(&list).RowsAffected
 	// 这里的query会受上面查询的影响，需要手动复位
 	query := DB.Where(model)
 	offset := (option.Page - 1) * option.Limit

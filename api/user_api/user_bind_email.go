@@ -23,6 +23,7 @@ type BindEmailRequest struct {
 // @Summary 用户绑定邮箱
 // @Description 用户绑定邮箱
 // @Param data body BindEmailRequest    true  "表示多个参数"
+// @Param token header string true "token"
 // @Router /api/user_bind_email [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

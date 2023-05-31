@@ -14,6 +14,7 @@ import (
 // @Summary 批量删除日志
 // @Description 批量删除日志
 // @Param data body models.RemoveRequest    true  "日志id列表"
+// @Param token header string true "token"
 // @Router /api/logs [delete]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

@@ -480,6 +480,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.PageInfo"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -524,6 +531,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -553,6 +567,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -856,6 +877,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/comment_api.CommentRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1246,6 +1274,13 @@ const docTemplate = `{
                         "description": "表示单个参数",
                         "name": "limit",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1300,6 +1335,12 @@ const docTemplate = `{
                         "type": "string",
                         "name": "sort",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "日志等级",
+                        "name": "level",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1341,6 +1382,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1588,6 +1636,15 @@ const docTemplate = `{
                     "消息管理"
                 ],
                 "summary": "消息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1627,6 +1684,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/message_api.MessageRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1649,6 +1713,15 @@ const docTemplate = `{
                     "消息管理"
                 ],
                 "summary": "消息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1681,6 +1754,15 @@ const docTemplate = `{
                     "消息管理"
                 ],
                 "summary": "聊天记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1954,6 +2036,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2040,6 +2129,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.UpdatePasswordRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2083,6 +2179,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.UserRole"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2126,6 +2229,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.BindEmailRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2157,6 +2267,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.UserListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2198,6 +2315,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/user_api.UserCreateRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2744,7 +2868,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "path",
-                "sort",
                 "title"
             ],
             "properties": {

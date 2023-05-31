@@ -474,6 +474,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.PageInfo"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -518,6 +525,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.ESIDRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -547,6 +561,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.ESIDListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -850,6 +871,13 @@
                         "schema": {
                             "$ref": "#/definitions/comment_api.CommentRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1240,6 +1268,13 @@
                         "description": "表示单个参数",
                         "name": "limit",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1294,6 +1329,12 @@
                         "type": "string",
                         "name": "sort",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "日志等级",
+                        "name": "level",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1335,6 +1376,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1582,6 +1630,15 @@
                     "消息管理"
                 ],
                 "summary": "消息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1621,6 +1678,13 @@
                         "schema": {
                             "$ref": "#/definitions/message_api.MessageRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1643,6 +1707,15 @@
                     "消息管理"
                 ],
                 "summary": "消息列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1675,6 +1748,15 @@
                     "消息管理"
                 ],
                 "summary": "聊天记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1948,6 +2030,13 @@
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2034,6 +2123,13 @@
                         "schema": {
                             "$ref": "#/definitions/user_api.UpdatePasswordRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2077,6 +2173,13 @@
                         "schema": {
                             "$ref": "#/definitions/user_api.UserRole"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2120,6 +2223,13 @@
                         "schema": {
                             "$ref": "#/definitions/user_api.BindEmailRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2151,6 +2261,13 @@
                         "schema": {
                             "$ref": "#/definitions/user_api.UserListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2192,6 +2309,13 @@
                         "schema": {
                             "$ref": "#/definitions/user_api.UserCreateRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2738,7 +2862,6 @@
             "type": "object",
             "required": [
                 "path",
-                "sort",
                 "title"
             ],
             "properties": {

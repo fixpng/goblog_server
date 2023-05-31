@@ -16,6 +16,7 @@ type MessageRecordRequest struct {
 // @Tags 消息管理
 // @Summary 聊天记录
 // @Description 聊天记录
+// @Param token header string true "token"
 // @Router /api/messages_record [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.MessageModel]}
