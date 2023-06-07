@@ -14,8 +14,8 @@ type SettingsUri struct {
 // @Tags 配置管理
 // @Summary 显示配置信息
 // @Description 显示配置信息
-// @Param data query SettingsUri    false  "查询参数"
-// @Router /api/settings/site [get]
+// @Param name path string    true  "name"
+// @Router /api/settings/{name} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (s SettingApi) SettingsInfoView(c *gin.Context) {

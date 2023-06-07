@@ -14,10 +14,12 @@ import (
 // @Tags 图片管理
 // @Summary 上传图片
 // @Description 上传图片
-// @Param limit query string false "表示单个参数"
+// @Param token header string true "token"
+// @Accept multipart/form-data
+// @Param limit query string true "文件上传"
 // @Router /api/images [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=[]image_ser.FileUploadResponse}
+// @Success 200 {object} res.Response{}
 func (receiver ImagesApi) ImageUploadView(c *gin.Context) {
 	form, err := c.MultipartForm()
 	if err != nil {

@@ -282,18 +282,6 @@ definitions:
           type: integer
         type: array
     type: object
-  image_ser.FileUploadResponse:
-    properties:
-      file_name:
-        description: 文件名
-        type: string
-      is_success:
-        description: 是否上传成功
-        type: boolean
-      msg:
-        description: 消息
-        type: string
-    type: object
   images_api.ImageResponse:
     properties:
       id:
@@ -1677,6 +1665,32 @@ paths:
       summary: 邮箱登录
       tags:
       - 用户管理
+  /api/image:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传单个图片，返回图片url
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 文件上传
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 上传单个图片，返回图片url
+      tags:
+      - 图片管理
   /api/image_names:
     get:
       description: 图片名称列表
@@ -1753,11 +1767,19 @@ paths:
       tags:
       - 图片管理
     post:
+      consumes:
+      - multipart/form-data
       description: 上传图片
       parameters:
-      - description: 表示单个参数
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 文件上传
         in: query
         name: limit
+        required: true
         type: string
       produces:
       - application/json
@@ -1765,14 +1787,7 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/image_ser.FileUploadResponse'
-                  type: array
-              type: object
+            $ref: '#/definitions/res.Response'
       summary: 上传图片
       tags:
       - 图片管理
@@ -2132,12 +2147,14 @@ paths:
       summary: QQ登录
       tags:
       - 用户管理
-  /api/settings/site:
+  /api/settings/{name}:
     get:
       description: 显示配置信息
       parameters:
-      - in: query
+      - description: name
+        in: path
         name: name
+        required: true
         type: string
       produces:
       - application/json
@@ -2154,6 +2171,7 @@ paths:
       summary: 显示配置信息
       tags:
       - 配置管理
+  /api/settings/site:
     put:
       description: 修改配置信息
       parameters:

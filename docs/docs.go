@@ -1087,6 +1087,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/image": {
+            "post": {
+                "description": "上传单个图片，返回图片url",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "上传单个图片，返回图片url",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文件上传",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/image_names": {
             "get": {
                 "description": "图片名称列表",
@@ -1177,6 +1216,9 @@ const docTemplate = `{
             },
             "post": {
                 "description": "上传图片",
+                "consumes": [
+                    "multipart/form-data"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -1187,31 +1229,24 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "表示单个参数",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "文件上传",
                         "name": "limit",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/res.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/image_ser.FileUploadResponse"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/res.Response"
                         }
                     }
                 }
@@ -1857,20 +1892,24 @@ const docTemplate = `{
             }
         },
         "/api/settings/site": {
-            "get": {
-                "description": "显示配置信息",
+            "put": {
+                "description": "修改配置信息",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "配置管理"
                 ],
-                "summary": "显示配置信息",
+                "summary": "修改配置信息",
                 "parameters": [
                     {
-                        "type": "string",
-                        "name": "name",
-                        "in": "query"
+                        "description": "配置的一些参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/settings_api.SettingsUri"
+                        }
                     }
                 ],
                 "responses": {
@@ -1893,25 +1932,25 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "put": {
-                "description": "修改配置信息",
+            }
+        },
+        "/api/settings/{name}": {
+            "get": {
+                "description": "显示配置信息",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "配置管理"
                 ],
-                "summary": "修改配置信息",
+                "summary": "显示配置信息",
                 "parameters": [
                     {
-                        "description": "配置的一些参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/settings_api.SettingsUri"
-                        }
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2729,23 +2768,6 @@ const docTemplate = `{
                     "items": {
                         "type": "integer"
                     }
-                }
-            }
-        },
-        "image_ser.FileUploadResponse": {
-            "type": "object",
-            "properties": {
-                "file_name": {
-                    "description": "文件名",
-                    "type": "string"
-                },
-                "is_success": {
-                    "description": "是否上传成功",
-                    "type": "boolean"
-                },
-                "msg": {
-                    "description": "消息",
-                    "type": "string"
                 }
             }
         },
