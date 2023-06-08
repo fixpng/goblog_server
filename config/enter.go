@@ -8,7 +8,7 @@ type Config struct {
 	QQ       QQ       `yaml:"qq"`
 	QiNiu    QiNiu    `yaml:"qiniu"`
 	Email    Email    `yaml:"email"`
-	Jwy      Jwy      `yaml:"jwy"`
+	Jwt      Jwt      `yaml:"jwt"`
 	Upload   Upload   `yaml:"upload"`
 	Redis    Redis    `json:"redis"`
 	ES       ES       `json:"es"`

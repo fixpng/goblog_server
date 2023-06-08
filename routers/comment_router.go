@@ -10,5 +10,5 @@ func (router RouterGroup) CommentRouter() {
 	router.POST("comments", middleware.JwtAuth(), app.CommentCreateView)
 	router.GET("comments", app.CommentListView)
 	router.GET("comments/:id", app.CommentDigg)
-	router.DELETE("comments/:id", app.CommentRemoveView)
+	router.DELETE("comments/:id", middleware.JwtAuth(), app.CommentRemoveView)
 }

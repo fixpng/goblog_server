@@ -210,6 +210,41 @@ definitions:
     - article_id
     - content
     type: object
+  config.SiteInfo:
+    properties:
+      addr:
+        type: string
+      bei_an:
+        type: string
+      bilibili_url:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      gitee_url:
+        type: string
+      github_url:
+        type: string
+      job:
+        type: string
+      name:
+        type: string
+      qq_image:
+        type: string
+      slogan:
+        type: string
+      slogan_en:
+        type: string
+      title:
+        type: string
+      version:
+        type: string
+      web:
+        type: string
+      wechat_image:
+        type: string
+    type: object
   ctype.ImageType:
     enum:
     - 1
@@ -901,6 +936,11 @@ definitions:
         type: string
     required:
     - title
+    type: object
+  tag_api.TagResponse:
+    properties:
+      label:
+        type: string
     type: object
   user_api.BindEmailRequest:
     properties:
@@ -2149,11 +2189,16 @@ paths:
       - 用户管理
   /api/settings/{name}:
     get:
-      description: 显示配置信息
+      description: 显示配置信息 email qq qiniu jwt
       parameters:
       - description: name
         in: path
         name: name
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: token
         required: true
         type: string
       produces:
@@ -2171,9 +2216,8 @@ paths:
       summary: 显示配置信息
       tags:
       - 配置管理
-  /api/settings/site:
     put:
-      description: 修改配置信息
+      description: 修改配置信息  email qq qiniu jwt
       parameters:
       - description: 配置的一些参数
         in: body
@@ -2181,6 +2225,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/settings_api.SettingsUri'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2196,6 +2245,73 @@ paths:
       summary: 修改配置信息
       tags:
       - 配置管理
+  /api/settings/site:
+    get:
+      description: 显示网站信息配置
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/config.SiteInfo'
+              type: object
+      summary: 显示网站信息配置
+      tags:
+      - 配置管理
+    put:
+      description: 编辑网站信息配置
+      parameters:
+      - description: 编辑网站信息的参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/config.SiteInfo'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/config.SiteInfo'
+              type: object
+      summary: 编辑网站信息配置
+      tags:
+      - 配置管理
+  /api/tag_names:
+    get:
+      description: 标签名称列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/tag_api.TagResponse'
+                  type: array
+              type: object
+      summary: 标签名称列表
+      tags:
+      - 标签管理
   /api/tags:
     delete:
       description: 批量删除用户

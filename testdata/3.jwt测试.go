@@ -11,7 +11,7 @@ func main() {
 	core.InitConf()
 	global.Log = core.InitLogger()
 
-	fmt.Println(global.Config.Jwy.Secret)
+	fmt.Println(global.Config.Jwt.Secret)
 	token, err := jwts.GenToken(jwts.JwtPayLoad{
 		//Username: "xixi",
 		NickName: "xxx",

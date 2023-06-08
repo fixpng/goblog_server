@@ -11,9 +11,10 @@ import (
 // SettingsUpdateView 修改配置信息
 // @Tags 配置管理
 // @Summary 修改配置信息
-// @Description 修改配置信息
+// @Description 修改配置信息  email qq qiniu jwt
 // @Param data body SettingsUri    true  "配置的一些参数"
-// @Router /api/settings/site [put]
+// @Param token header string    true  "token"
+// @Router /api/settings/{name} [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (s SettingApi) SettingsUpdateView(c *gin.Context) {
@@ -25,14 +26,6 @@ func (s SettingApi) SettingsUpdateView(c *gin.Context) {
 	}
 
 	switch cr.Name {
-	case "site":
-		var info config.SiteInfo
-		err = c.ShouldBindJSON(&info)
-		if err != nil {
-			res.FailWithCode(res.ArgumentError, c)
-			return
-		}
-		global.Config.SiteInfo = info
 	case "email":
 		var info config.Email
 		err = c.ShouldBindJSON(&info)
@@ -58,13 +51,13 @@ func (s SettingApi) SettingsUpdateView(c *gin.Context) {
 		}
 		global.Config.QiNiu = info
 	case "jwts":
-		var info config.Jwy
+		var info config.Jwt
 		err = c.ShouldBindJSON(&info)
 		if err != nil {
 			res.FailWithCode(res.ArgumentError, c)
 			return
 		}
-		global.Config.Jwy = info
+		global.Config.Jwt = info
 	default:
 		res.FailWithMessage("没有对应的配置信息", c)
 		return

@@ -9,13 +9,13 @@ import (
 // GenToken 创建 Token
 func GenToken(user JwtPayLoad) (string, error) {
 
-	MySecret = []byte(global.Config.Jwy.Secret)
+	MySecret = []byte(global.Config.Jwt.Secret)
 
 	claim := CustomClaims{
 		user,
 		jwt.StandardClaims{
-			ExpiresAt: jwt.At(time.Now().Add(time.Hour * time.Duration(global.Config.Jwy.Expires))), // 默认2小时过期
-			Issuer:    global.Config.Jwy.Issuer,                                                     // 签发人
+			ExpiresAt: jwt.At(time.Now().Add(time.Hour * time.Duration(global.Config.Jwt.Expires))), // 默认2小时过期
+			Issuer:    global.Config.Jwt.Issuer,                                                     // 签发人
 		},
 	}
 
