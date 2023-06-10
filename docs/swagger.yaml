@@ -89,6 +89,13 @@ definitions:
       date:
         type: string
     type: object
+  article_api.CategoryResponse:
+    properties:
+      label:
+        type: string
+      value:
+        type: string
+    type: object
   article_api.CollResponse:
     properties:
       abstract:
@@ -941,6 +948,8 @@ definitions:
     properties:
       label:
         type: string
+      value:
+        type: string
     type: object
   user_api.BindEmailRequest:
     properties:
@@ -1478,6 +1487,26 @@ paths:
                   $ref: '#/definitions/res.ListResponse-models_FullTextModel'
               type: object
       summary: 全文搜索
+      tags:
+      - 文章管理
+  /api/categorys:
+    get:
+      description: 文章分类列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/article_api.CategoryResponse'
+                  type: array
+              type: object
+      summary: 文章分类列表
       tags:
       - 文章管理
   /api/chat_groups:

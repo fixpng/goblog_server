@@ -706,6 +706,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/categorys": {
+            "get": {
+                "description": "文章分类列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "文章分类列表",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/article_api.CategoryResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/chat_groups": {
             "get": {
                 "description": "群聊列表",
@@ -2626,6 +2661,17 @@ const docTemplate = `{
                 }
             }
         },
+        "article_api.CategoryResponse": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
         "article_api.CollResponse": {
             "type": "object",
             "properties": {
@@ -3873,6 +3919,9 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "label": {
+                    "type": "string"
+                },
+                "value": {
                     "type": "string"
                 }
             }
