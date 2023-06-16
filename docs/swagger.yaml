@@ -779,8 +779,14 @@ definitions:
         type: string
       id:
         type: integer
+      integral:
+        description: 积分
+        type: integer
       ip:
         description: ip地址
+        type: string
+      link:
+        description: 链接地址
         type: string
       nick_name:
         description: 昵称
@@ -789,6 +795,9 @@ definitions:
         allOf:
         - $ref: '#/definitions/ctype.Role'
         description: 权限  1 管理员  2 普通用户  3 游客
+      sign:
+        description: 签名
+        type: string
       sign_status:
         allOf:
         - $ref: '#/definitions/ctype.SignStatus'
@@ -1030,8 +1039,14 @@ definitions:
         type: string
       id:
         type: integer
+      integral:
+        description: 积分
+        type: integer
       ip:
         description: ip地址
+        type: string
+      link:
+        description: 链接地址
         type: string
       nick_name:
         description: 昵称
@@ -1042,6 +1057,9 @@ definitions:
         description: 权限  1 管理员  2 普通用户  3 游客
       role_id:
         type: integer
+      sign:
+        description: 签名
+        type: string
       sign_status:
         allOf:
         - $ref: '#/definitions/ctype.SignStatus'
@@ -1074,6 +1092,17 @@ definitions:
     required:
     - role
     - user_id
+    type: object
+  user_api.UserUpdateNicknameRequest:
+    properties:
+      avatar:
+        type: string
+      link:
+        type: string
+      nick_name:
+        type: string
+      sign:
+        type: string
     type: object
 host: 127.0.0.1:8080
 info:
@@ -1735,7 +1764,7 @@ paths:
       - 统计管理
   /api/email_login:
     post:
-      description: 邮箱登录
+      description: 邮箱登录，返回token
       parameters:
       - description: 表示多个参数
         in: body
@@ -1750,7 +1779,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/res.Response'
-      summary: 邮箱登录
+      summary: 邮箱登录，返回token
       tags:
       - 用户管理
   /api/image:
@@ -2547,6 +2576,54 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 用户绑定邮箱
+      tags:
+      - 用户管理
+  /api/user_info:
+    get:
+      description: 用户信息
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.UserModel'
+              type: object
+      summary: 用户信息
+      tags:
+      - 用户管理
+    put:
+      description: 用户修改当前登陆人信息
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 昵称，签名，链接，头像
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserUpdateNicknameRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 用户修改当前登陆人信息
       tags:
       - 用户管理
   /api/users:

@@ -18,10 +18,10 @@ type EmailLoginRequest struct {
 	Password string `json:"password"`
 }
 
-// EmailLoginView 邮箱登录
+// EmailLoginView 邮箱登录，返回token
 // @Tags 用户管理
-// @Summary 邮箱登录
-// @Description 邮箱登录
+// @Summary 邮箱登录，返回token
+// @Description 邮箱登录，返回token
 // @Param data body EmailLoginRequest    true  "表示多个参数"
 // @Router /api/email_login [post]
 // @Produce json

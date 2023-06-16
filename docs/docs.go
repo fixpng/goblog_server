@@ -1121,14 +1121,14 @@ const docTemplate = `{
         },
         "/api/email_login": {
             "post": {
-                "description": "邮箱登录",
+                "description": "邮箱登录，返回token",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "用户管理"
                 ],
-                "summary": "邮箱登录",
+                "summary": "邮箱登录，返回token",
                 "parameters": [
                     {
                         "description": "表示多个参数",
@@ -2477,6 +2477,83 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user_info": {
+            "get": {
+                "description": "用户信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.UserModel"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "用户修改当前登陆人信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户修改当前登陆人信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "昵称，签名，链接，头像",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UserUpdateNicknameRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/users": {
             "get": {
                 "description": "用户列表",
@@ -3685,8 +3762,16 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "integral": {
+                    "description": "积分",
+                    "type": "integer"
+                },
                 "ip": {
                     "description": "ip地址",
+                    "type": "string"
+                },
+                "link": {
+                    "description": "链接地址",
                     "type": "string"
                 },
                 "nick_name": {
@@ -3700,6 +3785,10 @@ const docTemplate = `{
                             "$ref": "#/definitions/ctype.Role"
                         }
                     ]
+                },
+                "sign": {
+                    "description": "签名",
+                    "type": "string"
                 },
                 "sign_status": {
                     "description": "注册来源",
@@ -4071,8 +4160,16 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "integral": {
+                    "description": "积分",
+                    "type": "integer"
+                },
                 "ip": {
                     "description": "ip地址",
+                    "type": "string"
+                },
+                "link": {
+                    "description": "链接地址",
                     "type": "string"
                 },
                 "nick_name": {
@@ -4089,6 +4186,10 @@ const docTemplate = `{
                 },
                 "role_id": {
                     "type": "integer"
+                },
+                "sign": {
+                    "description": "签名",
+                    "type": "string"
                 },
                 "sign_status": {
                     "description": "注册来源",
@@ -4138,6 +4239,23 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "user_api.UserUpdateNicknameRequest": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "string"
+                },
+                "nick_name": {
+                    "type": "string"
+                },
+                "sign": {
+                    "type": "string"
                 }
             }
         }
