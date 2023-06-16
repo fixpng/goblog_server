@@ -12,8 +12,8 @@ import (
 // @Tags 文章管理
 // @Summary 文章详情
 // @Description 文章详情
-// @Param data body models.ESIDRequest    false  "查询参数"
-// @Router /api/articles/:id [get]
+// @Param id path string true "id"
+// @Router /api/articles/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.ArticleModel]}
 func (ArticleApi) ArticleDetailView(c *gin.Context) {

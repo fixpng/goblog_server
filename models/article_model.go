@@ -29,9 +29,9 @@ type ArticleModel struct {
 	UserNickName string `json:"user_nick_name" structs:"user_nick_name"` // 用户昵称
 	UserAvatar   string `json:"user_avatar" structs:"user_avatar"`       // 用户头像
 
-	Category string `json:"category" structs:"category"`        // 文章分类
-	Source   string `json:"source,omit(list)" structs:"source"` // 文章来源
-	Link     string `json:"link,omit(list)" structs:"link"`     // 原文链接
+	Category string `json:"category" structs:"category"` // 文章分类
+	Source   string `json:"source" structs:"source"`     // 文章来源
+	Link     string `json:"link" structs:"link"`         // 原文链接
 
 	BannerID  uint   `json:"banner_id" structs:"banner_id"`   // 文章封面ID
 	BannerUrl string `json:"banner_url" structs:"banner_url"` // 文章封面
@@ -184,7 +184,7 @@ func (a ArticleModel) RemoveIndex() error {
 func (a *ArticleModel) Create() (err error) {
 	indexResponse, err := global.ESClient.Index().
 		Index(a.Index()).
-		BodyJson(a).Do(context.Background())
+		BodyJson(a).Refresh("true").Do(context.Background())
 	if err != nil {
 		logrus.Error(err.Error())
 		return err

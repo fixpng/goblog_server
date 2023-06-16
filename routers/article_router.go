@@ -20,6 +20,7 @@ func (router RouterGroup) ArticleRouter() {
 	router.DELETE("articles/collects", middleware.JwtAuth(), app.ArticleCollBatchRemoveView)
 	router.GET("articles/text", app.FullTextContextView) // 全文搜索
 	router.POST("article/digg", app.ArticleDiggView)
+	router.GET("articles/content/:id", app.ArticleContentView) // 文章正文
 	// id查询放最后一个
 	router.GET("articles/:id", app.ArticleDetailView)
 }

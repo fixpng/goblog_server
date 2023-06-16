@@ -1288,15 +1288,15 @@ paths:
       summary: 创建文章
       tags:
       - 文章管理
-  /api/articles/:id:
+  /api/articles/{id}:
     get:
       description: 文章详情
       parameters:
-      - description: 查询参数
-        in: body
-        name: data
-        schema:
-          $ref: '#/definitions/models.ESIDRequest'
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1425,6 +1425,25 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 收藏/取消收藏文章
+      tags:
+      - 文章管理
+  /api/articles/content/{id}:
+    get:
+      description: 获取文章正文
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 获取文章正文
       tags:
       - 文章管理
   /api/articles/tags:
