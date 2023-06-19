@@ -77,6 +77,6 @@ func (ArticleApi) ArticleCollBatchRemoveView(c *gin.Context) {
 			continue
 		}
 	}
-	global.DB.Delete(&collects)
+	global.DB.Delete(&collects, "user_id = ? and article_id in (?)", claims.UserID, cr.IDList)
 	res.OkWithMessage(fmt.Sprintf("成功取消收藏 %d 篇文章", len(articleIDList)), c)
 }

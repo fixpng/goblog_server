@@ -21,11 +21,11 @@ type CollResponse struct {
 // @Tags 文章管理
 // @Summary 文章收藏列表
 // @Description 文章收藏列表
-// @Param data body models.PageInfo    false  "查询参数"
+// @Param data query models.PageInfo    false  "查询参数"
 // @Param token header string true "token"
 // @Router /api/articles/collects [get]
 // @Produce json
-// @Success 200 {object} res.Response{data=[]CollResponse}
+// @Success 200 {object} res.Response{data=res.ListResponse[CollResponse]}
 func (ArticleApi) ArticleCollListView(c *gin.Context) {
 	var cr models.PageInfo
 	err := c.ShouldBindQuery(&cr)
@@ -75,6 +75,7 @@ func (ArticleApi) ArticleCollListView(c *gin.Context) {
 			continue
 		}
 		article.ID = hit.Id
+		article.Content = ""
 		collList = append(collList, CollResponse{
 			ArticleModel: article,
 			CreatedAt:    collMap[hit.Id],

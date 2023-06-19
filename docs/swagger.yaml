@@ -736,17 +736,6 @@ definitions:
       send_user_nick_name:
         type: string
     type: object
-  models.PageInfo:
-    properties:
-      key:
-        type: string
-      limit:
-        type: integer
-      page:
-        type: integer
-      sort:
-        type: string
-    type: object
   models.RemoveRequest:
     properties:
       id_list:
@@ -847,6 +836,13 @@ definitions:
         type: integer
       list:
         $ref: '#/definitions/article_api.CalendarDateResponse'
+    type: object
+  res.ListResponse-article_api_CollResponse:
+    properties:
+      count:
+        type: integer
+      list:
+        $ref: '#/definitions/article_api.CollResponse'
     type: object
   res.ListResponse-article_api_TagsResponse:
     properties:
@@ -1267,7 +1263,8 @@ paths:
     get:
       description: 文章列表
       parameters:
-      - in: query
+      - description: 根据这个参数判断是否显示我收藏的文章列表
+        in: query
         name: is_user
         type: boolean
       - in: query
@@ -1416,11 +1413,18 @@ paths:
     get:
       description: 文章收藏列表
       parameters:
-      - description: 查询参数
-        in: body
-        name: data
-        schema:
-          $ref: '#/definitions/models.PageInfo'
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: sort
+        type: string
       - description: token
         in: header
         name: token
@@ -1436,9 +1440,7 @@ paths:
             - $ref: '#/definitions/res.Response'
             - properties:
                 data:
-                  items:
-                    $ref: '#/definitions/article_api.CollResponse'
-                  type: array
+                  $ref: '#/definitions/res.ListResponse-article_api_CollResponse'
               type: object
       summary: 文章收藏列表
       tags:

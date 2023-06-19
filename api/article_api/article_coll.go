@@ -49,7 +49,7 @@ func (ArticleApi) ArticleCollCreateView(c *gin.Context) {
 		num = 1
 	} else {
 		// 找到记录，则取消收藏，文章收藏数 -1
-		global.DB.Delete(&coll)
+		global.DB.Delete(&coll, "user_id = ? and article_id = ?", claims.UserID, cr.ID)
 	}
 
 	// 更新文章收藏数

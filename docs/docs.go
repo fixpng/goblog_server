@@ -238,6 +238,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "boolean",
+                        "description": "根据这个参数判断是否显示我收藏的文章列表",
                         "name": "is_user",
                         "in": "query"
                     },
@@ -449,12 +450,24 @@ const docTemplate = `{
                 "summary": "文章收藏列表",
                 "parameters": [
                     {
-                        "description": "查询参数",
-                        "name": "data",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/models.PageInfo"
-                        }
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "sort",
+                        "in": "query"
                     },
                     {
                         "type": "string",
@@ -476,10 +489,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/article_api.CollResponse"
-                                            }
+                                            "$ref": "#/definitions/res.ListResponse-article_api_CollResponse"
                                         }
                                     }
                                 }
@@ -3754,23 +3764,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.PageInfo": {
-            "type": "object",
-            "properties": {
-                "key": {
-                    "type": "string"
-                },
-                "limit": {
-                    "type": "integer"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "sort": {
-                    "type": "string"
-                }
-            }
-        },
         "models.RemoveRequest": {
             "type": "object",
             "properties": {
@@ -3921,6 +3914,17 @@ const docTemplate = `{
                 },
                 "list": {
                     "$ref": "#/definitions/article_api.CalendarDateResponse"
+                }
+            }
+        },
+        "res.ListResponse-article_api_CollResponse": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "list": {
+                    "$ref": "#/definitions/article_api.CollResponse"
                 }
             }
         },
