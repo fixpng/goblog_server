@@ -237,6 +237,11 @@ const docTemplate = `{
                 "summary": "文章列表",
                 "parameters": [
                     {
+                        "type": "boolean",
+                        "name": "is_user",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "name": "key",
                         "in": "query"
@@ -260,6 +265,12 @@ const docTemplate = `{
                         "type": "string",
                         "name": "tag",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -342,6 +353,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/article_api.IDListRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -580,6 +597,45 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/articles/detail": {
+            "get": {
+                "description": "文章标题查内容",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "文章标题查内容",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "title",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/res.ListResponse-models_ArticleModel"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -2339,106 +2395,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/tags/user_password": {
-            "put": {
-                "description": "修改用户密码",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "用户管理"
-                ],
-                "summary": "修改用户密码",
-                "parameters": [
-                    {
-                        "description": "新旧密码",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/user_api.UpdatePasswordRequest"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/res.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/api/tags/user_role": {
-            "put": {
-                "description": "用户权限变更",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "用户管理"
-                ],
-                "summary": "用户权限变更",
-                "parameters": [
-                    {
-                        "description": "表示多个参数",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/user_api.UserRole"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/res.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/api/user_bind_email": {
             "post": {
                 "description": "用户绑定邮箱",
@@ -2549,6 +2505,106 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user_password": {
+            "put": {
+                "description": "修改用户密码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "修改用户密码",
+                "parameters": [
+                    {
+                        "description": "新旧密码",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UpdatePasswordRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user_role": {
+            "put": {
+                "description": "用户权限变更",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户权限变更",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UserRole"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }

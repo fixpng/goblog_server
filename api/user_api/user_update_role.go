@@ -20,7 +20,7 @@ type UserRole struct {
 // @Description 用户权限变更
 // @Param data body UserRole    true  "表示多个参数"
 // @Param token header string true "token"
-// @Router /api/tags/user_role [put]
+// @Router /api/user_role [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (UserApi) UserUpdateRoleView(c *gin.Context) {

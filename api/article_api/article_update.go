@@ -29,6 +29,7 @@ type ArticleUpdateRequest struct {
 // @Description 更新文章
 // @Param data body ArticleUpdateRequest    true  "文章的一些参数"
 // @Router /api/adverts/:id [put]
+// @Param token header string false "token"
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (ArticleApi) ArticleUpdateView(c *gin.Context) {

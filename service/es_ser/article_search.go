@@ -13,20 +13,17 @@ import (
 )
 
 func CommList(option Option) (list []models.ArticleModel, count int, err error) {
-	// 列表查询
-	boolSearch := elastic.NewBoolQuery()
 	if option.Key != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Key, option.Fields...),
 		)
 	}
 	// 根据标签搜
 	if option.Tag != "" {
-		boolSearch.Must(
+		option.Query.Must(
 			elastic.NewMultiMatchQuery(option.Tag, "tags"),
 		)
 	}
-
 	// 定义排序
 	type SortField struct {
 		Field     string
@@ -51,7 +48,7 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 
 	res, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
-		Query(boolSearch).
+		Query(option.Query).
 		Highlight(elastic.NewHighlight().Field("title")).
 		From(option.GetForm()).
 		Sort(sortField.Field, sortField.Ascending).

@@ -21,6 +21,7 @@ type IDListRequest struct {
 // @Description 批量删除文章
 // @Param data body IDListRequest    true  "文章id列表"
 // @Router /api/articles [delete]
+// @Param token header string false "token"
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (ArticleApi) ArticleRemoveView(c *gin.Context) {

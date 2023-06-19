@@ -1245,6 +1245,10 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/article_api.IDListRequest'
+      - description: token
+        in: header
+        name: token
+        type: string
       produces:
       - application/json
       responses:
@@ -1264,6 +1268,9 @@ paths:
       description: 文章列表
       parameters:
       - in: query
+        name: is_user
+        type: boolean
+      - in: query
         name: key
         type: string
       - in: query
@@ -1277,6 +1284,10 @@ paths:
         type: string
       - in: query
         name: tag
+        type: string
+      - description: token
+        in: header
+        name: token
         type: string
       produces:
       - application/json
@@ -1473,6 +1484,28 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 获取文章正文
+      tags:
+      - 文章管理
+  /api/articles/detail:
+    get:
+      description: 文章标题查内容
+      parameters:
+      - in: query
+        name: title
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/res.ListResponse-models_ArticleModel'
+              type: object
+      summary: 文章标题查内容
       tags:
       - 文章管理
   /api/articles/tags:
@@ -2493,66 +2526,6 @@ paths:
       summary: 更新标签
       tags:
       - 标签管理
-  /api/tags/user_password:
-    put:
-      description: 修改用户密码
-      parameters:
-      - description: 新旧密码
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/user_api.UpdatePasswordRequest'
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: 修改用户密码
-      tags:
-      - 用户管理
-  /api/tags/user_role:
-    put:
-      description: 用户权限变更
-      parameters:
-      - description: 表示多个参数
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/user_api.UserRole'
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/res.Response'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: 用户权限变更
-      tags:
-      - 用户管理
   /api/user_bind_email:
     post:
       description: 用户绑定邮箱
@@ -2624,6 +2597,66 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: 用户修改当前登陆人信息
+      tags:
+      - 用户管理
+  /api/user_password:
+    put:
+      description: 修改用户密码
+      parameters:
+      - description: 新旧密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UpdatePasswordRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改用户密码
+      tags:
+      - 用户管理
+  /api/user_role:
+    put:
+      description: 用户权限变更
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/user_api.UserRole'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 用户权限变更
       tags:
       - 用户管理
   /api/users:

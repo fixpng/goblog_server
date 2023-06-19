@@ -38,6 +38,14 @@ type ArticleDetailRequest struct {
 	Title string `json:"title" form:"title"`
 }
 
+// ArticleDetailByTitleView 文章标题查内容
+// @Tags 文章管理
+// @Summary 文章标题查内容
+// @Description 文章标题查内容
+// @Param data query ArticleDetailRequest    true  "文章标题"
+// @Router /api/articles/detail [get]
+// @Produce json
+// @Success 200 {object} res.Response{data=res.ListResponse[models.ArticleModel]}
 func (ArticleApi) ArticleDetailByTitleView(c *gin.Context) {
 	var cr ArticleDetailRequest
 	err := c.ShouldBindQuery(&cr)
