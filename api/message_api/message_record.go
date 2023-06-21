@@ -1,6 +1,7 @@
 package message_api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
 	"gvb_server/models"
@@ -24,6 +25,7 @@ func (MessageApi) MessageRecordView(c *gin.Context) {
 	var cr MessageRecordRequest
 	err := c.ShouldBindJSON(&cr)
 	if err != nil {
+		fmt.Println(err)
 		res.FailWithError(err, &cr, c)
 		return
 	}
