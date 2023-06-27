@@ -18,9 +18,11 @@ type CommentIDRequest struct {
 // @Summary 评论点赞
 // @Description 评论点赞
 // @Param data body CommentIDRequest    true  "表示多个参数"
-// @Router /api/comments/:id [post]
+// @Param token header string true "token"
+// @Param id path int true "id"
+// @Router /api/comments/{id} [post]
 // @Produce json
-// @Success 200 {object} res.Response{data=string}
+// @Success 200 {object} res.Response{}
 func (CommentApi) CommentDigg(c *gin.Context) {
 	var cr CommentIDRequest
 	err := c.ShouldBindUri(&cr)

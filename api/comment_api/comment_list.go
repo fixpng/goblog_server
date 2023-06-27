@@ -14,12 +14,13 @@ type CommentListRequest struct {
 	ArticleID string `form:"article_id"`
 }
 
-// CommentListView 评论列表
+// CommentListView 文章下的评论列表
 // @Tags 评论管理
-// @Summary 评论列表
-// @Description 评论列表
+// @Summary 文章下的评论列表
+// @Description 文章下的评论列表
 // @Param data query models.PageInfo    false  "查询参数"
-// @Router /api/comments [get]
+// @Param id path int true "id"
+// @Router /api/comments/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.CommentModel]}
 func (CommentApi) CommentListView(c *gin.Context) {
