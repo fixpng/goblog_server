@@ -2001,9 +2001,30 @@
                         "type": "string",
                         "description": "表示单个参数",
                         "name": "limit",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/qq_login_path": {
+            "get": {
+                "description": "获取qq登录的跳转地址，data就是qq的跳转地址",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取qq登录的跳转地址",
                 "responses": {
                     "200": {
                         "description": "OK",

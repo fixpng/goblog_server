@@ -18,7 +18,7 @@ import (
 // @Tags 用户管理
 // @Summary QQ登录
 // @Description QQ登录
-// @Param limit query string false "表示单个参数"
+// @Param limit query string true "表示单个参数"
 // @Router /api/qq_login [post]
 // @Produce json
 // @Success 200 {object} res.Response{}
@@ -70,6 +70,7 @@ func (UserApi) QQLoginView(c *gin.Context) {
 		NickName: user.NickName,
 		Role:     int(user.Role),
 		UserID:   user.ID,
+		Avatar:   user.Avatar,
 	})
 	if err != nil {
 		global.Log.Error(err)

@@ -17,6 +17,7 @@ func main() {
 		NickName: "xxx",
 		Role:     1,
 		UserID:   1,
+		Avatar:   "xxx",
 	})
 	fmt.Println(token, err)
 

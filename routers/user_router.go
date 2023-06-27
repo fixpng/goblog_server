@@ -14,6 +14,7 @@ func (router RouterGroup) UserRouter() {
 	router.Use(sessions.Sessions("sessionid", store))
 	router.POST("email_login", app.EmailLoginView)
 	router.POST("qq_login", app.QQLoginView)
+	router.GET("qq_login_path", app.QQLoginLinkView) // QQ登录的跳转地址
 	router.POST("users", middleware.JwtAdmin(), app.UserCreateView)
 	router.GET("users", middleware.JwtAuth(), app.UserListView)
 	router.PUT("user_role", middleware.JwtAdmin(), app.UserUpdateRoleView)

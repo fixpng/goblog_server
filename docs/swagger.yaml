@@ -2288,6 +2288,7 @@ paths:
       - description: 表示单个参数
         in: query
         name: limit
+        required: true
         type: string
       produces:
       - application/json
@@ -2297,6 +2298,19 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: QQ登录
+      tags:
+      - 用户管理
+  /api/qq_login_path:
+    get:
+      description: 获取qq登录的跳转地址，data就是qq的跳转地址
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: 获取qq登录的跳转地址
       tags:
       - 用户管理
   /api/settings/{name}:
