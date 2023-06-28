@@ -225,6 +225,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/article_id_title": {
+            "get": {
+                "description": "文章id-title列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "文章id-title列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/article_api.ArticleIDTitleListResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/articles": {
             "get": {
                 "description": "文章列表",
@@ -2816,6 +2859,17 @@ const docTemplate = `{
                 },
                 "title": {
                     "description": "显示的标题",
+                    "type": "string"
+                }
+            }
+        },
+        "article_api.ArticleIDTitleListResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }

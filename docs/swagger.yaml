@@ -19,6 +19,13 @@ definitions:
     - images
     - title
     type: object
+  article_api.ArticleIDTitleListResponse:
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+    type: object
   article_api.ArticleRequest:
     properties:
       abstract:
@@ -1257,6 +1264,31 @@ paths:
                   type: string
               type: object
       summary: 文章点赞
+      tags:
+      - 文章管理
+  /api/article_id_title:
+    get:
+      description: 文章id-title列表
+      parameters:
+      - description: token
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/article_api.ArticleIDTitleListResponse'
+                  type: array
+              type: object
+      summary: 文章id-title列表
       tags:
       - 文章管理
   /api/articles:

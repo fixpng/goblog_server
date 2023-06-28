@@ -9,6 +9,7 @@ func (router RouterGroup) ArticleRouter() {
 	app := api.ApiGroupApp.ArticleApi
 	router.POST("articles", middleware.JwtAdmin(), app.ArticleCreateView)                    // 创建文章
 	router.GET("articles", app.ArticleListView)                                              // 文章列表
+	router.GET("article_id_title", app.ArticleIDTitleListView)                               // 文章id-title列表
 	router.GET("categorys", app.ArticleCategoryListView)                                     // 文章分类列表
 	router.GET("articles/detail", app.ArticleDetailByTitleView)                              //文章标题查内容
 	router.GET("articles/calendar", app.ArticleCalendarView)                                 // 文章时间聚合搜索
