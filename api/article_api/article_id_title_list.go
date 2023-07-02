@@ -46,7 +46,5 @@ func (ArticleApi) ArticleIDTitleListView(c *gin.Context) {
 			Label: model.Title,
 		})
 	}
-
 	res.OkWithData(articleIDTitleList, c)
-
 }
