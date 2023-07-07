@@ -14,7 +14,8 @@ import (
 // @Summary 更新标签
 // @Description 更新标签
 // @Param data body TagRequest    true  "标签的一些参数"
-// @Router /api/tags/:id [put]
+// @Param token header string    true  "token"
+// @Router /api/tags/{id} [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (TagApi) TagUpdateView(c *gin.Context) {

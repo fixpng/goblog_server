@@ -28,7 +28,7 @@ type ArticleUpdateRequest struct {
 // @Summary 更新文章
 // @Description 更新文章
 // @Param data body ArticleUpdateRequest    true  "文章的一些参数"
-// @Router /api/adverts/:id [put]
+// @Router /api/article/{id} [put]
 // @Param token header string false "token"
 // @Produce json
 // @Success 200 {object} res.Response{data=string}

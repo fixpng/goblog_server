@@ -21,9 +21,9 @@ definitions:
     type: object
   article_api.ArticleIDTitleListResponse:
     properties:
-      id:
+      label:
         type: string
-      title:
+      value:
         type: string
     type: object
   article_api.ArticleRequest:
@@ -1152,6 +1152,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/models.RemoveRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1206,6 +1211,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/advert_api.AdvertRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1216,16 +1226,26 @@ paths:
       summary: 创建广告
       tags:
       - 广告管理
-  /api/adverts/:id:
+  /api/adverts/{id}:
     put:
-      description: 更新图片
+      description: 更新广告
       parameters:
-      - description: 图片的一些参数
+      - description: 广告的一些参数
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/images_api.ImageUpdateRequest'
+          $ref: '#/definitions/advert_api.AdvertRequest'
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -1238,9 +1258,38 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 更新图片
+      summary: 更新广告
       tags:
-      - 图片管理
+      - 广告管理
+  /api/article/{id}:
+    put:
+      description: 更新文章
+      parameters:
+      - description: 文章的一些参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/article_api.ArticleUpdateRequest'
+      - description: token
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 更新文章
+      tags:
+      - 文章管理
   /api/article/digg:
     post:
       description: 文章点赞
@@ -2049,6 +2098,36 @@ paths:
       summary: 上传图片
       tags:
       - 图片管理
+  /api/images/{id}:
+    put:
+      description: 更新图片
+      parameters:
+      - description: 图片的一些参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/images_api.ImageUpdateRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 更新图片
+      tags:
+      - 图片管理
   /api/logout:
     post:
       description: 用户注销
@@ -2224,9 +2303,15 @@ paths:
       summary: 添加菜单
       tags:
       - 菜单管理
-  /api/menus/:id:
+  /api/menus/{id}:
     get:
       description: 菜单详情
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -2251,6 +2336,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/menu_api.MenuRequest'
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -2264,6 +2354,28 @@ paths:
                   type: string
               type: object
       summary: 更新菜单
+      tags:
+      - 菜单管理
+  /api/menus/detail:
+    get:
+      description: 菜单详情,根据路径查
+      parameters:
+      - in: query
+        name: path
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/menu_api.MenuResponse'
+              type: object
+      summary: 菜单详情,根据路径查
       tags:
       - 菜单管理
   /api/messages:
@@ -2339,7 +2451,7 @@ paths:
       tags:
       - 消息管理
   /api/messages_record:
-    get:
+    post:
       description: 聊天记录
       parameters:
       - description: token
@@ -2546,9 +2658,9 @@ paths:
       - 标签管理
   /api/tags:
     delete:
-      description: 批量删除用户
+      description: 批量删除标签
       parameters:
-      - description: 用户id列表
+      - description: 标签id列表
         in: body
         name: data
         required: true
@@ -2571,9 +2683,9 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 批量删除用户
+      summary: 批量删除标签
       tags:
-      - 用户管理
+      - 标签管理
     get:
       description: 标签列表
       parameters:
@@ -2613,6 +2725,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/tag_api.TagRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2623,7 +2740,7 @@ paths:
       summary: 创建标签
       tags:
       - 标签管理
-  /api/tags/:id:
+  /api/tags/{id}:
     put:
       description: 更新标签
       parameters:
@@ -2633,6 +2750,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/tag_api.TagRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -2782,6 +2904,35 @@ paths:
       tags:
       - 用户管理
   /api/users:
+    delete:
+      description: 批量删除用户
+      parameters:
+      - description: 用户id列表
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/models.RemoveRequest'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/res.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 批量删除用户
+      tags:
+      - 用户管理
     get:
       description: 用户列表
       parameters:

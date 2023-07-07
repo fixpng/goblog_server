@@ -18,7 +18,7 @@ type MessageRecordRequest struct {
 // @Summary 聊天记录
 // @Description 聊天记录
 // @Param token header string true "token"
-// @Router /api/messages_record [get]
+// @Router /api/messages_record [post]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.MessageModel]}
 func (MessageApi) MessageRecordView(c *gin.Context) {

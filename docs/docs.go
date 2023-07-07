@@ -86,6 +86,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/advert_api.AdvertRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -115,6 +122,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.RemoveRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -139,25 +153,39 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/adverts/:id": {
+        "/api/adverts/{id}": {
             "put": {
-                "description": "更新图片",
+                "description": "更新广告",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "图片管理"
+                    "广告管理"
                 ],
-                "summary": "更新图片",
+                "summary": "更新广告",
                 "parameters": [
                     {
-                        "description": "图片的一些参数",
+                        "description": "广告的一些参数",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/images_api.ImageUpdateRequest"
+                            "$ref": "#/definitions/advert_api.AdvertRequest"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -201,6 +229,55 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.ESIDRequest"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/article/{id}": {
+            "put": {
+                "description": "更新文章",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "文章管理"
+                ],
+                "summary": "更新文章",
+                "parameters": [
+                    {
+                        "description": "文章的一些参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/article_api.ArticleUpdateRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header"
                     }
                 ],
                 "responses": {
@@ -1530,6 +1607,56 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/images/{id}": {
+            "put": {
+                "description": "更新图片",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "更新图片",
+                "parameters": [
+                    {
+                        "description": "图片的一些参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/images_api.ImageUpdateRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/logout": {
             "post": {
                 "description": "用户注销",
@@ -1825,7 +1952,46 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/menus/:id": {
+        "/api/menus/detail": {
+            "get": {
+                "description": "菜单详情,根据路径查",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "菜单管理"
+                ],
+                "summary": "菜单详情,根据路径查",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "path",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/menu_api.MenuResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/menus/{id}": {
             "get": {
                 "description": "菜单详情",
                 "produces": [
@@ -1835,6 +2001,15 @@ const docTemplate = `{
                     "菜单管理"
                 ],
                 "summary": "菜单详情",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1874,6 +2049,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/menu_api.MenuRequest"
                         }
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2017,7 +2199,7 @@ const docTemplate = `{
             }
         },
         "/api/messages_record": {
-            "get": {
+            "post": {
                 "description": "聊天记录",
                 "produces": [
                     "application/json"
@@ -2431,6 +2613,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/tag_api.TagRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2443,17 +2632,17 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "批量删除用户",
+                "description": "批量删除标签",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "用户管理"
+                    "标签管理"
                 ],
-                "summary": "批量删除用户",
+                "summary": "批量删除标签",
                 "parameters": [
                     {
-                        "description": "用户id列表",
+                        "description": "标签id列表",
                         "name": "data",
                         "in": "body",
                         "required": true,
@@ -2491,7 +2680,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/tags/:id": {
+        "/api/tags/{id}": {
             "put": {
                 "description": "更新标签",
                 "produces": [
@@ -2510,6 +2699,13 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/tag_api.TagRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -2833,6 +3029,54 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "批量删除用户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "批量删除用户",
+                "parameters": [
+                    {
+                        "description": "用户id列表",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RemoveRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/res.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         }
     },
@@ -2866,10 +3110,10 @@ const docTemplate = `{
         "article_api.ArticleIDTitleListResponse": {
             "type": "object",
             "properties": {
-                "id": {
+                "label": {
                     "type": "string"
                 },
-                "title": {
+                "value": {
                     "type": "string"
                 }
             }

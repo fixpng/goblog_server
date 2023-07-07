@@ -19,6 +19,7 @@ type AdvertRequest struct {
 // @Summary 创建广告
 // @Description 创建广告
 // @Param data body AdvertRequest    true  "表示多个参数"
+// @Param token header string true "token"
 // @Router /api/adverts [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

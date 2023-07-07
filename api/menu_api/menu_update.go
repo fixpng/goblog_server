@@ -14,7 +14,8 @@ import (
 // @Summary 更新菜单
 // @Description 更新菜单
 // @Param data body MenuRequest    true  "菜单的一些参数"
-// @Router /api/menus/:id [put]
+// @Param id path int true "id"
+// @Router /api/menus/{id} [put]
 // @Produce json
 // @Success 200 {object} res.Response{data=string}
 func (MenuApi) MenuUpdateView(c *gin.Context) {

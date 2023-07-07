@@ -7,28 +7,36 @@ import (
 	"gvb_server/models/res"
 )
 
-// MenuDetailView 菜单详情
+type MenuDetailRequest struct {
+	Path string `json:"path" form:"path"`
+}
+
+// MenuDetailByPathView 菜单详情,根据路径查
 // @Tags 菜单管理
-// @Summary 菜单详情
-// @Description 菜单详情
-// @Param id path int true "id"
-// @Router /api/menus/{id} [get]
+// @Summary 菜单详情,根据路径查
+// @Description 菜单详情,根据路径查
+// @Param data query MenuDetailRequest  true  "路径参数"
+// @Router /api/menus/detail [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=MenuResponse}
-func (MenuApi) MenuDetailView(c *gin.Context) {
+func (MenuApi) MenuDetailByPathView(c *gin.Context) {
 	// 先查菜单
-	id := c.Param("id")
+	var cr MenuDetailRequest
+	err := c.ShouldBindQuery(&cr)
+	if err != nil {
+		res.FailWithCode(res.ArgumentError, c)
+		return
+	}
 	var menuModel models.MenuModel
-	err := global.DB.Take(&menuModel, id).Error
+	err = global.DB.Take(&menuModel, "path = ?", cr.Path).Error
 	if err != nil {
 		res.FailWithMessage("菜单不存在", c)
 		return
 	}
-
 	// 查连接表
 	var menuBanners []models.MenuBannerModel
-	global.DB.Preload("BannerModel").Order("sort desc").Find(&menuBanners, "menu_id = ?", id)
-	var banners = make([]Banner, 0) // 解决切片null值问题（如果只声明不赋值且是引用类型，前端显示的null）
+	global.DB.Preload("BannerModel").Order("sort desc").Find(&menuBanners, "menu_id = ?", menuModel.ID)
+	var banners = make([]Banner, 0)
 	for _, banner := range menuBanners {
 		if menuModel.ID != banner.MenuID {
 			continue
@@ -44,5 +52,4 @@ func (MenuApi) MenuDetailView(c *gin.Context) {
 	}
 	res.OkWithData(menuResponse, c)
 	return
-
 }
