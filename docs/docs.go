@@ -2258,6 +2258,24 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/new_api.params"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "signaturekey",
+                        "name": "signaturekey",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "version",
+                        "name": "version",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "User-Agent",
+                        "name": "User-Agent",
+                        "in": "header"
                     }
                 ],
                 "responses": {

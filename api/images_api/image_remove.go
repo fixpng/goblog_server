@@ -30,6 +30,6 @@ func (ImagesApi) ImageRemoveView(c *gin.Context) {
 		res.FailWithMessage("文件不存在", c)
 		return
 	}
-	global.DB.Delete(&imageList)
+	global.DB.Where("id in (?)", cr.IDList).Delete(&imageList)
 	res.OkWithMessage(fmt.Sprintf("共删除 %d 张图片", count), c)
 }

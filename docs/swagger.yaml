@@ -2484,6 +2484,18 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/new_api.params'
+      - description: signaturekey
+        in: header
+        name: signaturekey
+        type: string
+      - description: version
+        in: header
+        name: version
+        type: string
+      - description: User-Agent
+        in: header
+        name: User-Agent
+        type: string
       produces:
       - application/json
       responses:
