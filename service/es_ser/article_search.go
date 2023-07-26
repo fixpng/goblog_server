@@ -34,7 +34,7 @@ func CommList(option Option) (list []models.ArticleModel, count int, err error) 
 		Ascending: false, // true从小到大 false从大到小
 	}
 	if option.Sort != "" {
-		_list := strings.Split(option.Sort, "")
+		_list := strings.Split(option.Sort, " ")
 		if len(_list) == 2 && (_list[1] == "desc" || _list[1] == "asc") {
 			sortField.Field = _list[0]
 			if _list[1] == "desc" {
