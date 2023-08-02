@@ -27,11 +27,21 @@ func (ArticleApi) FullTextContextView(c *gin.Context) {
 	if cr.Key != "" {
 		boolQuery.Must(elastic.NewMultiMatchQuery(cr.Key, "title", "body"))
 	}
+
+	if cr.Page == 0 {
+		cr.Page = 1
+	}
+	if cr.Limit == 0 {
+		cr.Limit = 10
+	}
+	from := (cr.Page - 1) * cr.Limit
+
 	result, err := global.ESClient.
 		Search(models.FullTextModel{}.Index()).
 		Query(boolQuery).
 		Highlight(elastic.NewHighlight().Field("body")).
-		Size(100).
+		From(from).
+		Size(cr.Limit).
 		Do(context.Background())
 	if err != nil {
 		logrus.Error(err.Error())

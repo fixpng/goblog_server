@@ -25,6 +25,7 @@ func (MessageApi) MessageListAllView(c *gin.Context) {
 	list, count, _ := common.ComList(models.MessageModel{}, common.Option{
 		PageInfo: cr,
 	})
+
 	// 需要展示这个标签下文章的数量
 	res.OkWithList(list, count, c)
 }

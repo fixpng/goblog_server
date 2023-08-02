@@ -193,7 +193,7 @@ definitions:
       content:
         description: 聊天的内容
         type: string
-      date:
+      created_at:
         description: 消息发送时间
         type: string
       msg_type:
@@ -1788,22 +1788,16 @@ paths:
     delete:
       description: 批量删除评论
       parameters:
-      - description: 评论id列表
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/comment_api.CommentIDRequest'
       - description: token
         in: header
         name: token
         required: true
         type: string
-      - description: id
+      - description: 评论id
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -1829,11 +1823,11 @@ paths:
       - in: query
         name: sort
         type: string
-      - description: id
+      - description: 文章id
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -1858,12 +1852,7 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/comment_api.CommentIDRequest'
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      - description: id
+      - description: 文章id
         in: path
         name: id
         required: true

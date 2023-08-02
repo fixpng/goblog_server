@@ -1,6 +1,7 @@
 package user_api
 
 import (
+	"fmt"
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
@@ -52,10 +53,14 @@ func (UserApi) UserUpdateNickName(c *gin.Context) {
 		return
 	}
 
+	avatar, isOk := newMaps["avatar"]
+	s := avatar.(string)
+	fmt.Println(len(s), isOk)
+
 	err = global.DB.Model(&userModel).Updates(newMaps).Error
 	if err != nil {
 		global.Log.Error(err)
-		res.FailWithMessage("修改用户修改当前登陆人信息失败", c)
+		res.FailWithMessage("修改用户修改当前登陆人信息失败，若怀疑有bug请务必联系管理员", c)
 		return
 	}
 	res.OkWithMessage("修改用户修改当前登陆人信息成功", c)

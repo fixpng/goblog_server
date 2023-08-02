@@ -19,7 +19,7 @@ type CommentListRequest struct {
 // @Summary 文章下的评论列表
 // @Description 文章下的评论列表
 // @Param data query models.PageInfo    false  "查询参数"
-// @Param id path int true "id"
+// @Param id path string true "文章id"
 // @Router /api/comments/{id} [get]
 // @Produce json
 // @Success 200 {object} res.Response{data=res.ListResponse[models.CommentModel]}
@@ -30,6 +30,8 @@ func (CommentApi) CommentListView(c *gin.Context) {
 		res.FailWithError(err, &cr, c)
 		return
 	}
+	cr.ArticleID = c.Param("id")
+
 	rootCommentList := FindArticleCommentList(cr.ArticleID)
 	res.OkWithData(filter.Select("c", rootCommentList), c)
 	return

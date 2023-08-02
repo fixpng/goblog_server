@@ -1125,8 +1125,8 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
-                        "type": "integer",
-                        "description": "id",
+                        "type": "string",
+                        "description": "文章id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1173,15 +1173,8 @@ const docTemplate = `{
                         }
                     },
                     {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
-                        "description": "id",
+                        "description": "文章id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1207,15 +1200,6 @@ const docTemplate = `{
                 "summary": "批量删除评论",
                 "parameters": [
                     {
-                        "description": "评论id列表",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/comment_api.CommentIDRequest"
-                        }
-                    },
-                    {
                         "type": "string",
                         "description": "token",
                         "name": "token",
@@ -1223,8 +1207,8 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "id",
+                        "type": "string",
+                        "description": "评论id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -3372,7 +3356,7 @@ const docTemplate = `{
                     "description": "聊天的内容",
                     "type": "string"
                 },
-                "date": {
+                "created_at": {
                     "description": "消息发送时间",
                     "type": "string"
                 },

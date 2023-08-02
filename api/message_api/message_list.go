@@ -37,7 +37,7 @@ func (MessageApi) MessageListView(c *gin.Context) {
 
 	var messageGroup = MessageGroup{}
 	var messageList []models.MessageModel
-	var messages []Message
+	var messages = make([]Message, 0)
 
 	global.DB.Order("created_at asc").
 		Find(&messageList, "send_user_id = ? or rev_user_id = ?", claims.UserID, claims.UserID)

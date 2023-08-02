@@ -18,8 +18,7 @@ type CommentIDRequest struct {
 // @Summary 评论点赞
 // @Description 评论点赞
 // @Param data body CommentIDRequest    true  "表示多个参数"
-// @Param token header string true "token"
-// @Param id path int true "id"
+// @Param id path int true "文章id"
 // @Router /api/comments/{id} [post]
 // @Produce json
 // @Success 200 {object} res.Response{}

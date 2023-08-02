@@ -108,6 +108,8 @@ func CommeDetail(id string) (model models.ArticleModel, err error) {
 	}
 	model.ID = res.Id
 	model.LookCount = model.LookCount + redis_ser.NewArticleLook().Get(res.Id)
+	model.DiggCount = model.DiggCount + redis_ser.NewDigg().Get(res.Id)
+	model.CommentCount = model.CommentCount + redis_ser.NewCommentCount().Get(res.Id)
 	return
 }
 
