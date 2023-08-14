@@ -19,6 +19,7 @@ require (
 	github.com/liu-cn/json-filter v0.0.0-20230419020920-e524e2b12ae8
 	github.com/olivere/elastic/v7 v7.0.32
 	github.com/qiniu/go-sdk/v7 v7.14.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/russross/blackfriday v1.6.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/swaggo/files v1.0.0
@@ -63,6 +64,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rakyll/statik v0.1.7 // indirect
+	github.com/rogpeppe/go-internal v1.8.1 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.3.0 // indirect

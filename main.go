@@ -6,6 +6,7 @@ import (
 	"gvb_server/flag"
 	"gvb_server/global"
 	"gvb_server/routers"
+	"gvb_server/service/cron_ser"
 	"gvb_server/utils"
 )
 
@@ -36,6 +37,9 @@ func main() {
 	global.Redis = core.ConnectRedis()
 	// 连接es
 	global.ESClient = core.EsConnect()
+
+	// 定时任务，同步redis数据至es和mysql
+	cron_ser.CronInit()
 
 	router := routers.InitRouter()
 

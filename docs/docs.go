@@ -2897,6 +2897,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user_register": {
+            "post": {
+                "description": "用户注册",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_api.UserRegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/user_role": {
             "put": {
                 "description": "用户权限变更",
@@ -4624,6 +4655,34 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "sort": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_api.UserRegisterRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "nick_name",
+                "user_name"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "nick_name": {
+                    "description": "昵称",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "user_name": {
+                    "description": "用户名",
                     "type": "string"
                 }
             }

@@ -1,7 +1,6 @@
 package user_api
 
 import (
-	"fmt"
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
@@ -52,10 +51,6 @@ func (UserApi) UserUpdateNickName(c *gin.Context) {
 		res.FailWithMessage("用户不存在", c)
 		return
 	}
-
-	avatar, isOk := newMaps["avatar"]
-	s := avatar.(string)
-	fmt.Println(len(s), isOk)
 
 	err = global.DB.Model(&userModel).Updates(newMaps).Error
 	if err != nil {
