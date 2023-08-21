@@ -81,7 +81,7 @@ func (UserApi) UserRegisterView(c *gin.Context) {
 	}
 
 	res.OkWithMessage(fmt.Sprintf("用户%s创建成功!", cr.UserName), c)
-	err = email.NewCode().Send(cr.Email, fmt.Sprintf("账号创建成功！用户昵称：%s，用户名：%s，密码：%s，请妥善保存账密", cr.NickName, cr.UserName, cr.Password))
+	err = email.NewNote().Send(cr.Email, fmt.Sprintf("账号创建成功！用户昵称：%s，用户名：%s，密码：%s，请妥善保存账密", cr.NickName, cr.UserName, cr.Password))
 	if err != nil {
 		global.Log.Error(err)
 	}

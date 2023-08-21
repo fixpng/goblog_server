@@ -49,7 +49,7 @@ func (UserApi) EmailLoginView(c *gin.Context) {
 	isCheck := pwd.CheckPwd(userModel.Password, cr.Password)
 	if !isCheck {
 		global.Log.Warn("用户名密码错误")
-		log.Warn(fmt.Sprintf("用户名密码错误 %s %s", cr.UserName, cr.Password))
+		log.Warn(fmt.Sprintf("%s 用户名密码错误", cr.UserName))
 		res.FailWithMessage("用户名或密码错误", c)
 		return
 	}

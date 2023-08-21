@@ -3,6 +3,7 @@ package article_api
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/olivere/elastic/v7"
 	"gvb_server/global"
@@ -62,7 +63,7 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 		Do(context.Background())
 	cTag, _ := result.Aggregations.Cardinality("tags")
 	count := int64(*cTag.Value)
-
+	fmt.Println(cTag)
 	agg := elastic.NewTermsAggregation().Field("tags")
 
 	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))

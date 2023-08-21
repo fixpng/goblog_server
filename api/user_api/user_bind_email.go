@@ -91,7 +91,7 @@ func (UserApi) UserBindEmailView(c *gin.Context) {
 
 	// 完成绑定
 	res.OkWithMessage("邮箱绑定成功", c)
-	err = email.NewCode().Send(cr.Email, fmt.Sprintf("账号更改绑定邮箱成功！用户昵称：%s", claims.NickName))
+	err = email.NewNote().Send(cr.Email, fmt.Sprintf("账号更改绑定邮箱成功！用户昵称：%s", claims.NickName))
 	if err != nil {
 		global.Log.Error(err)
 	}

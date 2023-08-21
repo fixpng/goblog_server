@@ -4345,7 +4345,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "index": {
-                    "type": "string"
+                    "description": "这接口index有些是int有些string，不确定的数据类型"
                 },
                 "link": {
                     "type": "string"

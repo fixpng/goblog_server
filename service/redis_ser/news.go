@@ -10,10 +10,10 @@ import (
 const newsIndex = "news_index"
 
 type NewData struct {
-	Index    string `json:"index"`
-	Title    string `json:"title"`
-	HotValue string `json:"hotValue"`
-	Link     string `json:"link"`
+	Index    interface{} `json:"index"` // 这接口index有些是int有些string，不确定的数据类型
+	Title    string      `json:"title"`
+	HotValue string      `json:"hotValue"`
+	Link     string      `json:"link"`
 }
 
 // SetNews 新闻存入缓存
