@@ -1,0 +1,77 @@
+version: "1"
+
+networks:
+  gvb-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${SUBNET}
+
+services:
+  gvb-redis:
+    image: redis:7.0.8
+    container_name: gvb-redis
+    restart: always
+    volumes:
+      - ${GVB_DATA_DIRECTORY}/redis/data:/data
+    ports:
+      - ${REDIS_PORT}:6379 # 自定义的是暴露出去的端口, Redis 容器内运行固定为 6379
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    networks:
+      gvb-network:
+        ipv4_address: ${REDIS_HOST}
+
+  gvb-mysql:
+    image: mysql:5.7
+    container_name: gvb-mysql
+    restart: always
+    volumes:
+      - ${GVB_DATA_DIRECTORY}/mysql/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD = ${MYSQL_ROOT_PASSWORD} # root 账号的密码
+      - MYSQL_DATABASE = ${MYSQL_DATABASE}
+      - TZ=Asia/Shanghai
+    command:
+      --max_connections=1000
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    ports:
+      - ${MYSQL_PORT}:3306 # 自定义的是暴露出去的端口, MySQL 容器内运行固定为 3306
+    networks:
+      gvb-network:
+        ipv4_address: ${MYSQL_HOST}
+        
+  gvb-elasticsearch:
+    image: elasticsearch:7.12.0
+    container_name: gvb-elasticsearch
+    restart: always
+    volumes:
+      - ${GVB_DATA_DIRECTORY}/elasticsearch/data:/usr/share/elasticsearch/data
+      - ${GVB_DATA_DIRECTORY}/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ${GVB_DATA_DIRECTORY}/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms84m -Xmx512m
+    ports:
+      - ${ELASTICSEARCH_PORT01}:9200 # 自定义的是暴露出去的端口, elasticsearch 容器内运行固定为 9200和9300
+      - ${ELASTICSEARCH_PORT02}:9300
+    networks:
+      gvb-network:
+        ipv4_address: ${ELASTICSEARCH_HOST}
+        
+  gvb-nginx:
+    image: nginx:latest
+    container_name: gvb-nginx
+    restart: always
+    volumes:
+      - ${GVB_DATA_DIRECTORY}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ${GVB_DATA_DIRECTORY}/nginx/logs:/var/log/nginx
+      - ${GVB_DATA_DIRECTORY}/nginx/conf/cert/:/etc/nginx/cert/ # ssl证书目录
+      - ${NGINX_GVB_DIST}:${NGINX_GVB_DIST} # 前端dist目录
+      - ${NGINX_GVB_SERVER}:${NGINX_GVB_SERVER} # 后端server目录
+    ports:
+      - ${NGINX_PORT_HTTP}:80 # 自定义的是暴露出去的端口, nginx 容器内运行固定为 80
+      - ${NGINX_PORT_HTTPS}:443 # 自定义的是暴露出去的端口, nginx 容器内运行固定为 443
+    networks:
+      gvb-network:
+        ipv4_address: ${NGINX_HOST}

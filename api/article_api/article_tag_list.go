@@ -3,7 +3,6 @@ package article_api
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/olivere/elastic/v7"
 	"gvb_server/global"
@@ -49,7 +48,7 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 	var cr models.PageInfo
 	_ = c.ShouldBindQuery(&cr)
 	if cr.Limit == 0 {
-		cr.Limit = 10
+		cr.Limit = 50
 	}
 	offset := (cr.Page - 1) * cr.Limit
 	if offset < 0 {
@@ -59,11 +58,10 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 	result, err := global.ESClient.
 		Search(models.ArticleModel{}.Index()).
 		Aggregation("tags", elastic.NewCardinalityAggregation().Field("tags")).
-		Size(0).
+		Size(cr.Limit).
 		Do(context.Background())
 	cTag, _ := result.Aggregations.Cardinality("tags")
 	count := int64(*cTag.Value)
-	fmt.Println(cTag)
 	agg := elastic.NewTermsAggregation().Field("tags")
 
 	agg.SubAggregation("articles", elastic.NewTermsAggregation().Field("keyword"))
@@ -74,7 +72,7 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 		Search(models.ArticleModel{}.Index()).
 		Query(query).
 		Aggregation("tags", agg).
-		Size(0).
+		Size(cr.Limit).
 		Do(context.Background())
 	if err != nil {
 		global.Log.Error(err)
@@ -92,6 +90,7 @@ func (ArticleApi) ArticleTagListView(c *gin.Context) {
 		for _, s := range bucket.Articles.Buckets {
 			articleList = append(articleList, s.Key)
 		}
+		//fmt.Println(bucket.Key)
 		tagList = append(tagList, &TagsResponse{
 			Tag:           bucket.Key,
 			Count:         bucket.DocCount,
