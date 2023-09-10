@@ -54,7 +54,7 @@ email:
   default-from-email: FixPng.com
   use_ssl: false
   user_tls: false
-jwy:
+jwt:
   secret: xxxxx #密钥
   expires: 1   # token过期时间，小时
   issuer: "1234"
