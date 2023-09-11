@@ -13,8 +13,8 @@ API文档： [http://www.fixpng.top/swagger/index.html](http://www.fixpng.top/sw
 > 后台需要登陆访问，可用测试用户：`test / test`，也可自行注册账号
 > 页面暂未适配移动端
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/ace1b6b4a5914582bea89b379f835d34.png)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/d98e8915af6846e486d5e315ae7b1677.png)
+![fa9c145d52a35f9a994478e31e9e86a.png](https://cdn.nlark.com/yuque/0/2023/png/2482065/1693193670245-6b8d532f-5b95-4188-926c-5fd0255f03f7.png#averageHue=%2398967e&clientId=ua18c258d-9755-4&from=paste&height=1004&id=u8cbab066&originHeight=1255&originWidth=1530&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=2119415&status=done&style=none&taskId=ua6d992bd-ac72-4a4d-9de1-23038d620fa&title=&width=1224)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/b07caff141da48b3874d3719c3757ec1.png)
 
 
 
@@ -22,9 +22,8 @@ API文档： [http://www.fixpng.top/swagger/index.html](http://www.fixpng.top/sw
 ---
 
 ## 技术介绍
-
-前端代码：[https://github.com/fixpng/gvb_web](https://github.com/fixpng/gvb_web)
-后端代码：[https://github.com/fixpng/gvb_server](https://github.com/fixpng/gvb_server)
+前端代码：[https://github.com/fixpng/goblog_web](https://github.com/fixpng/goblog_web)
+后端代码：[https://github.com/fixpng/goblog_server](https://github.com/fixpng/goblog_server)
 > 前端部分是现学现卖的，技术和内容仍有许多不足，后面有时间会慢慢优化完善。
 
 #### 开发环境
@@ -453,3 +452,10 @@ nohup ./main &
 
 访问应用
 
+---
+
+## TODO
+#### 待优化项
+- [ ]  配置https访问时聊天室不可用，只能http+ws，后端ws -> wss待优化
+- [ ]  docker-compose一键启动项目
+- [ ]  前台适配移动端
