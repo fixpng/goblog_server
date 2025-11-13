@@ -1,14 +1,18 @@
 # 项目介绍
 
-基于vue3和gin框架开发的前后端分离个人博客系统，包含md格式的文本编辑展示，点赞评论收藏，新闻热点，匿名聊天室，文章搜索等功能。
+基于vue3和gin框架开发的前后端分离个人博客系统，包含md格式的文本编辑展示，点赞评论收藏，新闻热点，匿名聊天室，文章搜索等功能。该项目仅为个人练手，并不完善。
+
+- 链接已迁移至 http://www.fixpng.top:8088 
+- 本项目和网页均不再更新，正式建站推荐halo或Blossom：https://github.com/halo-dev/halo 、https://github.com/blossom-editor/blossom
+- 当前 www.fixpng.top 由Blossom搭建
 
 ---
 
 ## 在线预览
 
-博客前台：[http://www.fixpng.top/](http://www.fixpng.top/)
-博客后台：[http://www.fixpng.top/admin/](http://www.fixpng.top/admin/)
-API文档： [http://www.fixpng.top/swagger/index.html](http://www.fixpng.top/swagger/index.html)
+博客前台：[http://www.fixpng.top:8088/](http://www.fixpng.top:8088/)
+博客后台：[http://www.fixpng.top:8088/admin/](http://www.fixpng.top:8088/admin/)
+API文档： [http://www.fixpng.top:8088/swagger/index.html](http://www.fixpng.top:8088/swagger/index.html)
 > 网站域名已通过ICP备案
 > 后台需要登陆访问，可用测试用户：`test / test`，也可自行注册账号
 > 页面暂未适配移动端
@@ -122,14 +126,14 @@ npm run dev
 本项目线上部署目录结构如下，必需的目录及文件：
 
 ```bash
-gvb									# 项目启动必需的目录及文件
+  gvb								# 项目启动必需的目录及文件
 ├── deploy							# 该项目依赖的数据库及中间件，均用docker启动
 │   ├── docker-compose.yml			# Docker Compose 配置文件
 │   ├── .env						# 环境配置文件
 │   └── gvb
 │       ├── elasticsearch
 │       │   ├── config 
-│		│	│	└── elasticsearch.yml # Elasticsearch 配置文件
+│       │   │	└── elasticsearch.yml # Elasticsearch 配置文件
 │       │   ├── data
 │       │   └── plugins
 │       ├── mysql
@@ -214,7 +218,7 @@ services:
     volumes:
       - ${GVB_DATA_DIRECTORY}/redis/data:/data
     ports:
-      - ${REDIS_PORT}:6379 # 自定义的是暴露出去的端口, Redis 容器内运行固定为 6379
+      - 6379:${REDIS_PORT} # 自定义的是暴露出去的端口, Redis 容器内运行固定为 6379
     command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
     networks:
       gvb-network:
@@ -237,7 +241,7 @@ services:
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
     ports:
-      - ${MYSQL_PORT}:3306 # 自定义的是暴露出去的端口, MySQL 容器内运行固定为 3306
+      - 3306:${MYSQL_PORT} # 自定义的是暴露出去的端口, MySQL 容器内运行固定为 3306
     networks:
       gvb-network:
         ipv4_address: ${MYSQL_HOST}
@@ -254,8 +258,8 @@ services:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms84m -Xmx512m
     ports:
-      - ${ELASTICSEARCH_PORT01}:9200 # 自定义的是暴露出去的端口, elasticsearch 容器内运行固定为 9200和9300
-      - ${ELASTICSEARCH_PORT02}:9300
+      - 9200:${ELASTICSEARCH_PORT01} # 自定义的是暴露出去的端口, elasticsearch 容器内运行固定为 9200和9300
+      - 9300:${ELASTICSEARCH_PORT02}
     networks:
       gvb-network:
         ipv4_address: ${ELASTICSEARCH_HOST}
@@ -267,10 +271,10 @@ services:
     volumes:
       - ${GVB_DATA_DIRECTORY}/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ${GVB_DATA_DIRECTORY}/nginx/logs:/var/log/nginx
-      - ${NGINX_GVB_WEB}:${NGINX_GVB_WEB} # 前端web目录
-      - ${NGINX_GVB_SERVER}:${NGINX_GVB_SERVER} # 后端server目录
+      - ${NGINX_GVB_WEB}:/www/wwwroot/gvb/gvb_web/dist/ # 前端web目录
+      - ${NGINX_GVB_SERVER}:/www/wwwroot/gvb/gvb_server/ # 后端server目录
     ports:
-      - ${NGINX_PORT}:80 # 自定义的是暴露出去的端口, nginx 容器内运行固定为 80
+      - 80:${NGINX_PORT} # 自定义的是暴露出去的端口, nginx 容器内运行固定为 80
     networks:
       gvb-network:
         ipv4_address: ${NGINX_HOST}
